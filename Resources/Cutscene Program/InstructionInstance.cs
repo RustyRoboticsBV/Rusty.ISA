@@ -26,7 +26,7 @@ namespace Rusty.Cutscenes
         public InstructionInstance(string opcode, string[] arguments)
         {
             Opcode = opcode;
-            Arguments = new string[] { arguments.Length };
+            Arguments = new string[arguments.Length];
             Array.Copy(arguments, Arguments, Arguments.Length);
         }
 
