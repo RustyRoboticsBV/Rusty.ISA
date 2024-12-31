@@ -44,7 +44,10 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return $"List({(Type != null ? Type.ToString() : "")})";
+            string str = "";
+            if (Type != null)
+                str = Type.ToString();
+            return $"List({str})";
         }
     }
 }
