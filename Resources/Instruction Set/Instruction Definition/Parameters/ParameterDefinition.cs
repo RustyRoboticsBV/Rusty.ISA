@@ -1,5 +1,4 @@
 using Godot;
-using Rusty.Numstrings;
 
 namespace Rusty.Cutscenes
 {
