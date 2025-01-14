@@ -7,6 +7,6 @@ namespace Rusty.Cutscenes
     /// editor.
     /// </summary>
     [GlobalClass]
-    [Icon("res://Nerves/Modules/Level 2/Cutscenes/Resources/CutsceneResource.svg")]
+    [Icon("CutsceneResource.svg")]
     public abstract partial class CutsceneResource : Resource { }
 }

@@ -14,15 +14,15 @@ namespace Rusty.Cutscenes
         /// instance. Should be unique from other parameters that belong to the same instruction, and should preferably be as
         /// short as possible.
         /// </summary>
-        [Export] public string Id { get; private set; } = "";
+        public abstract string Id { get; protected set; }
         /// <summary>
         /// The human-readable name of this parameter. Used in the cutscene editor.
         /// </summary>
-        [Export] public string DisplayName { get; private set; } = "";
+        public abstract string DisplayName { get; protected set; }
         /// <summary>
         /// The description of this parameter. Used for editor tooltips and documentation generation.
         /// </summary>
-        [Export(PropertyHint.MultilineText)] public string Description { get; private set; } = "";
+        public abstract string Description { get; protected set; }
 
         /* Constructors. */
         public ParameterDefinition() { }

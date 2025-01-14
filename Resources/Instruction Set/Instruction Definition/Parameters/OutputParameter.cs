@@ -10,23 +10,22 @@ namespace Rusty.Cutscenes
     public sealed partial class OutputParameter : ParameterDefinition
     {
         /* Public properties. */
-        /// <summary>
-        /// If true, this will cause the default output of a node containing this parameter to not be used.
-        /// </summary>
-        [Export] public bool OverrideDefaultOutput { get; private set; }
+        [Export] public override string Id { get; protected set; } = "";
+        [Export] public override string DisplayName { get; protected set; } = "";
+        [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
+
         /// <summary>
         /// Use the value of another parameter as the label for this output. Reference this parameter by its id.
         /// </summary>
-        [Export] public string UseParameterAsLabel { get; private set; } = "";
+        [Export] public string UseParameterAsPreview { get; private set; } = "";
 
         /* Constructors. */
         public OutputParameter() : base() { }
 
-        public OutputParameter(string id, string displayName, string description, bool overrideDefaultOutput, string useLabelParameter)
+        public OutputParameter(string id, string displayName, string description, string useParameterAsPreview)
             : base(id, displayName, description)
         {
-            OverrideDefaultOutput = overrideDefaultOutput;
-            UseParameterAsLabel = useLabelParameter;
+            UseParameterAsPreview = useParameterAsPreview;
         }
 
         /* Public methods. */

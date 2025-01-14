@@ -13,6 +13,7 @@ namespace Rusty.Cutscenes
         [Export] public override string Id { get; protected set; } = "";
         [Export] public override string DisplayName { get; protected set; } = "";
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
+
         /// <summary>
         /// The items contained within this tuple. Can be pre-instructions or other containers.
         /// </summary>

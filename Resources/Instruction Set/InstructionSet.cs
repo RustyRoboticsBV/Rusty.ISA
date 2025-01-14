@@ -71,6 +71,9 @@ namespace Rusty.Cutscenes
         }
 
         /* Private methods. */
+        /// <summary>
+        /// Make sure that the lookup table exists and is properly set up.
+        /// </summary>
         private void EnsureLookup()
         {
             Lookup = new();

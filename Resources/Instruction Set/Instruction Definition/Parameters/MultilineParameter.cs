@@ -10,6 +10,10 @@ namespace Rusty.Cutscenes
     public sealed partial class MultilineParameter : ParameterDefinition
     {
         /* Public properties. */
+        [Export] public override string Id { get; protected set; } = "";
+        [Export] public override string DisplayName { get; protected set; } = "";
+        [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
+
         /// <summary>
         /// The default value of this parameter in the editor.
         /// </summary>
@@ -27,7 +31,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Text Area: " + Id;
+            return "Multiline: " + Id;
         }
     }
 }

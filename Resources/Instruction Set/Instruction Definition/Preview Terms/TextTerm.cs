@@ -7,8 +7,8 @@ namespace Rusty.Cutscenes
     /// </summary>
     [Tool]
     [GlobalClass]
-	public sealed partial class TextTerm : PreviewTerm
-	{
+    public sealed partial class TextTerm : PreviewTerm
+    {
         /* Public properties. */
         [Export] public string Text { get; private set; } = "";
 
@@ -26,7 +26,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return Text;
+            return "Text: " + Text;
         }
     }
 }

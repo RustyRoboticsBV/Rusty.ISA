@@ -25,7 +25,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "{arg: " + ParameterId + "}";
+            return "Argument: " + ParameterId;
         }
     }
 }

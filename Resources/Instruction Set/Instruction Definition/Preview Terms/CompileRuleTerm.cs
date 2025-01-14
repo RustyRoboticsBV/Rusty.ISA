@@ -28,7 +28,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "{rule: " + CompileRuleId + "}";
+            return "Compile Rule: " + CompileRuleId;
         }
     }
 }

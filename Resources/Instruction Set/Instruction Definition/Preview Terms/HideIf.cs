@@ -1,6 +1,8 @@
-
 namespace Rusty.Cutscenes
 {
+    /// <summary>
+    /// An cutscene instruction hide flag enum.
+    /// </summary>
     public enum HideIf
     {
         /// <summary>

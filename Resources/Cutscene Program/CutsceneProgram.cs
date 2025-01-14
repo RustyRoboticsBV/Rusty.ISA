@@ -1,5 +1,4 @@
 using Godot;
-using System.Collections.Generic;
 
 namespace Rusty.Cutscenes
 {
@@ -11,9 +10,21 @@ namespace Rusty.Cutscenes
     public sealed partial class CutsceneProgram : CutsceneResource
     {
         /* Public properties. */
+        /// <summary>
+        /// The instructions in this program.
+        /// </summary>
         [Export] public InstructionInstance[] Instructions { get; private set; } = new InstructionInstance[0];
 
+        /// <summary>
+        /// The number of instructions in this program.
+        /// </summary>
         public int Length => Instructions.Length;
+
+        /* Indexers. */
+        /// <summary>
+        /// Get an instruction, using its index.
+        /// </summary>
+        public InstructionInstance this[int index] => Instructions[index];
 
         /* Constructors. */
         public CutsceneProgram() : this(new InstructionInstance[0]) { }
@@ -43,9 +54,6 @@ namespace Rusty.Cutscenes
                 NameInstruction(instruction);
             }
         }
-
-        /* Indexers. */
-        public InstructionInstance this[int index] => Instructions[index];
 
         /* Private methods. */
         /// <summary>
