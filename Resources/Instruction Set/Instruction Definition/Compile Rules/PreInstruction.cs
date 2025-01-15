@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Rusty.Cutscenes.Editor
+namespace Rusty.Cutscenes
 {
     /// <summary>
     /// A container for a single pre-instruction.
