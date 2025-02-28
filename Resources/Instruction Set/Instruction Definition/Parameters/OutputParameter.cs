@@ -10,12 +10,12 @@ namespace Rusty.Cutscenes
     public sealed partial class OutputParameter : ParameterDefinition
     {
         /* Public properties. */
-        [Export] public override string Id { get; protected set; } = "";
+        [Export] public override string ID { get; protected set; } = "";
         [Export] public override string DisplayName { get; protected set; } = "";
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
 
         /// <summary>
-        /// Use the value of another parameter as the label for this output. Reference this parameter by its id.
+        /// Use the value of another parameter as the label for this output. Reference this parameter by its ID.
         /// </summary>
         [Export] public string UseParameterAsPreview { get; private set; } = "";
 
@@ -31,7 +31,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Output: " + Id;
+            return "Output: " + ID;
         }
     }
 }

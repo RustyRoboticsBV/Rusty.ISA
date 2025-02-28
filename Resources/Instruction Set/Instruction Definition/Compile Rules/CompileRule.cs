@@ -14,7 +14,7 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// The identifier of this compile rule, with which it can be refenced.
         /// </summary>
-        public abstract string Id { get; protected set; }
+        public abstract string ID { get; protected set; }
         /// <summary>
         /// The name of this compile rule in the editor.
         /// </summary>
@@ -27,7 +27,7 @@ namespace Rusty.Cutscenes
         /* Constructors. */
         public CompileRule(string id, string displayName, string description) : base()
         {
-            Id = id;
+            ID = id;
             DisplayName = displayName;
             Description = description;
         }

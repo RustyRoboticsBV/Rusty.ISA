@@ -10,7 +10,7 @@ namespace Rusty.Cutscenes
     public sealed partial class FloatParameter : ParameterDefinition
     {
         /* Public properties. */
-        [Export] public override string Id { get; protected set; } = "";
+        [Export] public override string ID { get; protected set; } = "";
         [Export] public override string DisplayName { get; protected set; } = "";
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
 
@@ -31,7 +31,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Float: " + Id;
+            return "Float: " + ID;
         }
     }
 }

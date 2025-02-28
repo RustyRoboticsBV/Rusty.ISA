@@ -111,7 +111,7 @@ namespace Rusty.Cutscenes
                 {
                     if (i > 0)
                         str += ", ";
-                    str += Parameters[i].Id;
+                    str += Parameters[i].ID;
                 }
             }
             str += ")";
@@ -138,7 +138,7 @@ namespace Rusty.Cutscenes
         {
             for (int i = 0; i < Parameters.Length; i++)
             {
-                if (Parameters[i].Id == id)
+                if (Parameters[i].ID == id)
                     return i;
             }
             return -1;

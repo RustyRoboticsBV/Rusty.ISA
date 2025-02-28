@@ -10,14 +10,14 @@ namespace Rusty.Cutscenes
     public partial class ArgumentTerm : PreviewTerm
     {
         /* Public properties. */
-        [Export] public string ParameterId { get; private set; } = "";
+        [Export] public string ParameterID { get; private set; } = "";
 
         /* Constructors. */
         public ArgumentTerm() : base() { }
 
-        public ArgumentTerm(HideIf visibility, string parameterId) : base(visibility)
+        public ArgumentTerm(HideIf visibility, string parameterID) : base(visibility)
         {
-            ParameterId = parameterId;
+            ParameterID = parameterID;
 
             ResourceName = ToString();
         }
@@ -25,7 +25,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Argument: " + ParameterId;
+            return "Argument: " + ParameterID;
         }
     }
 }

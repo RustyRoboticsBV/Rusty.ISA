@@ -11,6 +11,10 @@ namespace Rusty.Cutscenes
     {
         /* Public properties. */
         /// <summary>
+        /// The name of this cutscene.
+        /// </summary>
+        [Export] public string Name { get; set; }
+        /// <summary>
         /// The instructions in this program.
         /// </summary>
         [Export] public InstructionInstance[] Instructions { get; private set; } = new InstructionInstance[0];

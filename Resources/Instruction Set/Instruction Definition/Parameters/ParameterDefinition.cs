@@ -14,7 +14,7 @@ namespace Rusty.Cutscenes
         /// instance. Should be unique from other parameters that belong to the same instruction, and should preferably be as
         /// short as possible.
         /// </summary>
-        public abstract string Id { get; protected set; }
+        public abstract string ID { get; protected set; }
         /// <summary>
         /// The human-readable name of this parameter. Used in the cutscene editor.
         /// </summary>
@@ -29,7 +29,7 @@ namespace Rusty.Cutscenes
 
         public ParameterDefinition(string id, string displayName, string description)
         {
-            Id = id;
+            ID = id;
             DisplayName = displayName;
             Description = description;
 

@@ -16,6 +16,7 @@ namespace Rusty.Cutscenes
         /// The instruction definitions in this instruction set.
         /// </summary>
         [Export] public InstructionDefinition[] Definitions { get; private set; } = new InstructionDefinition[0];
+        public int Count => Definitions.Length;
 
         /* Private properties. */
         private Dictionary<string, InstructionDefinition> Lookup { get; set; }
@@ -28,8 +29,9 @@ namespace Rusty.Cutscenes
             Definitions = definitions;
         }
 
-        /* Index operators. */
+        /* Indexers. */
         public InstructionDefinition this[string opcode] => GetDefinition(opcode);
+        public InstructionDefinition this[int index] => Definitions[index];
 
         /* Public methods. */
         public override string ToString()
@@ -50,13 +52,12 @@ namespace Rusty.Cutscenes
         public InstructionDefinition GetDefinition(string opcode)
         {
             EnsureLookup();
-            try
-            {
+
+            if (Lookup.ContainsKey(opcode))
                 return Lookup[opcode];
-            }
-            catch
+            else
             {
-                throw new ArgumentException($"Tried to find instruction with opcode {opcode}, but this instruction did not "
+                throw new ArgumentException($"Tried to find instruction with opcode '{opcode}', but this instruction did not "
                     + "exist in the instruction set!");
             }
         }

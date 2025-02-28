@@ -11,7 +11,7 @@ namespace Rusty.Cutscenes
     public sealed partial class ListRule : CompileRule
     {
         /* Public properties. */
-        [Export] public override string Id { get; protected set; } = "";
+        [Export] public override string ID { get; protected set; } = "";
         [Export] public override string DisplayName { get; protected set; } = "";
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
 

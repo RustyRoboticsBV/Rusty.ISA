@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c2pjmadvks2ej"
-path="res://.godot/imported/CutsceneResource.svg-27e6dab41fb3ea9675e5132108227554.ctex"
+path="res://.godot/imported/CutsceneResource.svg-a9ad4d4c877d703a070a69f9a2d33940.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Nerves/Modules/Level 2/Cutscenes/Resources/CutsceneResource.svg"
-dest_files=["res://.godot/imported/CutsceneResource.svg-27e6dab41fb3ea9675e5132108227554.ctex"]
+source_file="res://Resources/CutsceneResource.svg"
+dest_files=["res://.godot/imported/CutsceneResource.svg-a9ad4d4c877d703a070a69f9a2d33940.ctex"]
 
 [params]
 

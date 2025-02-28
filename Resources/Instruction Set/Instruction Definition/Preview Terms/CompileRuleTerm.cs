@@ -13,14 +13,14 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// The index of the compile rule whose preview text we want to include.
         /// </summary>
-        [Export] public string CompileRuleId { get; private set; }
+        [Export] public string CompileRuleID { get; private set; }
 
         /* Constructors. */
         public CompileRuleTerm() : base() { }
 
-        public CompileRuleTerm(HideIf visibility, string compileRuleId) : base(visibility)
+        public CompileRuleTerm(HideIf visibility, string compileRuleID) : base(visibility)
         {
-            CompileRuleId = compileRuleId;
+            CompileRuleID = compileRuleID;
 
             ResourceName = ToString();
         }
@@ -28,7 +28,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Compile Rule: " + CompileRuleId;
+            return "Compile Rule: " + CompileRuleID;
         }
     }
 }
