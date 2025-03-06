@@ -104,8 +104,9 @@ namespace Rusty.Cutscenes
                 if (definition.Implementation != null)
                 {
                     Node handler = new ExecutionHandler(definition).GetNode();
+                    if (!ExecutionHandlers.ContainsKey(definition.Opcode))
+                        ExecutionHandlers.Add(definition.Opcode, handler);
                     handler.Call("_initialize", this);
-                    ExecutionHandlers.Add(definition.Opcode, handler);
                 }
             }
         }

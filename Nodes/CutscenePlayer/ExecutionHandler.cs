@@ -71,9 +71,11 @@ namespace Rusty.Cutscenes
 
             string initialize = ProcessCode(InstructionDefinition.Implementation.Initialize, InstructionDefinition);
 
-            string execute = ProcessCode(InstructionDefinition.Implementation.Execute, InstructionDefinition);
+            string execute = InstructionDefinition.Implementation.Execute;
             if (execute == "")
                 execute = "\tpass;";
+            else
+                execute = ProcessCode(execute, InstructionDefinition);
 
             // List parameters.
             string parameters = "";

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://d08snuqj2drvr"]
+[gd_scene load_steps=19 format=3 uid="uid://d08snuqj2drvr"]
 
 [ext_resource type="Script" path="res://Nodes/CutscenePlayer/CutscenePlayer.cs" id="1_56kqd"]
 [ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/Implementation/Implementation.cs" id="2_8y83h"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Resources/Instruction Set/InstructionSet.cs" id="4_8qjty"]
 [ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/Parameters/MultilineParameter.cs" id="4_q03gr"]
 [ext_resource type="Script" path="res://Resources/Cutscene Program/InstructionInstance.cs" id="5_codsc"]
+[ext_resource type="Resource" uid="uid://brpnbl7l2o4ha" path="res://Built-In Instructions/CoreInstructions.tres" id="6_ewmd4"]
 [ext_resource type="Script" path="res://Resources/Cutscene Program/CutsceneProgram.cs" id="6_kanhh"]
 
 [sub_resource type="Resource" id="Resource_ef7ky"]
@@ -48,27 +49,10 @@ HideDefaultOutput = false
 Preview = []
 CompileRules = []
 
-[sub_resource type="Resource" id="Resource_3bkdv"]
-script = ExtResource("2_8y83h")
-Members = ""
-Initialize = ""
-Execute = "end();"
-
-[sub_resource type="Resource" id="Resource_vieyn"]
-script = ExtResource("3_huwjj")
-Opcode = "END"
-Parameters = []
-Implementation = SubResource("Resource_3bkdv")
-DisplayName = ""
-Description = ""
-Category = ""
-HideDefaultOutput = false
-Preview = []
-CompileRules = []
-
 [sub_resource type="Resource" id="Resource_7bfae"]
 script = ExtResource("4_8qjty")
-Definitions = [SubResource("Resource_0024s"), SubResource("Resource_vieyn")]
+Definitions = [SubResource("Resource_0024s")]
+Modules = [ExtResource("6_ewmd4")]
 
 [sub_resource type="Resource" id="Resource_8bjco"]
 script = ExtResource("5_codsc")

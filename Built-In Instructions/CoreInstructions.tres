@@ -177,3 +177,4 @@ CompileRules = []
 [resource]
 script = ExtResource("1_mfbc6")
 Definitions = [SubResource("Resource_dd7mn"), SubResource("Resource_57yso"), SubResource("Resource_57b2h"), SubResource("Resource_amc61"), SubResource("Resource_6aex3"), SubResource("Resource_6655h")]
+Modules = []

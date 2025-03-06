@@ -53,8 +53,8 @@ In addition to their function arguments, the generated classes also come with a 
   - `warning(message : String)`: prints a warning message. Equivalent to an `WRN` instruction.
   - `error(message : String)`: prints an error message, and notifies the player that it must stop executing its current cutscene. Equivalent to an `ERR` instruction.
   - `get_register(name : String) -> Register`: get a register (see below) with some name. If the register didn't exist yet, it is created automatically.
-  - `get_parameter_id(index : int) -> String` get the ID of a parameter.
-  - `get_parameter_index(id : String) -> int` get the index of a parameter.
+  - `get_parameter_id(index : int) -> String`: get the ID of a parameter.
+  - `get_parameter_index(id : String) -> int`: get the index of a parameter.
 - Registers: execution handlers can write to and read from registers. Each register is a double-ended queue of `Variant` objects, and is accessible from every execution handler. Each register contains the following functions:
   - `push(value : String)`: add a value to the register.
   - `pop(value : String) -> String`: remove the newest value from the register and return it.
@@ -65,4 +65,4 @@ In addition to their function arguments, the generated classes also come with a 
 As a shorthand for the `get_register` function, you can use the syntax `$<register_name>$`. For example: `$foo$.push("bar")` is equivalent to `get_register("foo").push("bar")`.
 <br/>The special syntax `$OPCODE$` gets a register that uses the instruction's opcode as its name.
 
-The arguments of the execute function can be accessed by their parameter id, using the syntax `%<parameter_id>%`. For example: `%foo%` is equivalent to `arguments[get_parameter_index("foo")]`.
+In the _execute function, the arguments can be accessed by their parameter id, using the syntax `%<parameter_id>%`. For example: `%foo%` is equivalent to `arguments[get_parameter_index("foo")]`.
