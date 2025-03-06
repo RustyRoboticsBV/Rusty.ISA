@@ -53,6 +53,7 @@ namespace Rusty.Cutscenes
         {
             if (Track != null)
             {
+                GD.Print(Track.ProgramCounter);
                 if (Track.IsOutOfBounds)
                 {
                     Stop();

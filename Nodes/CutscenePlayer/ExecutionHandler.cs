@@ -19,6 +19,7 @@ namespace Rusty.Cutscenes
         /// </summary>
         private const string SkeletonCode = "extends Node;" +
             "\n" +
+            "\nconst OPCODE : String = %OPCODE%;" +
             "\nvar player : CutscenePlayer;%MEMBERS%" +
             "\n" +
             "\nfunc _initialize(_player : CutscenePlayer):" +
@@ -40,14 +41,14 @@ namespace Rusty.Cutscenes
             "\nfunc get_register(register_name : String) -> Register:" +
             "\n\treturn player.GetRegister(register_name);" +
             "\n" +
-            "\nfunc get_definition() -> InstructionDefinition:" +
-            "\n\treturn player.InstructionSet.GetDefinition(%OPCODE%);" +
-            "\n" +
             "\nfunc get_parameter_id(index : int) -> String:" +
-            "\n\treturn get_definition().Parameters[index].ID;" +
+            "\n\treturn player.InstructionSet.GetDefinition(OPCODE).Parameters[index].ID;" +
             "\n" +
             "\nfunc get_parameter_index(id : String) -> int:" +
-            "\n\treturn get_definition().GetParameterIndex(id);\n";
+            "\n\treturn player.InstructionSet.GetDefinition(OPCODE).GetParameterIndex(id);" +
+            "\n" +
+            "\nfunc get_parameter_count(id : String) -> int:" +
+            "\n\treturn player.InstructionSet.GetDefinition(OPCODE).Parameters.Length;";
 
         /* Constructors. */
         public ExecutionHandler(InstructionDefinition instructionDefinition)
@@ -78,6 +79,8 @@ namespace Rusty.Cutscenes
                 .Replace("%MEMBERS%", members)
                 .Replace("%INITIALIZE%", initialize)
                 .Replace("%EXECUTE%", execute);
+
+            GD.Print(code);
 
             // Fix used function arguments.
             if (execute.Contains("arguments"))
@@ -118,11 +121,9 @@ namespace Rusty.Cutscenes
             // Add indentation.
             code = "\t" + code.Replace("\n", "\n\t");
 
-            // Replace OPCODE statements.
-            code = code.Replace("OPCODE", $"\"{definition.Opcode}\"");
-
             // Replace $register$ statements.
             // TODO.
+            code = code.Replace("$OPCODE$", $"arguments[get_parameter_index(OPCODE)]");
 
             // Replace %argument% statements.
             for (int i = 0; i < definition.Parameters.Length; i++)
@@ -130,7 +131,6 @@ namespace Rusty.Cutscenes
                 string id = definition.Parameters[i].ID;
                 code = code.Replace($"%{id}%", $"arguments[get_parameter_index(\"{id}\")]");
             }
-            code = code.Replace("%OPCODE%", $"arguments[get_parameter_index(\"{definition.Opcode}\")]");
 
             return code;
         }
