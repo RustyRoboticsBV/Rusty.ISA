@@ -43,6 +43,23 @@ namespace Rusty.Cutscenes
                 Track.Jump(targetLabel);
         }
 
+        public void Warning(string message)
+        {
+            if (!IsPlaying)
+                return;
+
+            GD.PrintErr($"Warning in cutscene program '{Program.Name}' at line {Track.ProgramCounter} ({Track.Current}): '{message}'");
+        }
+
+        public void Error(string message)
+        {
+            if (!IsPlaying)
+                return;
+
+            GD.PrintErr($"Error in cutscene program '{Program.Name}' at line {Track.ProgramCounter} ({Track.Current}): '{message}'");
+            Stop();
+        }
+
         /* Godot overrides. */
         public override void _EnterTree()
         {

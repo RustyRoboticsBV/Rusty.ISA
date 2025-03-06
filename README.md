@@ -29,9 +29,10 @@ This program would print the text `Hello world!` to the dialog system, move the 
 ## Built-in Instructions
 This module only comes with a few built-in instructions that are necessary for the module's core functions. They are:
 - `BEG(name)`: marks a start point, from which a cutscene player can start running the program. A cutscene may have multiple start points.
-- `GTO(target)`: a goto statement. It moves execution to the label with the specified name.
-- `LAB(name)`: marks a jump target, to which goto statements can jump.
 - `END`: ends the current cutscene.
+- `LAB(name)`: marks a jump target, to which goto statements can jump.
+- `GTO(target)`: a goto statement. It moves execution to the label with the specified name.
+- `WRN(message)`: prints an warning message.
 - `ERR(message)`: prints an error message and ends the cutscene.
 
 ## Instruction Implementations
@@ -43,11 +44,13 @@ When an instruction set is first referenced by the module, it generates executio
 
 In addition to their function arguments, the generated classes also come with a few features that the implementations may use:
 - Constants:
-  - `OPCODE : string`: the opcode of the instruction definition.
-  - `PARAMETER_COUNT : int`: the number of arguments passed to the `_execute` function.
+  - `OPCODE : String`: the opcode of the instruction definition.
+  - `PARAMETERS : Array[String]`: the parameter IDs of the instruction definition.
+  - `PARAMETER_COUNT : int`: the number of parameters in the instruction definition.
 - Functions:
   - `end()`: notifies the player that it must stop executing its current cutscene. Equivalent to an `END` instruction.
   - `goto(target : String)`: notifies the player that it must jump to the target label. Equivalent to a `GTO` instruction.
+  - `warning(message : String)`: prints a warning message. Equivalent to an `WRN` instruction.
   - `error(message : String)`: prints an error message, and notifies the player that it must stop executing its current cutscene. Equivalent to an `ERR` instruction.
   - `get_register(name : String) -> Register`: get a register (see below) with some name. If the register didn't exist yet, it is created automatically.
   - `get_parameter_id(index : int) -> String` get the ID of a parameter.

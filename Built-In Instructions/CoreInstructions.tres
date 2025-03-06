@@ -1,0 +1,179 @@
+[gd_resource type="Resource" script_class="InstructionSet" load_steps=29 format=3 uid="uid://brpnbl7l2o4ha"]
+
+[ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
+[ext_resource type="Script" path="res://Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
+[ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
+[ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/Parameters/LineParameter.cs" id="3_suvwn"]
+[ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
+[ext_resource type="Texture2D" uid="uid://d2p6fihx03ulm" path="res://Built-In Instructions/IconEND.bmp" id="5_ypkac"]
+[ext_resource type="Texture2D" uid="uid://dbw2hjlfspdf" path="res://Built-In Instructions/IconGTO.bmp" id="6_rjc6t"]
+[ext_resource type="Texture2D" uid="uid://bmrw4vxts8i3o" path="res://Built-In Instructions/IconWRN.bmp" id="7_ar60a"]
+[ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
+[ext_resource type="Texture2D" uid="uid://bhfjn5nohucmy" path="res://Built-In Instructions/IconERR.bmp" id="9_iqsxj"]
+
+[sub_resource type="Resource" id="Resource_1vmac"]
+script = ExtResource("2_dp32q")
+Members = ""
+Initialize = ""
+Execute = ""
+
+[sub_resource type="Resource" id="Resource_03qba"]
+resource_name = "Line: name"
+script = ExtResource("3_suvwn")
+ID = "name"
+DisplayName = "Name"
+Description = "The name of this start point."
+DefaultValue = ""
+
+[sub_resource type="Resource" id="Resource_dd7mn"]
+resource_name = "BEG"
+script = ExtResource("4_r77ix")
+Opcode = "BEG"
+Parameters = [SubResource("Resource_03qba")]
+Implementation = SubResource("Resource_1vmac")
+Icon = ExtResource("1_4ubkm")
+DisplayName = "Start Point"
+Description = "Defines a start point in a cutscene program. Cutscene players can start playing the program from these points."
+Category = "Core"
+HideDefaultOutput = false
+Preview = []
+CompileRules = []
+
+[sub_resource type="Resource" id="Resource_knia7"]
+script = ExtResource("2_dp32q")
+Members = ""
+Initialize = ""
+Execute = "end();"
+
+[sub_resource type="Resource" id="Resource_57yso"]
+resource_name = "END"
+script = ExtResource("4_r77ix")
+Opcode = "END"
+Parameters = []
+Implementation = SubResource("Resource_knia7")
+Icon = ExtResource("5_ypkac")
+DisplayName = "End Cutscene"
+Description = ""
+Category = "Core"
+HideDefaultOutput = true
+Preview = []
+CompileRules = []
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v01mf"]
+load_path = "res://.godot/imported/IconLAB.bmp-667ba35c557b4b6730299cf1f082c1b1.ctex"
+
+[sub_resource type="Resource" id="Resource_bcejy"]
+script = ExtResource("2_dp32q")
+Members = ""
+Initialize = ""
+Execute = ""
+
+[sub_resource type="Resource" id="Resource_1e2l0"]
+resource_name = "Line: name"
+script = ExtResource("3_suvwn")
+ID = "name"
+DisplayName = "Name"
+Description = "The name of this label."
+DefaultValue = ""
+
+[sub_resource type="Resource" id="Resource_57b2h"]
+resource_name = "LAB"
+script = ExtResource("4_r77ix")
+Opcode = "LAB"
+Parameters = [SubResource("Resource_1e2l0")]
+Implementation = SubResource("Resource_bcejy")
+Icon = SubResource("CompressedTexture2D_v01mf")
+DisplayName = "Label"
+Description = "Defines a point that can be jumped to."
+Category = "Core"
+HideDefaultOutput = false
+Preview = []
+CompileRules = []
+
+[sub_resource type="Resource" id="Resource_2kv4i"]
+script = ExtResource("2_dp32q")
+Members = ""
+Initialize = ""
+Execute = "goto(%target_label%);"
+
+[sub_resource type="Resource" id="Resource_enmpn"]
+resource_name = "Line: target_label"
+script = ExtResource("3_suvwn")
+ID = "target_label"
+DisplayName = "Target Label"
+Description = "The name of the label that must be jumped to."
+DefaultValue = ""
+
+[sub_resource type="Resource" id="Resource_amc61"]
+resource_name = "GTO"
+script = ExtResource("4_r77ix")
+Opcode = "GTO"
+Parameters = [SubResource("Resource_enmpn")]
+Implementation = SubResource("Resource_2kv4i")
+Icon = ExtResource("6_rjc6t")
+DisplayName = ""
+Description = "Jump the program counter to a label instruction with some name."
+Category = "Core"
+HideDefaultOutput = false
+Preview = []
+CompileRules = []
+
+[sub_resource type="Resource" id="Resource_1ohjd"]
+script = ExtResource("2_dp32q")
+Members = ""
+Initialize = ""
+Execute = "warning(%message%);"
+
+[sub_resource type="Resource" id="Resource_h5qet"]
+resource_name = "Multiline: message"
+script = ExtResource("8_lid40")
+ID = "message"
+DisplayName = "Message"
+Description = "The error message that must be printed."
+DefaultValue = "Undefined error."
+
+[sub_resource type="Resource" id="Resource_6aex3"]
+resource_name = "WRN"
+script = ExtResource("4_r77ix")
+Opcode = "WRN"
+Parameters = [SubResource("Resource_h5qet")]
+Implementation = SubResource("Resource_1ohjd")
+Icon = ExtResource("7_ar60a")
+DisplayName = "Error"
+Description = "Prints an error message and stops cutscene execution."
+Category = "Core"
+HideDefaultOutput = false
+Preview = []
+CompileRules = []
+
+[sub_resource type="Resource" id="Resource_7uu0l"]
+script = ExtResource("2_dp32q")
+Members = ""
+Initialize = ""
+Execute = "error(%message%);"
+
+[sub_resource type="Resource" id="Resource_l4yxf"]
+resource_name = "Multiline: message"
+script = ExtResource("8_lid40")
+ID = "message"
+DisplayName = "Message"
+Description = "The error message that must be printed."
+DefaultValue = "Undefined error."
+
+[sub_resource type="Resource" id="Resource_6655h"]
+resource_name = "ERR"
+script = ExtResource("4_r77ix")
+Opcode = "ERR"
+Parameters = [SubResource("Resource_l4yxf")]
+Implementation = SubResource("Resource_7uu0l")
+Icon = ExtResource("9_iqsxj")
+DisplayName = "Error"
+Description = "Prints an error message and stops cutscene execution."
+Category = "Core"
+HideDefaultOutput = false
+Preview = []
+CompileRules = []
+
+[resource]
+script = ExtResource("1_mfbc6")
+Definitions = [SubResource("Resource_dd7mn"), SubResource("Resource_57yso"), SubResource("Resource_57b2h"), SubResource("Resource_amc61"), SubResource("Resource_6aex3"), SubResource("Resource_6655h")]

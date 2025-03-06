@@ -20,6 +20,8 @@ namespace Rusty.Cutscenes
         private const string SkeletonCode = "extends Node;" +
             "\n" +
             "\nconst OPCODE : String = %OPCODE%;" +
+            "\nconst PARAMETERS : Array[String] = %PARAMETERS%;" +
+            "\nconst PARAMETER_COUNT : int = %PCOUNT%;" +
             "\nvar player : CutscenePlayer;%MEMBERS%" +
             "\n" +
             "\nfunc _initialize(_player : CutscenePlayer):" +
@@ -35,8 +37,11 @@ namespace Rusty.Cutscenes
             "\nfunc goto(target_label : String):" +
             "\n\tplayer.Jump(target_label);" +
             "\n" +
+            "\nfunc warning(message : String):" +
+            "\n\tplayer.Warning(message);" +
+            "\n" +
             "\nfunc error(message : String):" +
-            "\n\tplayer.Error(self, message);" +
+            "\n\tplayer.Error(message);" +
             "\n" +
             "\nfunc get_register(register_name : String) -> Register:" +
             "\n\treturn player.GetRegister(register_name);" +
@@ -45,10 +50,7 @@ namespace Rusty.Cutscenes
             "\n\treturn player.InstructionSet.GetDefinition(OPCODE).Parameters[index].ID;" +
             "\n" +
             "\nfunc get_parameter_index(id : String) -> int:" +
-            "\n\treturn player.InstructionSet.GetDefinition(OPCODE).GetParameterIndex(id);" +
-            "\n" +
-            "\nfunc get_parameter_count(id : String) -> int:" +
-            "\n\treturn player.InstructionSet.GetDefinition(OPCODE).Parameters.Length;";
+            "\n\treturn player.InstructionSet.GetDefinition(OPCODE).GetParameterIndex(id);";
 
         /* Constructors. */
         public ExecutionHandler(InstructionDefinition instructionDefinition)
@@ -73,9 +75,21 @@ namespace Rusty.Cutscenes
             if (execute == "")
                 execute = "\tpass;";
 
+            // List parameters.
+            string parameters = "";
+            foreach (ParameterDefinition parameter in InstructionDefinition.Parameters)
+            {
+                if (parameters.Length > 0)
+                    parameters += ", ";
+                parameters += $"\"{parameter.ID}\"";
+            }
+            parameters = $"[ {parameters} ]";
+
             // Generate program.
             string code = SkeletonCode
                 .Replace("%OPCODE%", $"\"{InstructionDefinition.Opcode}\"")
+                .Replace("%PARAMETERS%", $"{parameters}")
+                .Replace("%PCOUNT%", $"{InstructionDefinition.Parameters.Length}")
                 .Replace("%MEMBERS%", members)
                 .Replace("%INITIALIZE%", initialize)
                 .Replace("%EXECUTE%", execute);

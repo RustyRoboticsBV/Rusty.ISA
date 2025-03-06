@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqr70pp8lhjxg"
-path="res://.godot/imported/IconSTA.bmp-d2cbb63384aa15b0ad93f97f63f87849.ctex"
+uid="uid://c6nj8ormy6u2x"
+path="res://.godot/imported/IconLAB.bmp-667ba35c557b4b6730299cf1f082c1b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Built-In Instructions/IconSTA.bmp"
-dest_files=["res://.godot/imported/IconSTA.bmp-d2cbb63384aa15b0ad93f97f63f87849.ctex"]
+source_file="res://Built-In Instructions/IconLAB.bmp"
+dest_files=["res://.godot/imported/IconLAB.bmp-667ba35c557b4b6730299cf1f082c1b1.ctex"]
 
 [params]
 
