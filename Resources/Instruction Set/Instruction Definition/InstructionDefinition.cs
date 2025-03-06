@@ -25,7 +25,7 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// The implementation of this instruction (in GDScript).
         /// </summary>
-        [Export(PropertyHint.MultilineText)] public string Implementation { get; private set; } = "";
+        [Export(PropertyHint.MultilineText)] public Implementation Implementation { get; private set; }
 
         // Meta data.
         /// <summary>
@@ -72,7 +72,7 @@ namespace Rusty.Cutscenes
         public InstructionDefinition() { }
 
         public InstructionDefinition(string opcode, ParameterDefinition[] parameters,
-            string implementation,
+            Implementation implementation,
             Texture2D icon, string displayName, string description, string category,
             EditorNodeInfo editorNode, bool hideDefaultOutput, PreviewTerm[] preview, CompileRule[] compileRules)
         {
