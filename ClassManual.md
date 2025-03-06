@@ -48,7 +48,7 @@ The implementation is a resource with three text values: `Initialize`, `Execute`
 When an instruction set is first referenced by the module, it generates execution handler classes for each instruction definition in the set. Every cutscene player node maintains its own instances of these classes.
 They come with two methods that can be implemented by the user:
 - `_initialize(player : CutscenePlayer)`: is called by a cutscene player when it enters the scene tree. The `Initialize` code is inserted into this method.
-- `_execute(player : CutscenePlayer, arguments : Array[String], delta_time : float)`: is called by the cutscene player when it encounters an instruction of the matching type. The `Execute` code is inserted into this method.
+- `_execute(arguments : Array[String], delta_time : float)`: is called by the cutscene player when it encounters an instruction of the matching type. The `Execute` code is inserted into this method.
 
 Lastly, the `Members` property can be used to insert various user-defined class members into the generated class.
 

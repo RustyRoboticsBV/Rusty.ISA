@@ -18,7 +18,7 @@ namespace Rusty.Cutscenes
 
         /* Private properties. */
         private CutsceneTrack Track { get; set; }
-        private Dictionary<string, Node> ExecutionHandlers { get; set; }
+        private Dictionary<string, ExecutionHandler> ExecutionHandlers { get; set; }
 
         /* Public methods. */
         public void Play()
@@ -61,7 +61,7 @@ namespace Rusty.Cutscenes
         }
 
         /* Godot overrides. */
-        public override void _EnterTree()
+        public override void _Ready()
         {
             Play();
         }
@@ -70,7 +70,6 @@ namespace Rusty.Cutscenes
         {
             if (Track != null)
             {
-                GD.Print(Track.ProgramCounter);
                 if (Track.IsOutOfBounds)
                 {
                     Stop();
@@ -89,7 +88,7 @@ namespace Rusty.Cutscenes
         {
             EnsureExecutionHandlers();
             if (ExecutionHandlers.ContainsKey(instruction.Opcode))
-                ExecutionHandlers[instruction.Opcode].Call("_execute", instruction.Arguments, deltaTime);
+                ExecutionHandlers[instruction.Opcode].Execute(instruction.Arguments, deltaTime);
         }
 
         private void EnsureExecutionHandlers()
@@ -103,10 +102,10 @@ namespace Rusty.Cutscenes
                 InstructionDefinition definition = InstructionSet[i];
                 if (definition.Implementation != null)
                 {
-                    Node handler = new ExecutionHandler(definition).GetNode();
+                    ExecutionHandler handler = new ExecutionHandlerGenerator(definition).Instantiate();
                     if (!ExecutionHandlers.ContainsKey(definition.Opcode))
                         ExecutionHandlers.Add(definition.Opcode, handler);
-                    handler.Call("_initialize", this);
+                    handler.Initialize(this);
                 }
             }
         }
