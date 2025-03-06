@@ -1,14 +1,14 @@
-[gd_scene load_steps=19 format=3 uid="uid://d08snuqj2drvr"]
+[gd_scene load_steps=20 format=3 uid="uid://d08snuqj2drvr"]
 
-[ext_resource type="Script" path="res://Nodes/CutscenePlayer/CutscenePlayer.cs" id="1_56kqd"]
-[ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/Implementation/Implementation.cs" id="2_8y83h"]
-[ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/Parameters/LineParameter.cs" id="3_6u4mo"]
-[ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/InstructionDefinition.cs" id="3_huwjj"]
-[ext_resource type="Script" path="res://Resources/Instruction Set/InstructionSet.cs" id="4_8qjty"]
-[ext_resource type="Script" path="res://Resources/Instruction Set/Instruction Definition/Parameters/MultilineParameter.cs" id="4_q03gr"]
-[ext_resource type="Script" path="res://Resources/Cutscene Program/InstructionInstance.cs" id="5_codsc"]
+[ext_resource type="Script" path="res://Scripts/Nodes/CutscenePlayer/CutscenePlayer.cs" id="1_56kqd"]
+[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_8y83h"]
+[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/LineParameter.cs" id="3_6u4mo"]
+[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="3_huwjj"]
+[ext_resource type="Script" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="4_8qjty"]
+[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="4_q03gr"]
+[ext_resource type="Script" path="res://Scripts/Resources/Cutscene Program/InstructionInstance.cs" id="5_codsc"]
 [ext_resource type="Resource" uid="uid://brpnbl7l2o4ha" path="res://Built-In Instructions/CoreInstructions.tres" id="6_ewmd4"]
-[ext_resource type="Script" path="res://Resources/Cutscene Program/CutsceneProgram.cs" id="6_kanhh"]
+[ext_resource type="Script" path="res://Scripts/Resources/Cutscene Program/CutsceneProgram.cs" id="6_kanhh"]
 
 [sub_resource type="Resource" id="Resource_ef7ky"]
 script = ExtResource("2_8y83h")
@@ -54,6 +54,11 @@ script = ExtResource("4_8qjty")
 Definitions = [SubResource("Resource_0024s")]
 Modules = [ExtResource("6_ewmd4")]
 
+[sub_resource type="Resource" id="Resource_ruv5h"]
+script = ExtResource("5_codsc")
+Opcode = "BEG"
+Arguments = PackedStringArray("Start")
+
 [sub_resource type="Resource" id="Resource_8bjco"]
 script = ExtResource("5_codsc")
 Opcode = "TXT"
@@ -67,7 +72,7 @@ Arguments = PackedStringArray()
 [sub_resource type="Resource" id="Resource_urob4"]
 script = ExtResource("6_kanhh")
 Name = "A"
-Instructions = [SubResource("Resource_8bjco"), SubResource("Resource_m204h")]
+Instructions = [SubResource("Resource_ruv5h"), SubResource("Resource_8bjco"), SubResource("Resource_m204h")]
 
 [node name="Node3D" type="Node3D"]
 
@@ -75,3 +80,4 @@ Instructions = [SubResource("Resource_8bjco"), SubResource("Resource_m204h")]
 script = ExtResource("1_56kqd")
 InstructionSet = SubResource("Resource_7bfae")
 Program = SubResource("Resource_urob4")
+StartPlaying = true

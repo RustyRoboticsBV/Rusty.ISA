@@ -32,7 +32,7 @@ namespace Rusty.Cutscenes
 
             try
             {
-                ProgramCounter = LabelLookup[startPoint];
+                ProgramCounter = StartLookup[startPoint];
             }
             catch
             {
@@ -77,7 +77,7 @@ namespace Rusty.Cutscenes
             StartLookup = new();
             for (int i = 0; i < Program.Length; i++)
             {
-                if (Program[i].Opcode == "STA")
+                if (Program[i].Opcode == "BEG")
                 {
                     string name = Program[i].Arguments[0];
                     if (!StartLookup.TryAdd(name, i))
