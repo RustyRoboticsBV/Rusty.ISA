@@ -35,34 +35,5 @@ This module only comes with a few built-in instructions that are necessary for t
 - `WRN(message)`: prints an warning message.
 - `ERR(message)`: prints an error message and ends the cutscene.
 
-## Instruction Implementations
-Each instruction definition has an implementation field. This implementation is a resource with two text values: the `initialize` code and the `execute` code. Both are expected to be in _**GDScript**_.
-
-When an instruction set is first referenced by the module, it generates execution handler classes for each instruction definition in the set. Both implementation strings are inserted in corresponding functions:
-- `_initialize(player : CutscenePlayer)`
-- `_execute(player : CutscenePlayer, arguments : Array[String], delta_time : float)`
-
-In addition to their function arguments, the generated classes also come with a few features that the implementations may use:
-- Constants:
-  - `OPCODE : String`: the opcode of the instruction definition.
-  - `PARAMETERS : Array[String]`: the parameter IDs of the instruction definition.
-  - `PARAMETER_COUNT : int`: the number of parameters in the instruction definition.
-- Functions:
-  - `end()`: notifies the player that it must stop executing its current cutscene. Equivalent to an `END` instruction.
-  - `goto(target : String)`: notifies the player that it must jump to the target label. Equivalent to a `GTO` instruction.
-  - `warning(message : String)`: prints a warning message. Equivalent to an `WRN` instruction.
-  - `error(message : String)`: prints an error message, and notifies the player that it must stop executing its current cutscene. Equivalent to an `ERR` instruction.
-  - `get_register(name : String) -> Register`: get a register (see below) with some name. If the register didn't exist yet, it is created automatically.
-  - `get_parameter_id(index : int) -> String`: get the ID of a parameter.
-  - `get_parameter_index(id : String) -> int`: get the index of a parameter.
-- Registers: execution handlers can write to and read from registers. Each register is a double-ended queue of `Variant` objects, and is accessible from every execution handler. Each register contains the following functions:
-  - `push(value : String)`: add a value to the register.
-  - `pop(value : String) -> String`: remove the newest value from the register and return it.
-  - `dequeue(value : String) -> String`: remove the oldest value from the register and return it.
-  - `front() -> String`: return the newest value of the register, without removing it.
-  - `back() -> String`: return the oldest value of the register, without removing it.
-
-As a shorthand for the `get_register` function, you can use the syntax `$<register_name>$`. For example: `$foo$.push("bar")` is equivalent to `get_register("foo").push("bar")`.
-<br/>The special syntax `$OPCODE$` gets a register that uses the instruction's opcode as its name.
-
-In the _execute function, the arguments can be accessed by their parameter id, using the syntax `%<parameter_id>%`. For example: `%foo%` is equivalent to `arguments[get_parameter_index("foo")]`.
+## Class Manual
+See the [class manual document](https://github.com/RustyRoboticsBV/Rusty.Cutscenes/blob/master/ClassManual.md) for a more detailed, conceptual-level description of the important classes of this module.

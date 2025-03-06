@@ -1,3 +1,45 @@
+# Class Manual
+This document is intended as an explanation for the various classes in this module.
+
+## Cutscene Players
+Cutscene players form the core of the module. They are nodes that can execute cutscene programs.
+
+Cutscene players can be set up to start playing automatically, or only in response to being manually activated.
+
+## Cutscene Actors
+Cutscene actors are nodes that represend objects in the scene that are known to the cutscene players.
+
+Actors contain an identifier string that players use to reference the. This string should be unique!
+
+## Cutscene Triggers
+A cutscene trigger is a node that can activate a cutscene player.
+
+There are three types of triggers:
+- Triggers that activate if an actor enters some area.
+- Triggers that activate if the player presses some button.
+- Triggers that activate if an actor is inside some area, and the player presses some button.
+
+You can create child classes of the cutscene trigger, in case a more game-specific activation method is needed.
+
+## Cutscene Programs
+Cutscene programs represent the actual cutscenes, which can be played by the `CutscenePlayer` node.
+
+They are stored as CSV files with an assembly-like structure: each line represents a single instruction, where the left-most cell contains the instruction's opcode and the other cells contain the arguments (which correspond to the instruction definition's parameters).
+
+Cutscene players start from a `BEG` instruction, and step through the program top-to-bottom, executing each instruction as they encounter them. When an `END` instruction is reached, the player stops.
+`GTO` and `LAB` instructions are used to jump to skip parts of the program, or to implement loops.
+
+## Instruction Definitions
+You can think of instruction definitions as function declarations for the various instructions that can appear in cutscene programs.
+
+They contain an opcode, parameters and implementation, as well as a bunch of editor-relevant metadata that has no in-game meaning.
+
+## Instruction Sets
+[TODO]
+
+## Parameter Definitions
+[TODO]
+
 ## Instruction Implementations
 Each instruction definition has an implementation property. The cutscene module uses them to generate GDScript execution handler classes for each instruction definition at runtime.
 
@@ -50,3 +92,9 @@ You don't have to define an implementation for an instruction instruction defini
 Editor-onlies have no in-game meaning, and can be used to group various pre-instructions inside of a node. For example, you could have a `TextSequence` instruction that contains a list of `DialogText` instructions, allowing the user to create blocks of text without needing to give each line of dialog its own node.
 
 Editor-onlies are stripped from imported programs by default.
+
+## Editor Node Info
+[TODO]
+
+## Pre-Instructions
+[TODO]
