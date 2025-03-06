@@ -11,7 +11,13 @@ namespace Rusty.Cutscenes
     public sealed partial class InstructionInstance : CutsceneResource
     {
         /* Public properties. */
+        /// <summary>
+        /// The opcode of the associated instruction definition.
+        /// </summary>
         [Export] public string Opcode { get; set; }
+        /// <summary>
+        /// The arguments that will be passed to the execution handler.
+        /// </summary>
         [Export] public string[] Arguments { get; set; } = new string[0];
 
         /* Constructors. */
