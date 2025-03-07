@@ -58,11 +58,11 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// Defines rules for how the editor may create additional instructions before instructions of this type.
         /// </summary>
-        [Export] public CompileRule[] PreInstruction { get; private set; } = new CompileRule[0];
+        [Export] public CompileRule[] PreInstructions { get; private set; } = new CompileRule[0];
         /// <summary>
         /// Defines rules for how the editor may create additional instructions after instructions of this type.
         /// </summary>
-        [Export] public CompileRule[] PostInstruction { get; private set; } = new CompileRule[0];
+        [Export] public CompileRule[] PostInstructions { get; private set; } = new CompileRule[0];
 
         /* Constructors. */
         public InstructionDefinition() { }
