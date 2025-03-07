@@ -98,7 +98,7 @@ namespace Rusty.Cutscenes
 
             // List parameters.
             string parameters = "";
-            foreach (ParameterDefinition parameter in InstructionDefinition.Parameters)
+            foreach (Parameter parameter in InstructionDefinition.Parameters)
             {
                 if (parameters.Length > 0)
                     parameters += ", ";

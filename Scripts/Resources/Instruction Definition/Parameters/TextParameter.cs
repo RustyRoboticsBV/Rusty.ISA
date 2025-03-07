@@ -3,11 +3,11 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// Meta-data for an instruction parameter with a string value that does not allow line-breaks.
+    /// A definition for a string instruction parameter that doesn't allow for line-breaks.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class LineParameter : ParameterDefinition
+    public sealed partial class TextParameter : Parameter
     {
         /* Public properties. */
         [Export] public override string ID { get; protected set; } = "";
@@ -20,9 +20,9 @@ namespace Rusty.Cutscenes
         [Export] public string DefaultValue { get; private set; } = "";
 
         /* Constructors. */
-        public LineParameter() : base() { }
+        public TextParameter() : base() { }
 
-        public LineParameter(string id, string displayName, string description, string defaultValue)
+        public TextParameter(string id, string displayName, string description, string defaultValue)
             : base(id, displayName, description)
         {
             DefaultValue = defaultValue;
@@ -31,7 +31,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Text Line: " + ID;
+            return $"{ID} (text)";
         }
     }
 }

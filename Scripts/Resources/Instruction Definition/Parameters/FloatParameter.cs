@@ -3,11 +3,11 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// Meta-data for an instruction parameter with an floating-point value.
+    /// A definition for a floating-point instruction parameter.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class FloatParameter : ParameterDefinition
+    public sealed partial class FloatParameter : Parameter
     {
         /* Public properties. */
         [Export] public override string ID { get; protected set; } = "";
@@ -17,12 +17,12 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// The default value of this parameter in the editor.
         /// </summary>
-        [Export] public float DefaultValue { get; private set; }
+        [Export] public double DefaultValue { get; private set; }
 
         /* Constructors. */
         public FloatParameter() : base() { }
 
-        public FloatParameter(string id, string displayName, string description, float defaultValue)
+        public FloatParameter(string id, string displayName, string description, double defaultValue)
             : base(id, displayName, description)
         {
             DefaultValue = defaultValue;
@@ -31,7 +31,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Float: " + ID;
+            return $"{ID} (float)";
         }
     }
 }

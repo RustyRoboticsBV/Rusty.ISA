@@ -3,7 +3,7 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// A pre-instruction container that can be freely enabled or disabled by the user.
+    /// An optional compile rule, that can be toggled on or off.
     /// </summary>
     [Tool]
     [GlobalClass]
@@ -15,7 +15,7 @@ namespace Rusty.Cutscenes
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
 
         /// <summary>
-        /// The thing that can be toggled on and off. Can be a pre-instruction or another container.
+        /// The thing that can be toggled on and off. Can be an instruction rule or another container rule.
         /// </summary>
         [Export] public CompileRule Type { get; private set; }
         /// <summary>

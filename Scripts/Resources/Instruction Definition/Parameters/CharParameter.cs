@@ -1,13 +1,13 @@
-using Godot;
+﻿using Godot;
 
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// A container for a single pre-instruction.
+    /// A definition for a character instruction parameter.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class PreInstruction : CompileRule
+    public sealed partial class CharParameter : Parameter
     {
         /* Public properties. */
         [Export] public override string ID { get; protected set; } = "";
@@ -15,25 +15,23 @@ namespace Rusty.Cutscenes
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
 
         /// <summary>
-        /// The opcode of the instruction.
+        /// The default value of this parameter in the editor.
         /// </summary>
-        [Export] public string Opcode { get; private set; }
+        [Export] public char DefaultValue { get; private set; } = 'A';
 
         /* Constructors. */
-        public PreInstruction() : base("", "", "") { }
+        public CharParameter() : base() { }
 
-        public PreInstruction(string id, string displayName, string description, string opcode)
+        public CharParameter(string id, string displayName, string description, char defaultValue)
             : base(id, displayName, description)
         {
-            Opcode = opcode;
-
-            ResourceName = ToString();
+            DefaultValue = defaultValue;
         }
 
         /* Public methods. */
         public override string ToString()
         {
-            return Opcode;
+            return $"{ID} (char)";
         }
     }
 }

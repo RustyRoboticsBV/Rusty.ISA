@@ -3,8 +3,7 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// Defines a list of pre-instructions, where each instruction is of the same pre-instruction type.
-    /// Combine with PreInstructionChoice for a list that allows for multiple types of pre-instructions.
+    /// A list of compile rules, where each entry is of the same instruction type.
     /// </summary>
     [Tool]
     [GlobalClass]
@@ -16,7 +15,7 @@ namespace Rusty.Cutscenes
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
 
         /// <summary>
-        /// The type of element that is contained in this list. Can be a pre-instruction or another container.
+        /// The type of element that is contained in this list. Can be an instruction rule or another container rule.
         /// </summary>
         [Export] public CompileRule Type { get; private set; }
 

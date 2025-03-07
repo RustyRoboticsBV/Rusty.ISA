@@ -3,11 +3,11 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// A definition for a color instruction parameter.
+    /// A compile rule that compiles into a single instruction.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class ColorParameter : Parameter
+    public sealed partial class InstructionRule : CompileRule
     {
         /* Public properties. */
         [Export] public override string ID { get; protected set; } = "";
@@ -15,23 +15,25 @@ namespace Rusty.Cutscenes
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
 
         /// <summary>
-        /// The default value of this parameter in the editor.
+        /// The opcode of the instruction.
         /// </summary>
-        [Export] public Color DefaultValue { get; private set; } = Colors.White;
+        [Export] public string Opcode { get; private set; }
 
         /* Constructors. */
-        public ColorParameter() : base() { }
+        public InstructionRule() : base("", "", "") { }
 
-        public ColorParameter(string id, string displayName, string description, Color defaultValue)
+        public InstructionRule(string id, string displayName, string description, string opcode)
             : base(id, displayName, description)
         {
-            DefaultValue = defaultValue;
+            Opcode = opcode;
+
+            ResourceName = ToString();
         }
 
         /* Public methods. */
         public override string ToString()
         {
-            return $"{ID} (color)";
+            return Opcode;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Nodes/CutscenePlayer/CutscenePlayer.cs" id="1_56kqd"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_8y83h"]
-[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/LineParameter.cs" id="3_6u4mo"]
+[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/TextParameter.cs" id="3_6u4mo"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="3_huwjj"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="4_8qjty"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="4_q03gr"]
@@ -45,9 +45,9 @@ Implementation = SubResource("Resource_ef7ky")
 DisplayName = ""
 Description = ""
 Category = ""
-HideDefaultOutput = false
 Preview = []
-CompileRules = []
+PreInstruction = []
+PostInstruction = []
 
 [sub_resource type="Resource" id="Resource_7bfae"]
 script = ExtResource("4_8qjty")

@@ -3,11 +3,11 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// Meta-data for an instruction parameter with a boolean value.
+    /// A definition for a boolean instruction parameter.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class BoolParameter : ParameterDefinition
+    public sealed partial class BoolParameter : Parameter
     {
         /* Public properties. */
         [Export] public override string ID { get; protected set; } = "";
@@ -31,7 +31,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Bool: " + ID;
+            return $"{ID} (bool)";
         }
     }
 }

@@ -3,11 +3,11 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// Meta-data for an instruction parameter with a string value that allows line-breaks.
+    /// A definition for a string instruction parameter that does allow for line-breaks.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class MultilineParameter : ParameterDefinition
+    public sealed partial class MultilineParameter : Parameter
     {
         /* Public properties. */
         [Export] public override string ID { get; protected set; } = "";
@@ -31,7 +31,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Multiline: " + ID;
+            return $"{ID} (multiline)";
         }
     }
 }

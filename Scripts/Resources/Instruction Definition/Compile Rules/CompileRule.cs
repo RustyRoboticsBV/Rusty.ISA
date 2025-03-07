@@ -3,9 +3,9 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// A generic pre-instruction compile rule of a cutscene instruction.
-    /// Pre-instructions are extra instructions that a node generates upon compilation (in addition to its main
-    /// instruction). These extra instructions are placed before the main instruction in the compiled program.
+    /// A base class for compile rules that define an editor node's pre-instructions and post-instructions.
+    /// These are extra instructions that an editor node generates upon compilation (in addition to its main instruction). These
+    /// extra instructions are placed either before or after the main instruction in the compiled program.
     /// </summary>
     [GlobalClass]
     public abstract partial class CompileRule : CutsceneResource

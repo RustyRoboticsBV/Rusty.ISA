@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
-[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/LineParameter.cs" id="3_suvwn"]
+[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/TextParameter.cs" id="3_suvwn"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
 [ext_resource type="Texture2D" uid="uid://d2p6fihx03ulm" path="res://Built-In Instructions/IconEND.bmp" id="5_ypkac"]
 [ext_resource type="Texture2D" uid="uid://dbw2hjlfspdf" path="res://Built-In Instructions/IconGTO.bmp" id="6_rjc6t"]
@@ -18,7 +18,7 @@ Initialize = ""
 Execute = ""
 
 [sub_resource type="Resource" id="Resource_03qba"]
-resource_name = "Line: name"
+resource_name = "name (text)"
 script = ExtResource("3_suvwn")
 ID = "name"
 DisplayName = "Name"
@@ -32,12 +32,12 @@ Opcode = "BEG"
 Parameters = [SubResource("Resource_03qba")]
 Implementation = SubResource("Resource_1vmac")
 Icon = ExtResource("1_4ubkm")
-DisplayName = "Start Point"
+DisplayName = "Begin"
 Description = "Defines a start point in a cutscene program. Cutscene players can start playing the program from these points."
 Category = "Core"
-HideDefaultOutput = false
 Preview = []
-CompileRules = []
+PreInstruction = []
+PostInstruction = []
 
 [sub_resource type="Resource" id="Resource_knia7"]
 script = ExtResource("2_dp32q")
@@ -52,12 +52,12 @@ Opcode = "END"
 Parameters = []
 Implementation = SubResource("Resource_knia7")
 Icon = ExtResource("5_ypkac")
-DisplayName = "End Cutscene"
+DisplayName = "End"
 Description = ""
 Category = "Core"
-HideDefaultOutput = true
 Preview = []
-CompileRules = []
+PreInstruction = []
+PostInstruction = []
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v01mf"]
 load_path = "res://.godot/imported/IconLAB.bmp-667ba35c557b4b6730299cf1f082c1b1.ctex"
@@ -69,7 +69,7 @@ Initialize = ""
 Execute = ""
 
 [sub_resource type="Resource" id="Resource_1e2l0"]
-resource_name = "Line: name"
+resource_name = "name (line)"
 script = ExtResource("3_suvwn")
 ID = "name"
 DisplayName = "Name"
@@ -84,11 +84,11 @@ Parameters = [SubResource("Resource_1e2l0")]
 Implementation = SubResource("Resource_bcejy")
 Icon = SubResource("CompressedTexture2D_v01mf")
 DisplayName = "Label"
-Description = "Defines a point that can be jumped to."
+Description = "Defines a point that can be jumped to by the goto function."
 Category = "Core"
-HideDefaultOutput = false
 Preview = []
-CompileRules = []
+PreInstruction = []
+PostInstruction = []
 
 [sub_resource type="Resource" id="Resource_2kv4i"]
 script = ExtResource("2_dp32q")
@@ -97,7 +97,7 @@ Initialize = ""
 Execute = "goto(%target_label%);"
 
 [sub_resource type="Resource" id="Resource_enmpn"]
-resource_name = "Line: target_label"
+resource_name = "target_label (line)"
 script = ExtResource("3_suvwn")
 ID = "target_label"
 DisplayName = "Target Label"
@@ -111,12 +111,12 @@ Opcode = "GTO"
 Parameters = [SubResource("Resource_enmpn")]
 Implementation = SubResource("Resource_2kv4i")
 Icon = ExtResource("6_rjc6t")
-DisplayName = ""
-Description = "Jump the program counter to a label instruction with some name."
+DisplayName = "Goto"
+Description = "Jumps the program counter to a label instruction with some name."
 Category = "Core"
-HideDefaultOutput = false
 Preview = []
-CompileRules = []
+PreInstruction = []
+PostInstruction = []
 
 [sub_resource type="Resource" id="Resource_1ohjd"]
 script = ExtResource("2_dp32q")
@@ -125,12 +125,12 @@ Initialize = ""
 Execute = "warning(%message%);"
 
 [sub_resource type="Resource" id="Resource_h5qet"]
-resource_name = "Multiline: message"
+resource_name = "message (multiline)"
 script = ExtResource("8_lid40")
 ID = "message"
 DisplayName = "Message"
 Description = "The error message that must be printed."
-DefaultValue = "Undefined error."
+DefaultValue = "Undefined warning."
 
 [sub_resource type="Resource" id="Resource_6aex3"]
 resource_name = "WRN"
@@ -139,12 +139,12 @@ Opcode = "WRN"
 Parameters = [SubResource("Resource_h5qet")]
 Implementation = SubResource("Resource_1ohjd")
 Icon = ExtResource("7_ar60a")
-DisplayName = "Error"
-Description = "Prints an error message and stops cutscene execution."
+DisplayName = "Warning"
+Description = "Prints an warning message and stops cutscene execution."
 Category = "Core"
-HideDefaultOutput = false
 Preview = []
-CompileRules = []
+PreInstruction = []
+PostInstruction = []
 
 [sub_resource type="Resource" id="Resource_7uu0l"]
 script = ExtResource("2_dp32q")
@@ -153,7 +153,7 @@ Initialize = ""
 Execute = "error(%message%);"
 
 [sub_resource type="Resource" id="Resource_l4yxf"]
-resource_name = "Multiline: message"
+resource_name = "message (multiline)"
 script = ExtResource("8_lid40")
 ID = "message"
 DisplayName = "Message"
@@ -170,9 +170,9 @@ Icon = ExtResource("9_iqsxj")
 DisplayName = "Error"
 Description = "Prints an error message and stops cutscene execution."
 Category = "Core"
-HideDefaultOutput = false
 Preview = []
-CompileRules = []
+PreInstruction = []
+PostInstruction = []
 
 [resource]
 script = ExtResource("1_mfbc6")

@@ -3,10 +3,10 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// Meta-data for a cutscene instruction parameter.
+    /// A definition for a cutscene instruction parameter.
     /// </summary>
     [GlobalClass]
-    public abstract partial class ParameterDefinition : CutsceneResource
+    public abstract partial class Parameter : CutsceneResource
     {
         /* Public methods. */
         /// <summary>
@@ -25,9 +25,9 @@ namespace Rusty.Cutscenes
         public abstract string Description { get; protected set; }
 
         /* Constructors. */
-        public ParameterDefinition() { }
+        public Parameter() { }
 
-        public ParameterDefinition(string id, string displayName, string description)
+        public Parameter(string id, string displayName, string description)
         {
             ID = id;
             DisplayName = displayName;

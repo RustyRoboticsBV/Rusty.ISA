@@ -3,11 +3,11 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// A tuple of pre-instructions.
+    /// A choice between various compile rules. Exactlty one of the options must be instantiated.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class TupleRule : CompileRule
+    public sealed partial class ChoiceRule : CompileRule
     {
         /* Public properties. */
         [Export] public override string ID { get; protected set; } = "";
@@ -15,23 +15,22 @@ namespace Rusty.Cutscenes
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
 
         /// <summary>
-        /// The items contained within this tuple. Can be pre-instructions or other containers.
+        /// The possible items that this container can compile to. Can include both instruction rules and container rules.
         /// </summary>
         [Export] public CompileRule[] Types { get; private set; } = new CompileRule[0];
-
         /// <summary>
-        /// The separation string that is inserted between element previews when getting a preview of this compile rule.
+        /// The item that is selected at start.
         /// </summary>
-        [Export(PropertyHint.MultilineText)] public string PreviewSeparator { get; private set; } = "\n";
+        [Export] public int StartSelected { get; private set; }
 
         /* Constructors. */
-        public TupleRule() : base("", "", "") { }
+        public ChoiceRule() : base("", "", "") { }
 
-        public TupleRule(string id, string displayName, string description, CompileRule[] types, string previewSeparator)
+        public ChoiceRule(string id, string displayName, string description, CompileRule[] types, int selected)
             : base(id, displayName, description)
         {
             Types = types;
-            PreviewSeparator = previewSeparator;
+            StartSelected = selected;
 
             ResourceName = ToString();
         }
@@ -43,11 +42,11 @@ namespace Rusty.Cutscenes
             foreach (CompileRule type in Types)
             {
                 if (str != "")
-                    str += ", ";
+                    str += " / ";
                 if (type != null)
                     str += type.ToString();
             }
-            return $"Tuple({str})";
+            return $"Choice({str})";
         }
     }
 }

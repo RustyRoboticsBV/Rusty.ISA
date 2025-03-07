@@ -3,11 +3,11 @@ using Godot;
 namespace Rusty.Cutscenes
 {
     /// <summary>
-    /// Meta-data for an instruction parameter with an integer value.
+    /// A definition for an integer instruction parameter.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class IntParameter : ParameterDefinition
+    public sealed partial class IntParameter : Parameter
     {
         /* Public properties. */
         [Export] public override string ID { get; protected set; } = "";
@@ -31,7 +31,7 @@ namespace Rusty.Cutscenes
         /* Public methods. */
         public override string ToString()
         {
-            return "Int: " + ID;
+            return $"{ID} (int)";
         }
     }
 }
