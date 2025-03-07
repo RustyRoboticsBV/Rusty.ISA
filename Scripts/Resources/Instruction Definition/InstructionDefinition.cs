@@ -89,8 +89,8 @@ namespace Rusty.Cutscenes
             Category = category;
             EditorNode = editorNode;
             Preview = preview;
-            PreInstruction = preInstructions;
-            PostInstruction = postInstructions;
+            PreInstructions = preInstructions;
+            PostInstructions = postInstructions;
 
             ResourceName = ToString();
         }
@@ -139,6 +139,19 @@ namespace Rusty.Cutscenes
                     return i;
             }
             return -1;
+        }
+
+        /// <summary>
+        /// Check if this instruction removes the default output from editor nodes that contain it.
+        /// </summary>
+        public bool RemovesDefaultOutput()
+        {
+            for (int i = 0; i < Parameters.Length; i++)
+            {
+                if (Parameters[i] is OutputParameter output && output.RemoveDefaultOutput)
+                    return true;
+            }
+            return false;
         }
     }
 }

@@ -17,21 +17,21 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// The default value of this parameter in the editor.
         /// </summary>
-        [Export] public double DefaultValue { get; private set; }
+        [Export] public float DefaultValue { get; private set; }
         /// <summary>
         /// Sliders only: the minimum value of this parameter in the editor.
         /// </summary>
-        [Export] public double MinValue { get; private set; }
+        [Export] public float MinValue { get; private set; }
         /// <summary>
         /// Sliders only: the maximum value of this parameter in the editor.
         /// </summary>
-        [Export] public double MaxValue { get; private set; } = 100f;
+        [Export] public float MaxValue { get; private set; } = 100f;
 
         /* Constructors. */
         public FloatSliderParameter() : base() { }
 
-        public FloatSliderParameter(string id, string displayName, string description, double defaultValue,
-            double minValue, double maxValue)
+        public FloatSliderParameter(string id, string displayName, string description, float defaultValue,
+            float minValue, float maxValue)
             : base(id, displayName, description)
         {
             DefaultValue = defaultValue;

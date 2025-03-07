@@ -17,12 +17,12 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// The default value of this parameter in the editor.
         /// </summary>
-        [Export] public double DefaultValue { get; private set; }
+        [Export] public float DefaultValue { get; private set; }
 
         /* Constructors. */
         public FloatParameter() : base() { }
 
-        public FloatParameter(string id, string displayName, string description, double defaultValue)
+        public FloatParameter(string id, string displayName, string description, float defaultValue)
             : base(id, displayName, description)
         {
             DefaultValue = defaultValue;
