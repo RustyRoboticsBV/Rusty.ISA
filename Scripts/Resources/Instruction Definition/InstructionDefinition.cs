@@ -53,13 +53,9 @@ namespace Rusty.Cutscenes
         [Export] public EditorNodeInfo EditorNode { get; private set; }
 
         /// <summary>
-        /// A string that will separate instances of this instruction within tuple and list previews.
-        /// </summary>
-        [Export] public string PreviewSeparator { get; private set; } = " ";
-        /// <summary>
         /// A list of rules that tell the editor how to generate node previews.
         /// </summary>
-        [Export] public PreviewTerm[] Preview { get; private set; } = new PreviewTerm[0];
+        [Export] public PreviewTerm[] PreviewTerms { get; private set; } = new PreviewTerm[0];
 
         /// <summary>
         /// Defines rules for how the editor may create additional instructions before instructions of this type.
@@ -75,12 +71,12 @@ namespace Rusty.Cutscenes
 
         public InstructionDefinition(string opcode, Parameter[] parameters, Implementation implementation,
             Texture2D icon, string displayName, string description, string category,
-            EditorNodeInfo editorNode, PreviewTerm[] preview, CompileRule[] preInstructions, CompileRule[] postInstructions)
+            EditorNodeInfo editorNode, PreviewTerm[] previewTerms, CompileRule[] preInstructions, CompileRule[] postInstructions)
         {
             if (parameters == null)
                 parameters = new Parameter[0];
-            if (preview == null)
-                preview = new PreviewTerm[0];
+            if (previewTerms == null)
+                previewTerms = new PreviewTerm[0];
             if (preInstructions == null)
                 preInstructions = new CompileRule[0];
             if (postInstructions == null)
@@ -94,7 +90,7 @@ namespace Rusty.Cutscenes
             Description = description;
             Category = category;
             EditorNode = editorNode;
-            Preview = preview;
+            PreviewTerms = previewTerms;
             PreInstructions = preInstructions;
             PostInstructions = postInstructions;
 
