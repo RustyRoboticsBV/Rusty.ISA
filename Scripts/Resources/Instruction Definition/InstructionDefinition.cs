@@ -29,7 +29,7 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// The icon of this instruction, used in the cutscene editor.
         /// </summary>
-        [Export] public Texture2D Icon { get; private set; }
+        [Export] public Texture2D Icon { get; internal set; }
         /// <summary>
         /// The human-readable name of this instruction that is used in the cutscene editor.
         /// </summary>
