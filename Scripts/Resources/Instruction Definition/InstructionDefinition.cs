@@ -51,10 +51,16 @@ namespace Rusty.Cutscenes
         /// Leave this empty if this instruction should only appear as a pre-instruction of another instruction.
         /// </summary>
         [Export] public EditorNodeInfo EditorNode { get; private set; }
+
+        /// <summary>
+        /// A string that will separate instances of this instruction within tuple and list previews.
+        /// </summary>
+        [Export] public string PreviewSeparator { get; private set; } = " ";
         /// <summary>
         /// A list of rules that tell the editor how to generate node previews.
         /// </summary>
         [Export] public PreviewTerm[] Preview { get; private set; } = new PreviewTerm[0];
+
         /// <summary>
         /// Defines rules for how the editor may create additional instructions before instructions of this type.
         /// </summary>

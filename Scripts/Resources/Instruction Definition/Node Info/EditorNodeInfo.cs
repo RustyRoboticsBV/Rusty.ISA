@@ -22,6 +22,10 @@ namespace Rusty.Cutscenes
         /// </summary>
         [Export] public int MinWidth { get; private set; } = 128;
         /// <summary>
+        /// The minimum height of the editor node (in pixels).
+        /// </summary>
+        [Export] public int MinHeight { get; private set; } = 32;
+        /// <summary>
         /// The background color of the editor node.
         /// </summary>
         [Export] public Color MainColor { get; private set; } = Colors.DimGray;
@@ -33,10 +37,11 @@ namespace Rusty.Cutscenes
         /* Constructors. */
         public EditorNodeInfo() { }
 
-        public EditorNodeInfo(int priority, int minWidth, Color mainColor, Color textColor)
+        public EditorNodeInfo(int priority, int minWidth, int minHeight, Color mainColor, Color textColor)
         {
             Priority = priority;
             MinWidth = minWidth;
+            MinHeight = minHeight;
             MainColor = mainColor;
             TextColor = textColor;
         }
