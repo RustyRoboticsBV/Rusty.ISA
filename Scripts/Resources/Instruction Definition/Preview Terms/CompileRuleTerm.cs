@@ -7,7 +7,7 @@ namespace Rusty.Cutscenes
     /// </summary>
     [Tool]
     [GlobalClass]
-    public abstract class CompileRuleTerm : PreviewTerm
+    public sealed partial class CompileRuleTerm : PreviewTerm
     {
         /* Public properties. */
         /// <summary>
@@ -18,9 +18,9 @@ namespace Rusty.Cutscenes
         /* Constructors. */
         public CompileRuleTerm() : base() { }
 
-        public CompileRuleTerm(HideIf visibility, string compileRuleID) : base(visibility)
+        public CompileRuleTerm(HideIf visibility, string ruleID) : base(visibility)
         {
-            RuleID = compileRuleID;
+            RuleID = ruleID;
 
             ResourceName = ToString();
         }
