@@ -1,12 +1,12 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
-    /// A base class for all cutscene resources. Has no function, and exists purely to group all such resources together in the
-    /// "create new resource" window.
+    /// A base class for all instruction resources. Has no function, and exists purely to group all such resources together in
+    /// the "create new resource" window.
     /// </summary>
     [GlobalClass]
-    [Icon("CutsceneResource.svg")]
-    public abstract partial class CutsceneResource : Resource { }
+    [Icon("InstructionResource.svg")]
+    public abstract partial class InstructionResource : Resource { }
 }

@@ -1,61 +1,64 @@
 ﻿using Godot;
 using System.Collections.Generic;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
-    /// A node that can play cutscene programs.
+    /// A node that can excute instruction programs.
     /// </summary>
     [GlobalClass]
-    public partial class CutscenePlayer : Node
+    public partial class Process : Node
     {
         /* Public properties. */
+        /// <summary>
+        /// The instruction set that this process uses.
+        /// </summary>
         [Export] public InstructionSet InstructionSet { get; set; }
-        [Export] public CutsceneProgram Program { get; set; }
-        [Export] public bool StartPlaying { get; set; }
-        [Export] public string StartPoint { get; set; } = "Start";
+        /// <summary>
+        /// The program that this process will execute.
+        /// </summary>
+        [Export] public Program Program { get; set; }
 
-        public bool IsPlaying => Track != null;
-        public bool IsPaused { get; private set; }
-        public int ProgramCounter => Track.ProgramCounter;
+        /// <summary>
+        /// Whether or not the process is playing.
+        /// </summary>
+        public bool Playing { get; private set; }
+        /// <summary>
+        /// Whether or not execution has been paused.
+        /// </summary>
+        public bool Paused { get; set; }
+        /// <summary>
+        /// The process' current position in the program.
+        /// </summary>
+        public int ProgramCounter { get; private set; }
+        /// <summary>
+        /// The instruction instance at the program counter.
+        /// </summary>
+        public InstructionInstance Current => Playing ? Program[ProgramCounter] : null;
 
         /* Private properties. */
-        private CutsceneTrack Track { get; set; }
         private Dictionary<string, ExecutionHandler> ExecutionHandlers { get; set; }
+        private Dictionary<string, int> StartPoints { get; set; }
+        private Dictionary<string, int> Labels { get; set; }
 
         /* Public methods. */
-        /// <summary>
-        /// Start playing from the instruction specified by the StartPoint property.
-        /// </summary>
-        public void Play()
-        {
-            Play(StartPoint);
-        }
-
         /// <summary>
         /// Start playing from a start point.
         /// </summary>
         public void Play(string startPointName)
         {
-            Track = new(Program);
+            EnsureStartPoints();
 
-            if (!string.IsNullOrEmpty(startPointName))
-                Track.Start(startPointName);
+            Playing = true;
+            Paused = false;
 
-            IsPaused = false;
-        }
-
-        /// <summary>
-        /// Pause the cutscene.
-        /// </summary>
-        public void Pause()
-        {
-            IsPaused = true;
-        }
-
-        public void Unpause()
-        {
-            IsPaused = false;
+            if (StartPoints.ContainsKey(startPointName))
+                ProgramCounter = StartPoints[startPointName];
+            else
+            {
+                GD.PrintErr($"Tried to start process '{Name}' at start point '{startPointName}' of program '{Program.Name}', "
+                    + "but the program did not contain this start point.");
+            }
         }
 
         /// <summary>
@@ -63,17 +66,27 @@ namespace Rusty.Cutscenes
         /// </summary>
         public void Stop()
         {
-            Track = null;
-            IsPaused = false;
+            Playing = false;
+            Paused = false;
         }
 
         /// <summary>
         /// Jump to a label instruction with some name.
         /// </summary>
-        public void Jump(string targetLabel)
+        public void Goto(string targetLabel)
         {
-            if (Track != null)
-                Track.Jump(targetLabel);
+            if (!Playing)
+                return;
+
+            EnsureLabels();
+
+            if (Labels.ContainsKey(targetLabel))
+                ProgramCounter = Labels[targetLabel];
+            else
+            {
+                GD.PrintErr($"Tried to jump process '{Name}' to label '{targetLabel}' of program '{Program.Name}', but the "
+                    + "program did not contain this label.");
+            }
         }
 
         /// <summary>
@@ -81,10 +94,10 @@ namespace Rusty.Cutscenes
         /// </summary>
         public void Warning(string message)
         {
-            if (!IsPlaying)
+            if (!Playing)
                 return;
 
-            GD.PrintErr($"Warning in cutscene program '{Program.Name}' at line {Track.ProgramCounter} ({Track.Current}): '{message}'");
+            GD.PrintErr($"Warning in ISA program '{Program.Name}' at line {ProgramCounter} ({Current}): '{message}'");
         }
 
         /// <summary>
@@ -92,33 +105,30 @@ namespace Rusty.Cutscenes
         /// </summary>
         public void Error(string message)
         {
-            if (!IsPlaying)
+            if (!Playing)
                 return;
 
-            GD.PrintErr($"Error in cutscene program '{Program.Name}' at line {Track.ProgramCounter} ({Track.Current}): '{message}'");
+            GD.PrintErr($"Error in ISA program '{Program.Name}' at line {ProgramCounter} ({Current}): '{message}'");
             Stop();
         }
-
+        
         /* Godot overrides. */
-        public override void _Ready()
+        /// <summary>
+        /// Perform a single execution loop.
+        /// </summary>
+        public override void _Process(double deltaTime)
         {
-            if (StartPlaying)
-                Play();
-        }
-
-        public override void _Process(double delta)
-        {
-            if (Track != null)
+            if (Playing)
             {
-                if (Track.IsOutOfBounds)
+                if (ProgramCounter < 0 || ProgramCounter >= Program.Length)
                 {
-                    Stop();
+                    Error("Program counter was out of bounds. Execution was terminated.");
                     return;
                 }
                 else
                 {
-                    Execute(Track.Current, delta);
-                    Track?.Advance();
+                    Execute(Current, deltaTime);
+                    ProgramCounter++;
                 }
             }
         }
@@ -130,8 +140,41 @@ namespace Rusty.Cutscenes
         private void Execute(InstructionInstance instruction, double deltaTime)
         {
             EnsureExecutionHandlers();
+
             if (ExecutionHandlers.ContainsKey(instruction.Opcode))
                 ExecutionHandlers[instruction.Opcode].Execute(instruction.Arguments, deltaTime);
+        }
+
+        /// <summary>
+        /// Make sure that the start points have been found.
+        /// </summary>
+        private void EnsureStartPoints()
+        {
+            if (StartPoints != null)
+                return;
+
+            StartPoints = new();
+            for (int i = 0; i < Program.Length; i++)
+            {
+                if (Program[i].Opcode == "BEG")
+                    StartPoints.Add(Program[i].Arguments[0], i);
+            }
+        }
+
+        /// <summary>
+        /// Make sure that the labels have been found.
+        /// </summary>
+        private void EnsureLabels()
+        {
+            if (Labels != null)
+                return;
+
+            Labels = new();
+            for (int i = 0; i < Program.Length; i++)
+            {
+                if (Program[i].Opcode == "LAB")
+                    Labels.Add(Program[i].Arguments[0], i);
+            }
         }
 
         /// <summary>

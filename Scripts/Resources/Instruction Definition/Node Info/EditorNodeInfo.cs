@@ -1,13 +1,13 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
     /// The meta information of an instruction's associated editor node.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class EditorNodeInfo : CutsceneResource
+    public sealed partial class EditorNodeInfo : InstructionResource
     {
         /* Public properties. */
         public static Color SelectedMainColor => Colors.Gray;

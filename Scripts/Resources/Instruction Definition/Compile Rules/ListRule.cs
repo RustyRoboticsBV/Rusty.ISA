@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
     /// A list of compile rules, where each entry is of the same instruction type.

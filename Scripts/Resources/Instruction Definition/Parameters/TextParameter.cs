@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
     /// A definition for a string instruction parameter that doesn't allow for line-breaks.

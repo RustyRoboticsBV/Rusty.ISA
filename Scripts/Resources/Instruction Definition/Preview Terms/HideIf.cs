@@ -1,7 +1,7 @@
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
-    /// An cutscene instruction hide flag enum.
+    /// The possible hide behavior values that preview terms can use.
     /// </summary>
     public enum HideIf
     {

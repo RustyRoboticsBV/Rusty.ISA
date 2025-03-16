@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
     /// A wrapper around a generate execution handler GDScipt node.
@@ -20,7 +20,7 @@ namespace Rusty.Cutscenes
         /// <summary>
         /// Call the handler's initialize method.
         /// </summary>
-        public void Initialize(CutscenePlayer player)
+        public void Initialize(Process player)
         {
             Node.Call("_initialize", player);
         }

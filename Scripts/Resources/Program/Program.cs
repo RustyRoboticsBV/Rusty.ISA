@@ -1,17 +1,17 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
-    /// A cutsscene program that can be executed by a CutscenePlayer node.
+    /// A program that can be executed by a process node.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class CutsceneProgram : CutsceneResource
+    public sealed partial class Program : InstructionResource
     {
         /* Public properties. */
         /// <summary>
-        /// The name of this cutscene.
+        /// The name of this program.
         /// </summary>
         [Export] public string Name { get; set; }
         /// <summary>
@@ -31,9 +31,9 @@ namespace Rusty.Cutscenes
         public InstructionInstance this[int index] => Instructions[index];
 
         /* Constructors. */
-        public CutsceneProgram() : this(new InstructionInstance[0]) { }
+        public Program() : this(new InstructionInstance[0]) { }
 
-        public CutsceneProgram(InstructionInstance[] instructions)
+        public Program(InstructionInstance[] instructions)
         {
             Instructions = instructions;
 
@@ -43,7 +43,7 @@ namespace Rusty.Cutscenes
             }
         }
 
-        public CutsceneProgram(CutsceneProgram other)
+        public Program(Program other)
         {
             // Copy all instructions.
             Instructions = new InstructionInstance[other.Instructions.Length];

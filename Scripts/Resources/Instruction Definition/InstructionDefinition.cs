@@ -1,18 +1,18 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
-    /// The definition of a cutscene instruction.
+    /// The definition of an instruction.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class InstructionDefinition : CutsceneResource
+    public sealed partial class InstructionDefinition : InstructionResource
     {
         /* Public properties. */
         // Main.
         /// <summary>
-        /// The opcode of this instruction. This is the main identifier of an instruction, used in the cutscene program files
+        /// The opcode of this instruction. This is the main identifier of an instruction, used in the program files
         /// that the editor generates. Should be a short as possible. Make sure each instruction's opcode is fully unique!
         /// </summary>
         [Export] public string Opcode { get; private set; } = "";
@@ -27,11 +27,11 @@ namespace Rusty.Cutscenes
 
         // Metadata.
         /// <summary>
-        /// The icon of this instruction, used in the cutscene editor.
+        /// The icon of this instruction, used in the graph editor.
         /// </summary>
         [Export] public Texture2D Icon { get; internal set; }
         /// <summary>
-        /// The human-readable name of this instruction that is used in the cutscene editor.
+        /// The human-readable name of this instruction that is used in the graph editor.
         /// </summary>
         [Export] public string DisplayName { get; private set; } = "";
         /// <summary>
@@ -47,7 +47,7 @@ namespace Rusty.Cutscenes
         // Editor.
         /// <summary>
         /// Contains information related to this instruction's graph node.
-        /// When instantiated, this allows this instruction to be placed as a node in the cutscene graph editor.
+        /// When instantiated, this allows this instruction to be placed as a node in the graph editor.
         /// Leave this empty if this instruction should only appear as a pre-instruction of another instruction.
         /// </summary>
         [Export] public EditorNodeInfo EditorNode { get; private set; }

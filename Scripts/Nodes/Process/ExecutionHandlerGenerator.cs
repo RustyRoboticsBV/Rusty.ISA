@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
     /// A utility class for creating instruction execution handlers.
@@ -13,7 +13,13 @@ namespace Rusty.Cutscenes
         /// </summary>
         [Export] public InstructionDefinition InstructionDefinition { get; private set; }
 
+        /// <summary>
+        /// The generated source code.
+        /// </summary>
         public string SourceCode { get; private set; } = "";
+        /// <summary>
+        /// The generated GDScript.
+        /// </summary>
         public GDScript GDScript { get; private set; }
 
         /* Private constants. */
@@ -25,35 +31,36 @@ namespace Rusty.Cutscenes
             "\nconst OPCODE : String = %OPCODE%;" +
             "\nconst PARAMETERS : Array[String] = %PARAMETERS%;" +
             "\nconst PARAMETER_COUNT : int = %PCOUNT%;" +
-            "\nvar player : CutscenePlayer;%MEMBERS%" +
             "\n" +
-            "\nfunc _initialize(_player : CutscenePlayer):" +
-            "\n\tplayer = _player;" +
+            "\nvar process : Process;%MEMBERS%" +
+            "\n" +
+            "\nfunc _initialize(_process : Process):" +
+            "\n\tprocess = _process;" +
             "\n%INITIALIZE%" +
             "\n" +
             "\nfunc _execute(_arguments : Array[String], _delta_time : float):" +
             "\n%EXECUTE%" +
             "\n" +
             "\nfunc end():" +
-            "\n\tplayer.Stop();" +
+            "\n\tprocess.Stop();" +
             "\n" +
             "\nfunc goto(target_label : String):" +
-            "\n\tplayer.Jump(target_label);" +
+            "\n\tprocess.Goto(target_label);" +
             "\n" +
             "\nfunc warning(message : String):" +
-            "\n\tplayer.Warning(message);" +
+            "\n\tprocess.Warning(message);" +
             "\n" +
             "\nfunc error(message : String):" +
-            "\n\tplayer.Error(message);" +
+            "\n\tprocess.Error(message);" +
             "\n" +
             "\nfunc get_register(register_name : String) -> Register:" +
-            "\n\treturn player.GetRegister(register_name);" +
+            "\n\treturn process.GetRegister(register_name);" +
             "\n" +
             "\nfunc get_parameter_id(index : int) -> String:" +
-            "\n\treturn player.InstructionSet.GetDefinition(OPCODE).Parameters[index].ID;" +
+            "\n\treturn process.InstructionSet.GetDefinition(OPCODE).Parameters[index].ID;" +
             "\n" +
             "\nfunc get_parameter_index(id : String) -> int:" +
-            "\n\treturn player.InstructionSet.GetDefinition(OPCODE).GetParameterIndex(id);";
+            "\n\treturn process.InstructionSet.GetDefinition(OPCODE).GetParameterIndex(id);";
 
         /* Constructors. */
         public ExecutionHandlerGenerator(InstructionDefinition instructionDefinition)

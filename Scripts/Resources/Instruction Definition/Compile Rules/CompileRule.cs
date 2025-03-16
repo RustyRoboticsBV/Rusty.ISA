@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
     /// A base class for compile rules that define an editor node's pre-instructions and post-instructions.
@@ -8,7 +8,7 @@ namespace Rusty.Cutscenes
     /// extra instructions are placed either before or after the main instruction in the compiled program.
     /// </summary>
     [GlobalClass]
-    public abstract partial class CompileRule : CutsceneResource
+    public abstract partial class CompileRule : InstructionResource
     {
         /* Public properties. */
         /// <summary>

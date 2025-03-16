@@ -2,14 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
     /// A set of instruction definitions.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class InstructionSet : CutsceneResource
+    public sealed partial class InstructionSet : InstructionResource
     {
         /* Public properties. */
         /// <summary>

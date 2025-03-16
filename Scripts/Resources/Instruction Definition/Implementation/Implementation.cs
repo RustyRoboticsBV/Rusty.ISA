@@ -1,13 +1,13 @@
 ﻿using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
-    /// The implementation of a cutscene instruction.
+    /// The implementation of an instruction.
     /// </summary>
     [Tool]
     [GlobalClass]
-    public sealed partial class Implementation : CutsceneResource
+    public sealed partial class Implementation : InstructionResource
     {
         /* Public properties. */
         /// <summary>

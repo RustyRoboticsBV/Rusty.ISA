@@ -1,12 +1,12 @@
 using Godot;
 
-namespace Rusty.Cutscenes
+namespace Rusty.ISA
 {
     /// <summary>
-    /// A definition for a cutscene instruction parameter.
+    /// A definition for an instruction parameter.
     /// </summary>
     [GlobalClass]
-    public abstract partial class Parameter : CutsceneResource
+    public abstract partial class Parameter : InstructionResource
     {
         /* Public methods. */
         /// <summary>
@@ -16,7 +16,7 @@ namespace Rusty.Cutscenes
         /// </summary>
         public abstract string ID { get; protected set; }
         /// <summary>
-        /// The human-readable name of this parameter. Used in the cutscene editor.
+        /// The human-readable name of this parameter. Used in the graph editor.
         /// </summary>
         public abstract string DisplayName { get; protected set; }
         /// <summary>

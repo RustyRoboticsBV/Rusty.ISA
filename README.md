@@ -13,7 +13,7 @@ Related repos:
 ## Terminology
 In this module, we define a *process* as a node that can run a *program*, which consist of *instruction instances*. In order to execute instructions, the process uses an *instruction set*, which contains *instruction definitions*. Each definition contains an opcode, parameters and an implementation. The instances contain an opcode and arguments. The opcode is used to match an instance with its definition.
 
-You can essentially think of a program as an Assembly program. A process can start executing a program at explicitly-defined start points, and stops when it reaches an end point. Programs may have multiple start points. Flow control is done via jump and label instructions.
+A process can start executing a program at explicitly-defined start points, and stops when it reaches an end point. Programs may have multiple start points. Flow control is done via goto and label instructions.
 
 ## Built-in Instructions
 The module only comes with a few built-in instructions that are necessary for its core functioning. They are:
