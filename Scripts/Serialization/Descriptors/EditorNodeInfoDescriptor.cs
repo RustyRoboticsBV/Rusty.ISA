@@ -1,4 +1,5 @@
 ﻿using Godot;
+using System.Xml.Serialization;
 
 namespace Rusty.ISA
 {
@@ -8,10 +9,15 @@ namespace Rusty.ISA
     public sealed class EditorNodeInfoDescriptor
     {
         /* Public properties. */
+        [XmlElement("priority")]
         public int Priority { get; set; } = 0;
+        [XmlElement("min_width")]
         public int MinWidth { get; set; } = 128;
+        [XmlElement("min_height")]
         public int MinHeight { get; set; } = 32;
+        [XmlElement("main_color")]
         public Color MainColor { get; set; } = Color.FromHtml("696969");
+        [XmlElement("text_color")]
         public Color TextColor { get; set; } = Colors.White;
 
         /* Constructors. */

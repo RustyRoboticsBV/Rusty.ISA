@@ -15,7 +15,7 @@ namespace Rusty.ISA
         [XmlElement("opcode")]
         public string Opcode { get; set; } = "";
         [XmlElement("parameters")]
-        public List<Parameter> Parameters { get; set; } = new();
+        public List<ParameterDescriptor> Parameters { get; set; } = new();
         //public Implementation Implementation { get; set; } = null;
 
         // Metadata.
@@ -45,7 +45,7 @@ namespace Rusty.ISA
             Opcode = definition.Opcode;
             foreach (Parameter parameter in definition.Parameters)
             {
-                Parameters.Add(parameter);
+                Parameters.Add(ParameterDescriptor.Create(parameter));
             }
             //Implementation = definition.Implementation;
 
@@ -100,8 +100,15 @@ namespace Rusty.ISA
             ImageTexture iconTexture = new ImageTexture();
             iconTexture.SetImage(iconImage);
 
+            // Generate parameters.
+            Parameter[] parameters = new Parameter[Parameters.Count];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                parameters[i] = Parameters[i].Generate();
+            }
+
             // Create instruction definition.
-            return new InstructionDefinition(Opcode, Parameters.ToArray(), /*Implementation*/null,
+            return new InstructionDefinition(Opcode, parameters, /*Implementation*/null,
                 iconTexture, DisplayName, Description, Category,
                 EditorNodeInfo.Generate(), null, null, null/*PreviewTerms.ToArray(), PreInstructions.ToArray(), PostInstructions.ToArray()*/);
         }
