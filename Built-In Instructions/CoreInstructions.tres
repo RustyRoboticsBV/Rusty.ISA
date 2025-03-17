@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=34 format=3 uid="uid://brpnbl7l2o4ha"]
+[gd_resource type="Resource" script_class="InstructionSet" load_steps=29 format=3 uid="uid://brpnbl7l2o4ha"]
 
 [ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
@@ -180,47 +180,7 @@ PreviewTerms = []
 PreInstructions = []
 PostInstructions = []
 
-[sub_resource type="Resource" id="Resource_ucyb1"]
-script = ExtResource("2_dp32q")
-Dependencies = PackedStringArray()
-Members = ""
-Initialize = ""
-Execute = "$TXT$.push(%body%);"
-
-[sub_resource type="Resource" id="Resource_5oe72"]
-script = ExtResource("3_suvwn")
-ID = "a"
-DisplayName = ""
-Description = ""
-DefaultValue = ""
-
-[sub_resource type="Resource" id="Resource_x16xp"]
-script = ExtResource("3_suvwn")
-ID = "b"
-DisplayName = ""
-Description = ""
-DefaultValue = ""
-
-[sub_resource type="Resource" id="Resource_dnjdh"]
-script = ExtResource("3_suvwn")
-ID = "body"
-DisplayName = ""
-Description = ""
-DefaultValue = ""
-
-[sub_resource type="Resource" id="Resource_6s56v"]
-script = ExtResource("4_r77ix")
-Opcode = "TXT"
-Parameters = [SubResource("Resource_5oe72"), SubResource("Resource_x16xp"), SubResource("Resource_dnjdh")]
-Implementation = SubResource("Resource_ucyb1")
-DisplayName = ""
-Description = ""
-Category = ""
-PreviewTerms = []
-PreInstructions = []
-PostInstructions = []
-
 [resource]
 script = ExtResource("1_mfbc6")
-Definitions = [SubResource("Resource_dd7mn"), SubResource("Resource_57yso"), SubResource("Resource_57b2h"), SubResource("Resource_amc61"), SubResource("Resource_6aex3"), SubResource("Resource_6655h"), SubResource("Resource_6s56v")]
+Definitions = [SubResource("Resource_dd7mn"), SubResource("Resource_57yso"), SubResource("Resource_57b2h"), SubResource("Resource_amc61"), SubResource("Resource_6aex3"), SubResource("Resource_6655h")]
 Modules = []
