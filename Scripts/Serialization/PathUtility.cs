@@ -8,6 +8,7 @@ namespace Rusty.ISA
     /// </summary>
     public static class PathUtility
     {
+        /* Public methods. */
         /// <summary>
         /// Get a global file path from a resource, user or relative one.
         /// </summary>
