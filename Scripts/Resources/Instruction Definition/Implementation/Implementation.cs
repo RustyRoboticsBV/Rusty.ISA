@@ -13,7 +13,7 @@ namespace Rusty.ISA
         /// <summary>
         /// The global class members that must exist for this instruction to function.
         /// </summary>
-        public string[] Dependencies { get; private set; } = { };
+        [Export] public string[] Dependencies { get; private set; } = { };
 
         /// <summary>
         /// The GDScript code used for the instruction handler's member declarations.

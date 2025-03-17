@@ -61,7 +61,7 @@ They come with two methods that can be implemented by the user:
 - `_initialize(process : Process)`: is called by a process when it enters the scene tree. The `Initialize` code is inserted into this method.
 - `_execute(arguments : Array[Variant], delta_time : float)`: is called by the process when it encounters an instruction of the matching type. The `Execute` code is inserted into this method.
 
-Lastly, the `Members` property can be used to insert various user-defined class members into the generated class.
+Lastly, the `Members` property can be used to insert various user-defined class members into the generated class. This is generally not encouraged, but is supported just in case.
 
 ### Execution Handler Contents
 In addition to the above, the generated classes also come with a few built-in members that can be used:

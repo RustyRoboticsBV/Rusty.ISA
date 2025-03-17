@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="InstructionSet" load_steps=29 format=3 uid="uid://brpnbl7l2o4ha"]
+[gd_resource type="Resource" load_steps=34 format=3 uid="uid://brpnbl7l2o4ha"]
 
 [ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
 [ext_resource type="Script" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
@@ -13,6 +13,7 @@
 
 [sub_resource type="Resource" id="Resource_1vmac"]
 script = ExtResource("2_dp32q")
+Dependencies = PackedStringArray()
 Members = ""
 Initialize = ""
 Execute = ""
@@ -41,6 +42,7 @@ PostInstructions = []
 
 [sub_resource type="Resource" id="Resource_knia7"]
 script = ExtResource("2_dp32q")
+Dependencies = PackedStringArray()
 Members = ""
 Initialize = ""
 Execute = "end();"
@@ -64,6 +66,7 @@ load_path = "res://.godot/imported/IconLAB.bmp-667ba35c557b4b6730299cf1f082c1b1.
 
 [sub_resource type="Resource" id="Resource_bcejy"]
 script = ExtResource("2_dp32q")
+Dependencies = PackedStringArray()
 Members = ""
 Initialize = ""
 Execute = ""
@@ -92,6 +95,7 @@ PostInstructions = []
 
 [sub_resource type="Resource" id="Resource_2kv4i"]
 script = ExtResource("2_dp32q")
+Dependencies = PackedStringArray()
 Members = ""
 Initialize = ""
 Execute = "goto(%target_label%);"
@@ -120,6 +124,7 @@ PostInstructions = []
 
 [sub_resource type="Resource" id="Resource_1ohjd"]
 script = ExtResource("2_dp32q")
+Dependencies = PackedStringArray()
 Members = ""
 Initialize = ""
 Execute = "warning(%message%);"
@@ -148,6 +153,7 @@ PostInstructions = []
 
 [sub_resource type="Resource" id="Resource_7uu0l"]
 script = ExtResource("2_dp32q")
+Dependencies = PackedStringArray()
 Members = ""
 Initialize = ""
 Execute = "error(%message%);"
@@ -174,7 +180,47 @@ PreviewTerms = []
 PreInstructions = []
 PostInstructions = []
 
+[sub_resource type="Resource" id="Resource_ucyb1"]
+script = ExtResource("2_dp32q")
+Dependencies = PackedStringArray()
+Members = ""
+Initialize = ""
+Execute = "$TXT$.push(%body%);"
+
+[sub_resource type="Resource" id="Resource_5oe72"]
+script = ExtResource("3_suvwn")
+ID = "a"
+DisplayName = ""
+Description = ""
+DefaultValue = ""
+
+[sub_resource type="Resource" id="Resource_x16xp"]
+script = ExtResource("3_suvwn")
+ID = "b"
+DisplayName = ""
+Description = ""
+DefaultValue = ""
+
+[sub_resource type="Resource" id="Resource_dnjdh"]
+script = ExtResource("3_suvwn")
+ID = "body"
+DisplayName = ""
+Description = ""
+DefaultValue = ""
+
+[sub_resource type="Resource" id="Resource_6s56v"]
+script = ExtResource("4_r77ix")
+Opcode = "TXT"
+Parameters = [SubResource("Resource_5oe72"), SubResource("Resource_x16xp"), SubResource("Resource_dnjdh")]
+Implementation = SubResource("Resource_ucyb1")
+DisplayName = ""
+Description = ""
+Category = ""
+PreviewTerms = []
+PreInstructions = []
+PostInstructions = []
+
 [resource]
 script = ExtResource("1_mfbc6")
-Definitions = [SubResource("Resource_dd7mn"), SubResource("Resource_57yso"), SubResource("Resource_57b2h"), SubResource("Resource_amc61"), SubResource("Resource_6aex3"), SubResource("Resource_6655h")]
+Definitions = [SubResource("Resource_dd7mn"), SubResource("Resource_57yso"), SubResource("Resource_57b2h"), SubResource("Resource_amc61"), SubResource("Resource_6aex3"), SubResource("Resource_6655h"), SubResource("Resource_6s56v")]
 Modules = []

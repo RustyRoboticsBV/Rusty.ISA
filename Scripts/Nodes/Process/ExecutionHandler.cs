@@ -7,6 +7,9 @@ namespace Rusty.ISA
     /// </summary>
     internal sealed class ExecutionHandler
     {
+        /* Public properties. */
+        public string SourceCode { get; private set; }
+
         /* Private properties. */
         private Node Node { get; set; }
 
@@ -14,6 +17,7 @@ namespace Rusty.ISA
         internal ExecutionHandler(GDScript script)
         {
             Node = (Node)script.New();
+            SourceCode = script.SourceCode;
         }
 
         /* Public methods. */

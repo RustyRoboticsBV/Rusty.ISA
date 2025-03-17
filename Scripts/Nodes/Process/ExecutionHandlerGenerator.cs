@@ -1,4 +1,5 @@
 ﻿using Godot;
+using ISA;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace Rusty.ISA
@@ -33,12 +34,10 @@ namespace Rusty.ISA
             "\nconst PARAMETERS : Array[String] = %PARAMETERS%;" +
             "\nconst PARAMETER_COUNT : int = %PCOUNT%;" +
             "\n" +
-            "\nvar process : Process;" +
-            "\nvar found_dependencies : bool = false;%MEMBERS%" +
+            "\nvar process : Process;%MEMBERS%" +
             "\n" +
             "\nfunc _initialize(_process : Process):" +
-            "\n\tprocess = _process;" +
-            "\n%DEP_CHECKS%found_dependencies = true;%INITIALIZE%" +
+            "\n\tprocess = _process;%INITIALIZE%" +
             "\n" +
             "\nfunc _execute(_arguments : Array[String], _delta_time : float):" +
             "\n%EXECUTE%" +
@@ -65,16 +64,22 @@ namespace Rusty.ISA
             "\n\treturn process.InstructionSet.GetDefinition(OPCODE).GetParameterIndex(id);";
 
         /* Constructors. */
-        public ExecutionHandlerGenerator(InstructionDefinition instructionDefinition)
+        public ExecutionHandlerGenerator(InstructionDefinition definition)
         {
-            InstructionDefinition = instructionDefinition;
+            InstructionDefinition = definition;
 
             SourceCode = GenerateSourceCode();
             GDScript = new()
             {
                 SourceCode = SourceCode
             };
-            GDScript.Reload();
+            Error error = GDScript.Reload();
+
+            if (error != Error.Ok)
+            {
+                GD.PrintErr($"The instruction definition with opcode '{definition.Opcode}' contained parsing errors in its "
+                    + "implementation! The generated source code was:\n" + SourceCode);
+            }
         }
 
         /* Public methods. */
@@ -95,41 +100,52 @@ namespace Rusty.ISA
             // Get opcode.
             string opcode = InstructionDefinition.Opcode;
 
-            // Generate dependency checks.
+            // Check for dependencies.
             string[] dependencies = InstructionDefinition.Implementation.Dependencies;
-            string dependencyChecks = "";
-            if (dependencies.Length > 0)
+            bool dependenciesFailed = false;
+            foreach (string dependency in dependencies)
             {
-                foreach (string dependency in dependencies)
+                // If the dependency could not be found...
+                if (!GlobalTypeChecker.Check(dependency))
                 {
-                    // Enclose in double-quotes.
-                    string dep = $"\"{dependency}\"";
+                    // Print a warning message.
+                    GD.PrintErr($"Instructions with opcode '{opcode}' require that global class with name '{dependency}' "
+                        + "exists, but this class cannot be found. If the instruction is encountered by a process, it will print "
+                        + "an error and stop execution!");
 
-                    // Add type-check code.
-                    if (dependencyChecks != "")
-                        dependencyChecks += "\n";
-                    dependencyChecks += $"if !type_exists({dep}):\n\tfailed = {dep};";
+                    // Set failed dependencies flag.
+                    dependenciesFailed = true;
                 }
-
-                // Create type-check block.
-                dependencyChecks = $"var failed : String = \"\";\n{dependencyChecks}\nif failed != \"\":"
-                    + $"\n\twarning(\"Instructions with opcode '{opcode}' require that global class with name '\" + failed + \"' "
-                    + "exists, but this class cannot be found. The instruction will not work and print a warning when executed!\")"
-                    + "\n\treturn;\n";
             }
 
-            // Generate implementations.
-            string members = InstructionDefinition.Implementation.Members;
-            if (members.Length > 0)
-                members = "\n" + members;
+            // If the dependency check succeeded, generate implementations...
+            string members = "";
+            string initialize = "";
+            string execute = "";
 
-            string initialize = ProcessCode(InstructionDefinition.Implementation.Initialize, InstructionDefinition);
+            if (!dependenciesFailed)
+            {
+                members = InstructionDefinition.Implementation.Members;
+                if (members.Length > 0)
+                    members = "\n" + members;
 
-            string execute = InstructionDefinition.Implementation.Execute;
-            if (execute == "")
-                execute = "\tpass;";
+                initialize = ProcessCode(InstructionDefinition.Implementation.Initialize, InstructionDefinition);
+
+                execute = InstructionDefinition.Implementation.Execute;
+                if (execute == "")
+                    execute = "\tpass;";
+                else
+                    execute = ProcessCode(execute, InstructionDefinition);
+            }
+
+            // Else, generate error instruction.
             else
-                execute = ProcessCode(execute, InstructionDefinition);
+            {
+                members = "";
+                initialize = "";
+                execute = $"\terror(\"Encountered instruction with opcode '{opcode}', but this instruction had one or more "
+                    + "missing dependencies and cannot be executed!\")";
+            }
 
             // Generate parameter list.
             string parameters = "";
@@ -147,7 +163,6 @@ namespace Rusty.ISA
                 .Replace("%PARAMETERS%", $"{parameters}")
                 .Replace("%PCOUNT%", $"{InstructionDefinition.Parameters.Length}")
                 .Replace("%MEMBERS%", members)
-                .Replace("%DEP_CHECKS%", dependencyChecks)
                 .Replace("%INITIALIZE%", initialize)
                 .Replace("%EXECUTE%", execute);
 
@@ -233,10 +248,13 @@ namespace Rusty.ISA
             // pascal case convention.
             // We only change the first character because all register function names are a single word long.
             if (code[endIndex + 1] == '.')
-                code = Replace(code, startIndex + 2, 1, code[endIndex + 2].ToString().ToUpper());
+                code = Replace(code, endIndex + 2, 1, code[endIndex + 2].ToString().ToUpper());
 
             // Replace register shorthand with proper getter code.
-            return Replace(code, startIndex, endIndex - startIndex + 1, $"get_register({registerName})");
+            code = Replace(code, startIndex, endIndex - startIndex + 1, $"get_register({registerName})");
+
+            // Return altered code.
+            return code;
         }
 
         /// <summary>
@@ -255,11 +273,11 @@ namespace Rusty.ISA
         }
 
         /// <summary>
-        /// Replace a sub-string starting at some index and ending at another index with a new sub-string, and return the result.
+        /// Replace a sub-string with a new sub-string, and return the result.
         /// </summary>
         private static string Replace(string str, int startIndex, int length, string replacement)
         {
-            return str.Substring(0, startIndex) + replacement + str.Substring(startIndex + length + 1);
+            return str.Substring(0, startIndex) + replacement + str.Substring(startIndex + length);
         }
     }
 }
