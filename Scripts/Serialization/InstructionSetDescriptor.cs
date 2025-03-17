@@ -14,6 +14,8 @@ namespace Rusty.ISA
         public List<InstructionSetDescriptor> Modules { get; } = new();
 
         /* Constructors. */
+        public InstructionSetDescriptor() { }
+
         /// <summary>
         /// Generate a set descriptor from an instruction definition.
         /// </summary>

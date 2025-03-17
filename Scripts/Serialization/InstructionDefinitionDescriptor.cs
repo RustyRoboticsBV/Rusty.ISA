@@ -30,6 +30,8 @@ namespace Rusty.ISA
         public List<CompileRule> PostInstructions { get; } = new();
 
         /* Constructors. */
+        public InstructionDefinitionDescriptor() { }
+
         /// <summary>
         /// Generate a definition descriptor from an instruction definition.
         /// </summary>
