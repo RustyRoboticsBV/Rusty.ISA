@@ -4,7 +4,7 @@ A generic *instruction set architecture* module (ISA for short), written for the
 - Write programs using this instruction set.
 - Execute these programs from within a Godot game.
 
-The module is mostly implemented in C#, and partially in GDScript.
+The module is implemented in C#.
 
 Related repos:
 - [Editor](https://github.com/RustyRoboticsBV/Rusty.ISA.Editor): A graph-based editor interface. While you can write programs by hand or in the inspector, this is not encouraged.
@@ -53,6 +53,8 @@ Various types of parameters are supported. These have no in-game meaning, but ar
 Each instruction definition has an implementation property. The ISA module uses them to generate GDScript execution handler classes for each instruction definition at runtime.
 
 The implementation is a resource with three text values: `Initialize`, `Execute` and `Members`. Each is expected to be in _**GDScript**_.
+
+It also contains an array of dependencies: these allow you to define global class names that must exist for the instruction to function. If they do not, the instructions will simply cause an error when encountered.
 
 When an instruction set is first referenced by the module, it generates execution handler classes for each instruction definition in the set. Every process maintains its own instances of these classes.
 They come with two methods that can be implemented by the user:

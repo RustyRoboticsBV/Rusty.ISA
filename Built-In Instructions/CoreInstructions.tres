@@ -35,9 +35,9 @@ Icon = ExtResource("1_4ubkm")
 DisplayName = "Begin"
 Description = "Defines a start point in an instruction program. Processes can start playing the program from these points."
 Category = "Core"
-Preview = []
-PreInstruction = []
-PostInstruction = []
+PreviewTerms = []
+PreInstructions = []
+PostInstructions = []
 
 [sub_resource type="Resource" id="Resource_knia7"]
 script = ExtResource("2_dp32q")
@@ -55,9 +55,9 @@ Icon = ExtResource("5_ypkac")
 DisplayName = "End"
 Description = ""
 Category = "Core"
-Preview = []
-PreInstruction = []
-PostInstruction = []
+PreviewTerms = []
+PreInstructions = []
+PostInstructions = []
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v01mf"]
 load_path = "res://.godot/imported/IconLAB.bmp-667ba35c557b4b6730299cf1f082c1b1.ctex"
@@ -86,9 +86,9 @@ Icon = SubResource("CompressedTexture2D_v01mf")
 DisplayName = "Label"
 Description = "Defines a point that can be jumped to by the goto function."
 Category = "Core"
-Preview = []
-PreInstruction = []
-PostInstruction = []
+PreviewTerms = []
+PreInstructions = []
+PostInstructions = []
 
 [sub_resource type="Resource" id="Resource_2kv4i"]
 script = ExtResource("2_dp32q")
@@ -114,9 +114,9 @@ Icon = ExtResource("6_rjc6t")
 DisplayName = "Goto"
 Description = "Jumps the program counter to a label instruction with some name."
 Category = "Core"
-Preview = []
-PreInstruction = []
-PostInstruction = []
+PreviewTerms = []
+PreInstructions = []
+PostInstructions = []
 
 [sub_resource type="Resource" id="Resource_1ohjd"]
 script = ExtResource("2_dp32q")
@@ -142,9 +142,9 @@ Icon = ExtResource("7_ar60a")
 DisplayName = "Warning"
 Description = "Prints a warning message."
 Category = "Core"
-Preview = []
-PreInstruction = []
-PostInstruction = []
+PreviewTerms = []
+PreInstructions = []
+PostInstructions = []
 
 [sub_resource type="Resource" id="Resource_7uu0l"]
 script = ExtResource("2_dp32q")
@@ -170,9 +170,9 @@ Icon = ExtResource("9_iqsxj")
 DisplayName = "Error"
 Description = "Prints an error message and terminates program execution."
 Category = "Core"
-Preview = []
-PreInstruction = []
-PostInstruction = []
+PreviewTerms = []
+PreInstructions = []
+PostInstructions = []
 
 [resource]
 script = ExtResource("1_mfbc6")

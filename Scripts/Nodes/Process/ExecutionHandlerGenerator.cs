@@ -1,4 +1,5 @@
 ﻿using Godot;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Rusty.ISA
 {
@@ -32,11 +33,12 @@ namespace Rusty.ISA
             "\nconst PARAMETERS : Array[String] = %PARAMETERS%;" +
             "\nconst PARAMETER_COUNT : int = %PCOUNT%;" +
             "\n" +
-            "\nvar process : Process;%MEMBERS%" +
+            "\nvar process : Process;" +
+            "\nvar found_dependencies : bool = false;%MEMBERS%" +
             "\n" +
             "\nfunc _initialize(_process : Process):" +
             "\n\tprocess = _process;" +
-            "\n%INITIALIZE%" +
+            "\n%DEP_CHECKS%found_dependencies = true;%INITIALIZE%" +
             "\n" +
             "\nfunc _execute(_arguments : Array[String], _delta_time : float):" +
             "\n%EXECUTE%" +
@@ -90,7 +92,33 @@ namespace Rusty.ISA
         /// </summary>
         private string GenerateSourceCode()
         {
-            // Get implementations.
+            // Get opcode.
+            string opcode = InstructionDefinition.Opcode;
+
+            // Generate dependency checks.
+            string[] dependencies = InstructionDefinition.Implementation.Dependencies;
+            string dependencyChecks = "";
+            if (dependencies.Length > 0)
+            {
+                foreach (string dependency in dependencies)
+                {
+                    // Enclose in double-quotes.
+                    string dep = $"\"{dependency}\"";
+
+                    // Add type-check code.
+                    if (dependencyChecks != "")
+                        dependencyChecks += "\n";
+                    dependencyChecks += $"if !type_exists({dep}):\n\tfailed = {dep};";
+                }
+
+                // Create type-check block.
+                dependencyChecks = $"var failed : String = \"\";\n{dependencyChecks}\nif failed != \"\":"
+                    + $"\n\twarning(\"Instructions with opcode '{opcode}' require that global class with name '\" + failed + \"' "
+                    + "exists, but this class cannot be found. The instruction will not work and print a warning when executed!\")"
+                    + "\n\treturn;\n";
+            }
+
+            // Generate implementations.
             string members = InstructionDefinition.Implementation.Members;
             if (members.Length > 0)
                 members = "\n" + members;
@@ -103,7 +131,7 @@ namespace Rusty.ISA
             else
                 execute = ProcessCode(execute, InstructionDefinition);
 
-            // List parameters.
+            // Generate parameter list.
             string parameters = "";
             foreach (Parameter parameter in InstructionDefinition.Parameters)
             {
@@ -115,10 +143,11 @@ namespace Rusty.ISA
 
             // Generate program.
             string code = SkeletonCode
-                .Replace("%OPCODE%", $"\"{InstructionDefinition.Opcode}\"")
+                .Replace("%OPCODE%", $"\"{opcode}\"")
                 .Replace("%PARAMETERS%", $"{parameters}")
                 .Replace("%PCOUNT%", $"{InstructionDefinition.Parameters.Length}")
                 .Replace("%MEMBERS%", members)
+                .Replace("%DEP_CHECKS%", dependencyChecks)
                 .Replace("%INITIALIZE%", initialize)
                 .Replace("%EXECUTE%", execute);
 
@@ -137,12 +166,45 @@ namespace Rusty.ISA
         /// </summary>
         private static string ProcessCode(string code, InstructionDefinition definition)
         {
+            // Process character-by-character...
+            for (int i = 0; i < code.Length; i++)
+            {
+                // Store current string length.
+                int oldLength = code.Length;
+
+                // If we encounter a register starter symbol...
+                if (code[i] == '$')
+                {
+                    int escape = code.IndexOf('$', i + 1);
+
+                    // Do nothing if there is no closing character, or it is on another line.
+                    if (escape == -1 && code.IndexOf('\n', i, escape - i) != -1)
+                        continue;
+
+                    // Parse register.
+                    code = ParseRegister(code, i, escape);
+                }
+
+                // If we encountered a parameter starter symbol...
+                else if (code[i] == '%')
+                {
+                    int escape = code.IndexOf('%', i + 1);
+
+                    // Do nothing if there is no closing character, or it is on another line.
+                    if (escape == -1 && code.IndexOf('\n', i, escape - i) != -1)
+                        continue;
+
+                    // Parse argument.
+                    code = ParseArgument(code, i, escape);
+                }
+
+                // If the string length changed, update for loop index.
+                if (code.Length != oldLength)
+                    i += code.Length - oldLength;
+            }
+
             // Add indentation.
             code = "\t" + code.Replace("\n", "\n\t");
-
-            // Replace $register$ statements.
-            // TODO.
-            code = code.Replace("$OPCODE$", $"arguments[get_parameter_index(OPCODE)]");
 
             // Replace %argument% statements.
             for (int i = 0; i < definition.Parameters.Length; i++)
@@ -152,6 +214,52 @@ namespace Rusty.ISA
             }
 
             return code;
+        }
+
+        /// <summary>
+        /// Take a string of code and replace a $register$ shorthand.
+        /// </summar>
+        private static string ParseRegister(string code, int startIndex, int endIndex)
+        {
+            // Isolate register name.
+            string registerName = code.Substring(startIndex + 1, endIndex - startIndex - 1);
+
+            // If the register name does not equal "OPCODE", enclose it in double-quotes.
+            if (registerName != "OPCODE")
+                registerName = $"\"{registerName}\"";
+
+            // Replace potential function call after register call with a pascal case name.
+            // We need to do this because GDScript uses a snake case convention for function names, whereas CSharp uses a
+            // pascal case convention.
+            // We only change the first character because all register function names are a single word long.
+            if (code[endIndex + 1] == '.')
+                code = Replace(code, startIndex + 2, 1, code[endIndex + 2].ToString().ToUpper());
+
+            // Replace register shorthand with proper getter code.
+            return Replace(code, startIndex, endIndex - startIndex + 1, $"get_register({registerName})");
+        }
+
+        /// <summary>
+        /// Take a string of code and replace an %argument% shorthand.
+        /// </summar>
+        private static string ParseArgument(string code, int startIndex, int endIndex)
+        {
+            // Isolate parameter ID.
+            string parameterName = code.Substring(startIndex + 1, endIndex - startIndex - 1);
+
+            // Generate new code snippet.
+            string snippet = $"arguments[get_parameter_index(\"{parameterName}\")]";
+
+            // Replace argument shorthand with code snippet.
+            return Replace(code, startIndex, endIndex - startIndex + 1, snippet);
+        }
+
+        /// <summary>
+        /// Replace a sub-string starting at some index and ending at another index with a new sub-string, and return the result.
+        /// </summary>
+        private static string Replace(string str, int startIndex, int length, string replacement)
+        {
+            return str.Substring(0, startIndex) + replacement + str.Substring(startIndex + length + 1);
         }
     }
 }

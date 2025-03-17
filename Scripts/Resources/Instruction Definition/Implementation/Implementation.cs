@@ -11,6 +11,11 @@ namespace Rusty.ISA
     {
         /* Public properties. */
         /// <summary>
+        /// The global class members that must exist for this instruction to function.
+        /// </summary>
+        public string[] Dependencies { get; private set; } = { };
+
+        /// <summary>
         /// The GDScript code used for the instruction handler's member declarations.
         /// </summary>
         [Export(PropertyHint.MultilineText)] public string Members { get; private set; } = "";
@@ -26,8 +31,9 @@ namespace Rusty.ISA
         /* Constructors. */
         public Implementation() { }
 
-        public Implementation(string members, string initialize, string execute)
+        public Implementation(string[] dependencies, string members, string initialize, string execute)
         {
+            Dependencies = dependencies;
             Members = members;
             Initialize = initialize;
             Execute = execute;
