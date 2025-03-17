@@ -55,6 +55,8 @@ namespace Rusty.ISA
         private Dictionary<string, int> StartPoints { get; set; }
         private Dictionary<string, int> Labels { get; set; }
 
+        private string ProgramNamePrint => Program != null ? $"'{Program.Name}'" : "(null)";
+
         /* Public methods. */
         /// <summary>
         /// Start playing from a start point.
@@ -63,7 +65,7 @@ namespace Rusty.ISA
         {
             if (Program == null)
             {
-                GD.PrintErr($"Process '{Name}' cannot start playing, because its program is set to null.");
+                ProcessError($"cannot start playing, because the program is set to 'null'.");
                 return;
             }
 
@@ -75,17 +77,12 @@ namespace Rusty.ISA
             if (StartPoints.ContainsKey(startPointName))
             {
                 ProgramCounter = StartPoints[startPointName];
-
-                if (UseDebugPrints)
-                {
-                    GD.Print($"Process '{Name}' began executing program '{Program.Name}' at start point '{startPointName}' "
-                        + $"(line #{ProgramCounter})");
-                }
-                else
-                {
-                    GD.PrintErr($"Tried to start process '{Name}' at start point '{startPointName}' of program '{Program.Name}', "
-                        + "but the program did not contain this start point.");
-                }
+                ProgramMessage($"began executing at start point '{startPointName}'.");
+            }
+            else
+            {
+                ProgramError($"tried to start executing at start point '{startPointName}', but the program did not contain "
+                    + "this start point.");
             }
         }
 
@@ -94,8 +91,7 @@ namespace Rusty.ISA
         /// </summary>
         public void Stop()
         {
-            if (UseDebugPrints)
-                GD.Print($"Process '{Name}' stopped executing program '{Program.Name}'.");
+            ProgramMessage($"stopped executing program {ProgramNamePrint}.");
             Playing = false;
             Paused = false;
         }
@@ -113,14 +109,10 @@ namespace Rusty.ISA
             if (Labels.ContainsKey(targetLabel))
             {
                 ProgramCounter = Labels[targetLabel];
-                if (UseDebugPrints)
-                    GD.Print($"Program '{Name}' jumped to label '{targetLabel}' (line #{ProgramCounter}).");
+                ProgramMessage($"jumped to label '{targetLabel}'.");
             }
             else
-            {
-                GD.PrintErr($"Tried to jump process '{Name}' to label '{targetLabel}' of program '{Program.Name}', but the "
-                    + "program did not contain this label.");
-            }
+                ProgramError($"tried to jump to label '{targetLabel}', but the program did not contain this label.");
         }
 
         /// <summary>
@@ -131,7 +123,7 @@ namespace Rusty.ISA
             if (!Playing)
                 return;
 
-            GD.PrintErr($"Warning in ISA program '{Program.Name}' at line #{ProgramCounter} ({Current}): '{message}'");
+            GD.PrintErr($"Warning in ISA program {ProgramNamePrint} at line #{ProgramCounter} ({Current}): '{message}'");
         }
 
         /// <summary>
@@ -142,7 +134,7 @@ namespace Rusty.ISA
             if (!Playing)
                 return;
 
-            GD.PrintErr($"Error in ISA program '{Program.Name}' at line #{ProgramCounter} ({Current}): '{message}'");
+            GD.PrintErr($"Error in ISA program {ProgramNamePrint} at line #{ProgramCounter} ({Current}): '{message}'");
             Stop();
         }
 
@@ -153,8 +145,7 @@ namespace Rusty.ISA
         {
             if (!Registers.ContainsKey(name))
             {
-                if (UseDebugPrints)
-                    GD.Print($"Added register '{name}' to process '{Name}'.");
+                ProgramMessage($"added register '{name}'.");
                 Registers.Add(name, new());
             }
             return Registers[name];
@@ -165,13 +156,15 @@ namespace Rusty.ISA
         /// </summary>
         public void ChangeProgram(Program program)
         {
+            // Stop execution.
             Stop();
-            if (UseDebugPrints)
-            {
-                GD.Print($"Process '{Name}' changed from program '{(Program != null ? Program.Name : "(null)")}' to program "
-                    + $"'{(program != null ? program.Name : "(null)")}'.");
-            }
+
+            // Change program.
+            string oldProgramName = ProgramNamePrint;
             Program = program;
+
+            // Debug print.
+            ProcessMessage($"changed programs, from {oldProgramName} to {ProgramNamePrint}'.");
         }
 
         /* Godot overrides. */
@@ -181,15 +174,12 @@ namespace Rusty.ISA
             {
                 if (ProgramCounter < 0 || ProgramCounter >= Program.Length)
                 {
-                    GD.PrintErr($"Process '{Name}' had its program counter go out-of-bounds at '{ProgramCounter}'. Execution "
-                        + $"was terminated. Are you missing an END instruction?");
+                    LineError("program counter went out-of-bounds. Are you missing an END instruction?");
                     Stop();
                     return;
                 }
                 else
                 {
-                    if (UseDebugPrints)
-                        GD.Print($"Process '{Name}': executing program '{Program.Name}' at line #{ProgramCounter}: {Current}.");
                     Execute(Current, deltaTime);
                     ProgramCounter++;
                 }
@@ -205,8 +195,12 @@ namespace Rusty.ISA
             EnsureExecutionHandlers();
 
             if (ExecutionHandlers.ContainsKey(instruction.Opcode))
+            {
+                LineMessage($"executing {Current}.");
                 ExecutionHandlers[instruction.Opcode].Execute(instruction.Arguments, deltaTime);
+            }
         }
+
 
         /// <summary>
         /// Make sure that the start points have been found.
@@ -265,14 +259,63 @@ namespace Rusty.ISA
                         ExecutionHandlers.Add(definition.Opcode, handler);
                     handler.Initialize(this);
 
-                    if (UseDebugPrints)
-                    {
-                        GD.Print($"Generated execution handler for instruction with opcode '{definition.Opcode}'.");
-                    }
+                    ProgramMessage($"generated execution handler for instruction with opcode '{definition.Opcode}'.");
                     if (PrintExecutionHandlerCode)
                         GD.Print(handler.SourceCode + "\n");
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Print a debug message, if debug messages have been enabled.
+        /// </summary>
+        private void ProcessMessage(string message)
+        {
+            if (UseDebugPrints)
+                GD.Print($"Process '{Name}': {message}");
+        }
+
+        /// <summary>
+        /// Print a debug message about the current line of program code, if debug messages have been enabled.
+        /// </summary>
+        private void ProgramMessage(string message)
+        {
+            if (UseDebugPrints)
+                GD.Print($"Process '{Name}', program {ProgramNamePrint}: {message}");
+        }
+
+        /// <summary>
+        /// Print a debug message about the current line of program code, if debug messages have been enabled.
+        /// </summary>
+        private void LineMessage(string message)
+        {
+            if (UseDebugPrints)
+                GD.Print($"Process '{Name}', program {ProgramNamePrint}, line #{ProgramCounter}: {message}");
+        }
+
+        /// <summary>
+        /// Print an error message about this process.
+        /// </summary>
+        private void ProcessError(string message)
+        {
+            GD.PrintErr($"Process '{Name}': {message}");
+        }
+
+        /// <summary>
+        /// Print an error message about the current program.
+        /// </summary>
+        private void ProgramError(string message)
+        {
+            GD.PrintErr($"Process '{Name}', program {ProgramNamePrint}: {message}");
+        }
+
+        /// <summary>
+        /// Print an error message about the current line of program code.
+        /// </summary>
+        private void LineError(string message)
+        {
+            GD.PrintErr($"Process '{Name}', program {ProgramNamePrint}, line #{ProgramCounter}: {message}");
         }
     }
 }

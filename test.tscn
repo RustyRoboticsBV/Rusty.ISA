@@ -15,3 +15,4 @@ Process = NodePath("Process")
 script = ExtResource("1_m4yy6")
 InstructionSet = ExtResource("2_a4qkr")
 Program = ExtResource("3_nv43y")
+UseDebugPrints = true
