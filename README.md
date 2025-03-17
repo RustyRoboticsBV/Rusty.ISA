@@ -43,16 +43,19 @@ Various types of parameters are supported. These have no in-game meaning, but ar
 ## Implementations
 Each instruction definition has an implementation property. The ISA module uses them to generate GDScript execution handler classes for each instruction definition at runtime.
 
-The implementation is a resource with three text values: `Initialize`, `Execute` and `Members`. Each is expected to be in _**GDScript**_.
+The implementation is split up into three text properties: `Initialize`, `Execute` and `Members`. Each is expected to be in _**GDScript**_.
 
-It also contains an array of dependencies: these allow you to define global class names that must exist for the instruction to function. If they do not, the instructions will simply cause an error when encountered.
-
-When an instruction set is first referenced by the module, it generates execution handler classes for each instruction definition in the set. Every process maintains its own instances of these classes.
+When a process starts executing a program, it first generates execution handler classes for each instruction definition in its instruction set.
 They come with two methods that can be implemented by the user:
-- `_initialize(process : Process)`: is called by a process when it enters the scene tree. The `Initialize` code is inserted into this method.
+- `_initialize(process : Process)`: is called by a process right after it generates the class. The `Initialize` code is inserted into this method.
 - `_execute(arguments : Array[Variant], delta_time : float)`: is called by the process when it encounters an instruction of the matching type. The `Execute` code is inserted into this method.
 
-Lastly, the `Members` property can be used to insert various user-defined class members into the generated class. This is generally not encouraged, but is supported just in case.
+Lastly, the `Members` property can be used to insert various user-defined class members into the generated class.
+
+### Dependencies
+The implementation also contains an array of dependency strings. These allow you to define global class names that the instruction needs to exist in order to function. If one or more dependency cannot be found, then the instruction's execution handler cannot be generated.
+
+If a process encounters an instruction with missing dependencies during program execution, it will print an error and terminate.
 
 ### Execution Handler Contents
 In addition to the above, the generated classes also come with a few built-in members that can be used:
@@ -91,11 +94,6 @@ As a shorthand for the `get_register` function, you can use the syntax `$<regist
 The register class uses the PascalCase naming convention for its methods, as is standard for C#. However, if you use this syntax, you can instead use the snake_case convention that GDScript uses.
 
 The special syntax `$OPCODE$` accesses a register that uses the instruction's opcode as its name.
-
-### Editor-only Instructions
-You don't have to define an implementation for an instruction instruction definition, and can instead leave its implementation at the value `null`. If you do so, then the instruction becomes an *editor-only instruction*.
-
-Editor-onlies have no in-game meaning, and are stripped from imported programs by default. You can use them to group various secondary instructions into one editor node.
 
 ## Built-in Instructions
 The module only comes with a few built-in instructions that are necessary for its core functioning. They are:

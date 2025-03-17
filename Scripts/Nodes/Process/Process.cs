@@ -159,6 +159,10 @@ namespace Rusty.ISA
             // Stop execution.
             Stop();
 
+            // Wipe start points and labels.
+            StartPoints = null;
+            Labels = null;
+
             // Change program.
             string oldProgramName = ProgramNamePrint;
             Program = program;
