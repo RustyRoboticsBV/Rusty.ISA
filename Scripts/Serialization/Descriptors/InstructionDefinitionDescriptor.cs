@@ -1,39 +1,44 @@
 using Godot;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace Rusty.ISA
 {
     /// <summary>
-    /// An instruction definition descriptor. It's mostly the same as the instruction definition, except its mutable and contains
-    /// an icon path instead of an icon texture reference. Serves as an intermediary class during serialization and
-    /// deserialization.
+    /// An instruction definition descriptor. Used for serialization and deserialization.
     /// </summary>
     public sealed class InstructionDefinitionDescriptor
     {
         /* Public properties. */
         // Definition.
+        [XmlElement("opcode")]
         public string Opcode { get; set; } = "";
-        public List<Parameter> Parameters { get; } = new();
-        public Implementation Implementation { get; set; } = null;
+        [XmlElement("parameters")]
+        public List<Parameter> Parameters { get; set; } = new();
+        //public Implementation Implementation { get; set; } = null;
 
         // Metadata.
+        [XmlElement("icon")]
         public string IconPath { get; set; } = "";
+        [XmlElement("name")]
         public string DisplayName { get; set; } = "";
+        [XmlElement("desc")]
         public string Description { get; set; } = "";
+        [XmlElement("category")]
         public string Category { get; set; } = "";
 
         // Editor.
-        public EditorNodeInfo EditorNodeInfo { get; set; } = null;
-        public List<PreviewTerm> PreviewTerms { get; } = new();
-        public List<CompileRule> PreInstructions { get; } = new();
-        public List<CompileRule> PostInstructions { get; } = new();
+        public EditorNodeInfoDescriptor EditorNodeInfo { get; set; } = null;
+        //public List<PreviewTerm> PreviewTerms { get; } = new();
+        //public List<CompileRule> PreInstructions { get; } = new();
+        //public List<CompileRule> PostInstructions { get; } = new();
 
         /* Constructors. */
         public InstructionDefinitionDescriptor() { }
 
         /// <summary>
-        /// Generate a definition descriptor from an instruction definition.
+        /// Generate a descriptor for an instruction definition.
         /// </summary>
         public InstructionDefinitionDescriptor(InstructionDefinition definition)
         {
@@ -42,15 +47,15 @@ namespace Rusty.ISA
             {
                 Parameters.Add(parameter);
             }
-            Implementation = definition.Implementation;
+            //Implementation = definition.Implementation;
 
             IconPath = definition.Icon.ResourcePath;
             DisplayName = definition.DisplayName;
             Description = definition.Description;
             Category = definition.Category;
 
-            EditorNodeInfo = definition.EditorNode;
-            foreach (PreviewTerm term in definition.PreviewTerms)
+            EditorNodeInfo = new(definition.EditorNode);
+            /*foreach (PreviewTerm term in definition.PreviewTerms)
             {
                 PreviewTerms.Add(term);
             }
@@ -61,7 +66,7 @@ namespace Rusty.ISA
             foreach (CompileRule post in definition.PostInstructions)
             {
                 PreInstructions.Add(post);
-            }
+            }*/
         }
 
         /* Public methods. */
@@ -96,9 +101,9 @@ namespace Rusty.ISA
             iconTexture.SetImage(iconImage);
 
             // Create instruction definition.
-            return new InstructionDefinition(Opcode, Parameters.ToArray(), Implementation,
+            return new InstructionDefinition(Opcode, Parameters.ToArray(), /*Implementation*/null,
                 iconTexture, DisplayName, Description, Category,
-                EditorNodeInfo, PreviewTerms.ToArray(), PreInstructions.ToArray(), PostInstructions.ToArray());
+                EditorNodeInfo.Generate(), null, null, null/*PreviewTerms.ToArray(), PreInstructions.ToArray(), PostInstructions.ToArray()*/);
         }
     }
 }
