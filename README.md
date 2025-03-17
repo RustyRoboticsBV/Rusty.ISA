@@ -15,15 +15,6 @@ In this module, we define a *process* as a node that can run a *program*, which 
 
 A process can start executing a program at explicitly-defined start points, and stops when it reaches an end point. Programs may have multiple start points. Flow control is done via goto and label instructions.
 
-## Built-in Instructions
-The module only comes with a few built-in instructions that are necessary for its core functioning. They are:
-- `BEG(name)`: marks a start point, from which a process can start running the program.
-- `END()`: terminates the current program.
-- `LAB(name)`: marks a jump target, to which goto statements can jump.
-- `GTO(target)`: a goto statement. It moves execution to the label with the specified name.
-- `WRN(message)`: prints a warning message.
-- `ERR(message)`: prints an error message and terminates the program.
-
 ## Instruction Definitions
 Instruction definitions contain various properties. We group them into three categories:
 - Runtime data: the opcode, parameters and implementation.
@@ -92,10 +83,12 @@ Execution handlers can write to and read from registers. Each register is a doub
 #### Arguments
 Arguments can be accessed with their parameter id, using the syntax `%<parameter_id>%`. For example: `%foo%` is equivalent to `arguments[get_parameter_index("foo")]`.
 
-Make sure to not do this in the `_initialize` function (or any user-defined function that doesn't have access to the arguments)!
+Make sure to NOT do this in the `_initialize` function (or any user-defined function that doesn't have access to the arguments)!
 
 #### Registers
-As a shorthand for the `get_register` function, you can use the syntax `$<register_name>$`. For example: `$foo$.push("bar")` is equivalent to `get_register("foo").push("bar")`.
+As a shorthand for the `get_register` function, you can use the syntax `$<register_name>$`. For example: `$foo$.push("bar")` is equivalent to `get_register("foo").Push("bar")`.
+
+The register class uses the PascalCase naming convention for its methods, as is standard for C#. However, if you use this syntax, you can instead use the snake_case convention that GDScript uses.
 
 The special syntax `$OPCODE$` accesses a register that uses the instruction's opcode as its name.
 
@@ -103,3 +96,12 @@ The special syntax `$OPCODE$` accesses a register that uses the instruction's op
 You don't have to define an implementation for an instruction instruction definition, and can instead leave its implementation at the value `null`. If you do so, then the instruction becomes an *editor-only instruction*.
 
 Editor-onlies have no in-game meaning, and are stripped from imported programs by default. You can use them to group various secondary instructions into one editor node.
+
+## Built-in Instructions
+The module only comes with a few built-in instructions that are necessary for its core functioning. They are:
+- `BEG(name)`: marks a start point, from which a process can start running the program.
+- `END()`: terminates the current program.
+- `LAB(name)`: marks a jump target, to which goto statements can jump.
+- `GTO(target)`: a goto statement. It moves execution to the label with the specified name.
+- `WRN(message)`: prints a warning message.
+- `ERR(message)`: prints an error message and terminates the program.
