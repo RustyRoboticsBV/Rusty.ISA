@@ -109,7 +109,7 @@ namespace Rusty.ISA
             if (Labels.ContainsKey(targetLabel))
             {
                 ProgramCounter = Labels[targetLabel];
-                ProgramMessage($"jumped to label '{targetLabel}'.");
+                LineMessage($"jumped to label '{targetLabel}'.");
             }
             else
                 ProgramError($"tried to jump to label '{targetLabel}', but the program did not contain this label.");

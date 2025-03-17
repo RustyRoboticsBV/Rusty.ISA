@@ -143,7 +143,7 @@ namespace Rusty.ISA
             {
                 members = "";
                 initialize = "";
-                execute = $"\terror(\"Encountered instruction with opcode '{opcode}', but this instruction had one or more "
+                execute = $"\terror(\"Encountered instruction with opcode '{opcode}', but this instruction has one or more "
                     + "missing dependencies and cannot be executed!\")";
             }
 
