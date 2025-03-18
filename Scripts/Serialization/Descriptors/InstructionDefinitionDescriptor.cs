@@ -24,7 +24,7 @@ namespace Rusty.ISA
 
         // Editor.
         public EditorNodeInfoDescriptor EditorNodeInfo { get; set; } = null;
-        public List<PreviewTerm> PreviewTerms { get; } = new();
+        public List<PreviewTermDescriptor> PreviewTerms { get; } = new();
         public List<CompileRuleDescriptor> PreInstructions { get; } = new();
         public List<CompileRuleDescriptor> PostInstructions { get; } = new();
 
@@ -51,7 +51,7 @@ namespace Rusty.ISA
             EditorNodeInfo = new(definition.EditorNode);
             foreach (PreviewTerm term in definition.PreviewTerms)
             {
-                PreviewTerms.Add(term);
+                PreviewTerms.Add(new(term));
             }
             foreach (CompileRule pre in definition.PreInstructions)
             {
@@ -102,7 +102,9 @@ namespace Rusty.ISA
 
                     // Preview terms.
                     else if (element.Name == "text_term" || element.Name == "arg_term" || element.Name == "rule_term")
-                    { }
+                    {
+                        PreviewTerms.Add(new(element));
+                    }
 
                     // Pre-instructions.
                     else if (element.Name == "pre")
@@ -229,7 +231,12 @@ namespace Rusty.ISA
 
             // Preview terms.
             if (PreviewTerms.Count > 0)
-            { }
+            {
+                foreach (PreviewTermDescriptor term in PreviewTerms)
+                {
+                    str += "\n  " + term.GetXml().Replace("\n", "\n  ");
+                }
+            }
 
             // Pre-instructions.
             if (PreInstructions.Count > 0)
