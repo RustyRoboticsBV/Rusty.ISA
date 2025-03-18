@@ -66,11 +66,27 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for an instruction definition from XML.
         /// </summary>
-        public InstructionDefinitionDescriptor(XmlElement xml)
+        public InstructionDefinitionDescriptor(XmlDocument xml)
         {
-            Opcode = xml.GetAttribute("opcode");
+            // Find root element.
+            XmlElement root = null;
+            foreach (XmlNode rootNode in xml.ChildNodes)
+            {
+                if (rootNode is XmlElement element && element.Name == "definition")
+                    root = element;
+            }
 
-            foreach (XmlNode node in xml.ChildNodes)
+            if (root == null)
+            {
+                GD.PrintErr("Invalid XML file: the file had no \"definition\" root element.");
+                return;
+            }
+
+            // Get opcode.
+            Opcode = root.GetAttribute("opcode");
+
+            // Parse elements...
+            foreach (XmlNode node in root.ChildNodes)
             {
                 if (node is XmlElement element)
                 {
@@ -193,9 +209,9 @@ namespace Rusty.ISA
             }
 
             // Create instruction definition.
-            return new InstructionDefinition(Opcode, parameters, Implementation.Generate(),
+            return new InstructionDefinition(Opcode, parameters, Implementation?.Generate(),
                 iconTexture, DisplayName, Description, Category,
-                EditorNodeInfo.Generate(), previewTerms, preInstructions, postInstructions);
+                EditorNodeInfo?.Generate(), previewTerms, preInstructions, postInstructions);
         }
 
         /// <summary>
@@ -208,12 +224,12 @@ namespace Rusty.ISA
             // Parameters.
             foreach (ParameterDescriptor parameter in Parameters)
             {
-                str += "\n  " + parameter.GetXml().Replace("\n", "\n  ");
+                str += $"\n  {parameter.GetXml().Replace("\n", "\n  ")}";
             }
 
             // Implementation.
             if (Implementation != null)
-            { }
+                str += $"\n  {Implementation.GetXml().Replace("\n", "\n  ")}";
 
             // Metadata.
             if (IconPath != "")
@@ -227,14 +243,14 @@ namespace Rusty.ISA
 
             // Editor node info.
             if (EditorNodeInfo != null)
-                str += "\n  " + EditorNodeInfo.GetXml().Replace("\n", "\n  ");
+                str += $"\n  {EditorNodeInfo.GetXml().Replace("\n", "\n  ")}";
 
             // Preview terms.
             if (PreviewTerms.Count > 0)
             {
                 foreach (PreviewTermDescriptor term in PreviewTerms)
                 {
-                    str += "\n  " + term.GetXml().Replace("\n", "\n  ");
+                    str += $"\n  {term.GetXml().Replace("\n", "\n  ")}";
                 }
             }
 
@@ -244,7 +260,7 @@ namespace Rusty.ISA
                 str += "\n  <pre>";
                 foreach (CompileRuleDescriptor rule in PreInstructions)
                 {
-                    str += "\n    " + rule.GetXml().Replace("\n", "\n    ");
+                    str += $"\n    {rule.GetXml().Replace("\n", "\n    ")}";
                 }
                 str += "\n  </pre>";
             }
@@ -255,7 +271,7 @@ namespace Rusty.ISA
                 str += "\n  <post>";
                 foreach (CompileRuleDescriptor rule in PostInstructions)
                 {
-                    str += "\n    " + rule.GetXml().Replace("\n", "\n    ");
+                    str += $"\n    {rule.GetXml().Replace("\n", "\n    ")}";
                 }
                 str += "\n  </post>";
             }

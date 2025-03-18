@@ -18,6 +18,17 @@ namespace Rusty.ISA
         public ImplementationDescriptor() { }
 
         /// <summary>
+        /// Generate a descriptor from constructor arguments.
+        /// </summary>
+        public ImplementationDescriptor(string[] dependencies, string members, string initialize, string execute)
+        {
+            Dependencies = new(dependencies);
+            Members = members;
+            Initialize = initialize;
+            Execute = execute;
+        }
+
+        /// <summary>
         /// Generate a descriptor from an implementation.
         /// </summary>
         public ImplementationDescriptor(Implementation implementation)
