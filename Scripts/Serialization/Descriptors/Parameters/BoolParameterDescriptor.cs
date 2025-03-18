@@ -1,4 +1,6 @@
-﻿namespace Rusty.ISA
+﻿using System.Xml;
+
+namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a bool parameter. Used for serialization and deserialization.
@@ -17,6 +19,21 @@
         public BoolParameterDescriptor(BoolParameter parameter) : base(parameter)
         {
             DefaultValue = parameter.DefaultValue;
+        }
+
+        /// <summary>
+        /// Generate a descriptor from an XML element.
+        /// </summary>
+        public BoolParameterDescriptor(XmlElement xml) : base(xml)
+        {
+            foreach (XmlNode child in xml.ChildNodes)
+            {
+                if (child is XmlElement element)
+                {
+                    if (element.Name == "default")
+                        DefaultValue = Parser.ParseBool(element.InnerText);
+                }
+            }
         }
 
         /* Public methods. */

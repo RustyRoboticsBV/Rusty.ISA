@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 
 namespace Rusty.ISA
 {
@@ -62,6 +63,58 @@ namespace Rusty.ISA
             }
         }
 
+        /// <summary>
+        /// Generate a descriptor for an instruction definition from XML.
+        /// </summary>
+        public InstructionDefinitionDescriptor(XmlElement xml)
+        {
+            Opcode = xml.GetAttribute("opcode");
+
+            foreach (XmlNode node in xml.ChildNodes)
+            {
+                if (node is XmlElement element)
+                {
+                    // Parameters.
+                    if (element.Name == "bool" || element.Name == "int" || element.Name == "islider" || element.Name == "float"
+                        || element.Name == "fslider" || element.Name == "char" || element.Name == "textline"
+                        || element.Name == "multiline" || element.Name == "color" || element.Name == "output")
+                    {
+                        Parameters.Add(ParameterDescriptor.Create(element));
+                    }
+
+                    // Implementation.
+                    else if (element.Name == "impl")
+                    { }
+
+                    // Metadata.
+                    else if (element.Name == "icon")
+                        IconPath = element.InnerText;
+                    else if (element.Name == "name")
+                        DisplayName = element.InnerText;
+                    else if (element.Name == "desc")
+                        Description = element.InnerText;
+                    else if (element.Name == "category")
+                        Category = element.InnerText;
+
+                    // Editor node info.
+                    else if (element.Name == "editor_node")
+                        EditorNodeInfo = new(element);
+
+                    // Preview terms.
+                    else if (element.Name == "text_term" || element.Name == "arg_term" || element.Name == "rule_term")
+                    { }
+
+                    // Pre-instructions.
+                    else if (element.Name == "pre")
+                    { }
+
+                    // Post-instructions.
+                    else if (element.Name == "post")
+                    { }
+                }
+            }
+        }
+
         /* Public methods. */
         /// <summary>
         /// Generate an instruction definition from this descriptor.
@@ -106,6 +159,9 @@ namespace Rusty.ISA
                 EditorNodeInfo.Generate(), PreviewTerms.ToArray(), PreInstructions.ToArray(), PostInstructions.ToArray());
         }
 
+        /// <summary>
+        /// Generate XML from this descriptor.
+        /// </summary>
         public string GetXml()
         {
             string str = $"<definition opcode=\"{Opcode}\">";

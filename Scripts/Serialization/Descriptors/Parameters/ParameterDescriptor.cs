@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 
 namespace Rusty.ISA
 {
@@ -23,6 +24,24 @@ namespace Rusty.ISA
             ID = parameter.ID;
             DisplayName = parameter.DisplayName;
             Description = parameter.Description;
+        }
+
+        /// <summary>
+        /// Generate a descriptor from an XML element.
+        /// </summary>
+        public ParameterDescriptor(XmlElement xml)
+        {
+            ID = xml.GetAttribute("id");
+            foreach (XmlNode child in xml.ChildNodes)
+            {
+                if (child is XmlElement element)
+                {
+                    if (element.Name == "name")
+                        DisplayName = element.InnerText;
+                    else if (element.Name == "desc")
+                        Description = element.InnerText;
+                }
+            }
         }
 
         /* Public methods. */
@@ -60,6 +79,38 @@ namespace Rusty.ISA
                     return new OutputParameterDescriptor(output);
                 default:
                     throw new Exception();
+            }
+        }
+
+        /// <summary>
+        /// Create a new parameter descriptor for a parameter of any type, from an XML element.
+        /// </summary>
+        public static ParameterDescriptor Create(XmlElement xml)
+        {
+            switch (xml.Name)
+            {
+                case "bool":
+                    return new BoolParameterDescriptor(xml);
+                case "int":
+                    return new IntParameterDescriptor(xml);
+                case "islider":
+                    return new IntSliderParameterDescriptor(xml);
+                case "float":
+                    return new FloatParameterDescriptor(xml);
+                case "fslider":
+                    return new FloatSliderParameterDescriptor(xml);
+                case "char":
+                    return new CharParameterDescriptor(xml);
+                case "textline":
+                    return new TextParameterDescriptor(xml);
+                case "multiline":
+                    return new MultilineParameterDescriptor(xml);
+                case "color":
+                    return new ColorParameterDescriptor(xml);
+                case "output":
+                    return new OutputParameterDescriptor(xml);
+                default:
+                    return null;
             }
         }
 

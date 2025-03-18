@@ -1,4 +1,5 @@
 ﻿using Godot;
+using System.Xml;
 
 namespace Rusty.ISA
 {
@@ -19,6 +20,21 @@ namespace Rusty.ISA
         public ColorParameterDescriptor(ColorParameter parameter) : base(parameter)
         {
             DefaultValue = parameter.DefaultValue;
+        }
+
+        /// <summary>
+        /// Generate a descriptor from an XML element.
+        /// </summary>
+        public ColorParameterDescriptor(XmlElement xml) : base(xml)
+        {
+            foreach (XmlNode child in xml.ChildNodes)
+            {
+                if (child is XmlElement element)
+                {
+                    if (element.Name == "default")
+                        DefaultValue = Parser.ParseColor(element.InnerText);
+                }
+            }
         }
 
         /* Public methods. */

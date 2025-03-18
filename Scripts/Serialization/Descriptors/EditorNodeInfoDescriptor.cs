@@ -1,6 +1,5 @@
 ﻿using Godot;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace Rusty.ISA
 {
@@ -10,15 +9,10 @@ namespace Rusty.ISA
     public sealed class EditorNodeInfoDescriptor
     {
         /* Public properties. */
-        [XmlElement("priority")]
         public int Priority { get; set; } = 0;
-        [XmlElement("min_width")]
         public int MinWidth { get; set; } = 128;
-        [XmlElement("min_height")]
         public int MinHeight { get; set; } = 32;
-        [XmlElement("main_color")]
         public Color MainColor { get; set; } = Color.FromHtml("696969");
-        [XmlElement("text_color")]
         public Color TextColor { get; set; } = Colors.White;
 
         /* Constructors. */
@@ -36,6 +30,9 @@ namespace Rusty.ISA
             TextColor = node.TextColor;
         }
 
+        /// <summary>
+        /// Generate a descriptor from an XML element.
+        /// </summary>
         public EditorNodeInfoDescriptor(XmlElement xml)
         {
             foreach (XmlNode child in xml.ChildNodes)
@@ -44,13 +41,13 @@ namespace Rusty.ISA
                 {
                     if (element.Name == "priority")
                         Priority = Parser.ParseInt(element.InnerText);
-                    if (element.Name == "min_width")
+                    else if (element.Name == "min_width")
                         MinWidth = Parser.ParseInt(element.InnerText);
-                    if (element.Name == "min_height")
+                    else if (element.Name == "min_height")
                         MinHeight = Parser.ParseInt(element.InnerText);
-                    if (element.Name == "main_color")
+                    else if (element.Name == "main_color")
                         MainColor = Parser.ParseColor(element.InnerText);
-                    if (element.Name == "text_color")
+                    else if (element.Name == "text_color")
                         TextColor = Parser.ParseColor(element.InnerText);
                 }
             }
@@ -65,6 +62,10 @@ namespace Rusty.ISA
             return new(Priority, MinWidth, MinHeight, MainColor, TextColor);
         }
 
+        /// <summary>
+        /// Generate XML for this descriptor.
+        /// </summary>
+        /// <returns></returns>
         public string GetXml()
         {
             string mainColor = MainColor.ToHtml(MainColor.A < 1f);

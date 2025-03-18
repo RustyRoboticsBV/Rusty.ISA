@@ -1,4 +1,6 @@
-﻿namespace Rusty.ISA
+﻿using System.Xml;
+
+namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a int slider parameter. Used for serialization and deserialization.
@@ -21,6 +23,25 @@
             DefaultValue = parameter.DefaultValue;
             MinValue = parameter.MinValue;
             MaxValue = parameter.MaxValue;
+        }
+
+        /// <summary>
+        /// Generate a descriptor from an XML element.
+        /// </summary>
+        public IntSliderParameterDescriptor(XmlElement xml) : base(xml)
+        {
+            foreach (XmlNode child in xml.ChildNodes)
+            {
+                if (child is XmlElement element)
+                {
+                    if (element.Name == "default")
+                        DefaultValue = Parser.ParseInt(element.InnerText);
+                    else if (element.Name == "min")
+                        MinValue = Parser.ParseInt(element.InnerText);
+                    else if (element.Name == "max")
+                        MaxValue = Parser.ParseInt(element.InnerText);
+                }
+            }
         }
 
         /* Public methods. */

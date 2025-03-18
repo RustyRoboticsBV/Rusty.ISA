@@ -1,4 +1,6 @@
-﻿namespace Rusty.ISA
+﻿using System.Xml;
+
+namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a output parameter. Used for serialization and deserialization.
@@ -19,6 +21,23 @@
         {
             RemoveDefaultOutput = parameter.RemoveDefaultOutput;
             PreviewArgument = parameter.UseArgumentAsPreview;
+        }
+
+        /// <summary>
+        /// Generate a descriptor from an XML element.
+        /// </summary>
+        public OutputParameterDescriptor(XmlElement xml) : base(xml)
+        {
+            foreach (XmlNode child in xml.ChildNodes)
+            {
+                if (child is XmlElement element)
+                {
+                    if (element.Name == "remove_default")
+                        RemoveDefaultOutput = true;
+                    else if (element.Name == "preview_arg")
+                        PreviewArgument = element.InnerText;
+                }
+            }
         }
 
         /* Public methods. */
