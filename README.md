@@ -259,25 +259,25 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
      
      
      
-     <!-- The preview terms. The <hide_if> elements should contain one of the following values: never, prev_is_empty,
-          next_is_empty, either_is_empty or both_are_empty. -->
+     <!-- The preview terms. The <hide_if> elements should contain one of the following values: never, prev_empty,
+          next_empty, either_empty or both_empty. -->
      
      <!-- A text preview term. -->
      <text_term>
       <text>str</text>
-      <hide_if>never</hide_if>
+      <hideif>never</hideif>
      </text_term>
      
      <!-- An argument preview term. The parameter value should match a parameter ID. -->
-     <argument_term>
-      <parameter>str</parameter>
-      <hide_if>never</hide_if>
-     </argument_term>
+     <arg_term>
+      <id>str</parameter>
+      <hideif>never</hideif>
+     </arg_term>
      
      <!-- A compile rule term. The rule value should match a pre-instruction or post-instruction rule ID. -->
      <rule_term>
-      <rule>str</rule>
-      <hide_if>never</hide_if>
+      <id>str</id>
+      <hideif>never</hideif>
      </rule_term>
      
      
