@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace Rusty.ISA
+﻿namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a float slider parameter. Used for serialization and deserialization.
@@ -8,11 +6,8 @@ namespace Rusty.ISA
     public class FloatSliderParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("default")]
         public float DefaultValue { get; set; }
-        [XmlAttribute("min")]
         public float MinValue { get; set; }
-        [XmlAttribute("max")]
         public float MaxValue { get; set; }
 
         /* Constructors. */
@@ -35,6 +30,12 @@ namespace Rusty.ISA
         public override FloatSliderParameter Generate()
         {
             return new FloatSliderParameter(ID, DisplayName, Description, DefaultValue, MinValue, MaxValue);
+        }
+
+        public override string GetXml()
+        {
+            return GetXml("fslider", DefaultValue != 0f ? DefaultValue.ToString() : "",
+                MinValue != 0f ? MinValue.ToString() : "", MaxValue != 0f ? MaxValue.ToString() : "");
         }
     }
 }

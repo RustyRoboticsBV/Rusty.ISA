@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace Rusty.ISA
+﻿namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a text parameter. Used for serialization and deserialization.
@@ -8,7 +6,6 @@ namespace Rusty.ISA
     public class TextParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("default")]
         public string DefaultValue { get; set; }
 
         /* Constructors. */
@@ -29,6 +26,11 @@ namespace Rusty.ISA
         public override TextParameter Generate()
         {
             return new TextParameter(ID, DisplayName, Description, DefaultValue);
+        }
+
+        public override string GetXml()
+        {
+            return GetXml("text", DefaultValue);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Godot;
-using System.Xml.Serialization;
 
 namespace Rusty.ISA
 {
@@ -9,7 +8,6 @@ namespace Rusty.ISA
     public class ColorParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("default")]
         public Color DefaultValue { get; set; }
 
         /* Constructors. */
@@ -30,6 +28,18 @@ namespace Rusty.ISA
         public override ColorParameter Generate()
         {
             return new ColorParameter(ID, DisplayName, Description, DefaultValue);
+        }
+
+        public override string GetXml()
+        {
+            return GetXml("color", DefaultValue != Colors.White ? Serialize(DefaultValue) : "");
+        }
+
+        /* Private methods. */
+        private static string Serialize(Color color)
+        {
+            bool includeAlpha = color.A < 1f;
+            return '#' + color.ToHtml(includeAlpha);
         }
     }
 }

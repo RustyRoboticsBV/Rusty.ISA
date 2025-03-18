@@ -1,7 +1,6 @@
 using Godot;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
 
 namespace Rusty.ISA
 {
@@ -12,27 +11,21 @@ namespace Rusty.ISA
     {
         /* Public properties. */
         // Definition.
-        [XmlElement("opcode")]
         public string Opcode { get; set; } = "";
-        [XmlElement("parameters")]
         public List<ParameterDescriptor> Parameters { get; set; } = new();
-        //public Implementation Implementation { get; set; } = null;
+        public Implementation Implementation { get; set; } = null;
 
         // Metadata.
-        [XmlElement("icon")]
         public string IconPath { get; set; } = "";
-        [XmlElement("name")]
         public string DisplayName { get; set; } = "";
-        [XmlElement("desc")]
         public string Description { get; set; } = "";
-        [XmlElement("category")]
-        public string Category { get; set; } = "";
+        public string Category { get; set; } = null;
 
         // Editor.
         public EditorNodeInfoDescriptor EditorNodeInfo { get; set; } = null;
-        //public List<PreviewTerm> PreviewTerms { get; } = new();
-        //public List<CompileRule> PreInstructions { get; } = new();
-        //public List<CompileRule> PostInstructions { get; } = new();
+        public List<PreviewTerm> PreviewTerms { get; } = new();
+        public List<CompileRule> PreInstructions { get; } = new();
+        public List<CompileRule> PostInstructions { get; } = new();
 
         /* Constructors. */
         public InstructionDefinitionDescriptor() { }
@@ -47,7 +40,7 @@ namespace Rusty.ISA
             {
                 Parameters.Add(ParameterDescriptor.Create(parameter));
             }
-            //Implementation = definition.Implementation;
+            Implementation = definition.Implementation;
 
             IconPath = definition.Icon.ResourcePath;
             DisplayName = definition.DisplayName;
@@ -55,7 +48,7 @@ namespace Rusty.ISA
             Category = definition.Category;
 
             EditorNodeInfo = new(definition.EditorNode);
-            /*foreach (PreviewTerm term in definition.PreviewTerms)
+            foreach (PreviewTerm term in definition.PreviewTerms)
             {
                 PreviewTerms.Add(term);
             }
@@ -66,7 +59,7 @@ namespace Rusty.ISA
             foreach (CompileRule post in definition.PostInstructions)
             {
                 PreInstructions.Add(post);
-            }*/
+            }
         }
 
         /* Public methods. */
@@ -108,9 +101,39 @@ namespace Rusty.ISA
             }
 
             // Create instruction definition.
-            return new InstructionDefinition(Opcode, parameters, /*Implementation*/null,
+            return new InstructionDefinition(Opcode, parameters, Implementation,
                 iconTexture, DisplayName, Description, Category,
-                EditorNodeInfo.Generate(), null, null, null/*PreviewTerms.ToArray(), PreInstructions.ToArray(), PostInstructions.ToArray()*/);
+                EditorNodeInfo.Generate(), PreviewTerms.ToArray(), PreInstructions.ToArray(), PostInstructions.ToArray());
+        }
+
+        public string GetXml()
+        {
+            string str = $"<definition opcode=\"{Opcode}\">";
+
+            // Parameters.
+            foreach (ParameterDescriptor parameter in Parameters)
+            {
+                str += "\n  " + parameter.GetXml().Replace("\n", "\n  ");
+            }
+
+            // Implementation.
+
+            // Metadata.
+            if (IconPath != "")
+                str += $"\n  <icon>{IconPath}</icon>";
+            if (DisplayName != "")
+                str += $"\n  <name>{DisplayName}</name>";
+            if (Description != "")
+                str += $"\n  <desc>{Description}</desc>";
+            if (Category != "")
+                str += $"\n  <category>{Category}</category>";
+
+            // Editor node info.
+            if (EditorNodeInfo != null)
+                str += "\n  " + EditorNodeInfo.GetXml().Replace("\n", "\n  ");
+
+            str += "\n</definition>";
+            return str;
         }
     }
 }

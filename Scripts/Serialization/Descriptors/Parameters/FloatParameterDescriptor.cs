@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace Rusty.ISA
+﻿namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a float parameter. Used for serialization and deserialization.
@@ -8,7 +6,6 @@ namespace Rusty.ISA
     public class FloatParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("default")]
         public float DefaultValue { get; set; }
 
         /* Constructors. */
@@ -29,6 +26,11 @@ namespace Rusty.ISA
         public override FloatParameter Generate()
         {
             return new FloatParameter(ID, DisplayName, Description, DefaultValue);
+        }
+
+        public override string GetXml()
+        {
+            return GetXml("float", DefaultValue != 0f ? DefaultValue.ToString() : "");
         }
     }
 }

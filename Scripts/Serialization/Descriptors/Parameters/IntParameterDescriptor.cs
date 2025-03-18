@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace Rusty.ISA
+﻿namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a int parameter. Used for serialization and deserialization.
@@ -8,7 +6,6 @@ namespace Rusty.ISA
     public class IntParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("default")]
         public int DefaultValue { get; set; }
 
         /* Constructors. */
@@ -29,6 +26,11 @@ namespace Rusty.ISA
         public override IntParameter Generate()
         {
             return new IntParameter(ID, DisplayName, Description, DefaultValue);
+        }
+
+        public override string GetXml()
+        {
+            return GetXml("int", DefaultValue != 0 ? DefaultValue.ToString() : "");
         }
     }
 }

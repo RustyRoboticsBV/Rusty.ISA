@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace Rusty.ISA
+﻿namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a output parameter. Used for serialization and deserialization.
@@ -8,9 +6,7 @@ namespace Rusty.ISA
     public class OutputParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("remove_default")]
         public bool RemoveDefaultOutput { get; set; }
-        [XmlAttribute("preview_argument")]
         public string PreviewArgument { get; set; } = "";
 
         /* Constructors. */
@@ -32,6 +28,11 @@ namespace Rusty.ISA
         public override OutputParameter Generate()
         {
             return new OutputParameter(ID, DisplayName, Description, RemoveDefaultOutput, PreviewArgument);
+        }
+
+        public override string GetXml()
+        {
+            return GetXml("output", "", "", "", RemoveDefaultOutput, PreviewArgument);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Serialization;
 
 namespace Rusty.ISA
 {
@@ -9,11 +8,8 @@ namespace Rusty.ISA
     public abstract class ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("id")]
         public string ID { get; set; } = "";
-        [XmlElement("name")]
         public string DisplayName { get; set; } = "";
-        [XmlElement("desc")]
         public string Description { get; set; } = "";
 
         /* Constructors. */
@@ -65,6 +61,34 @@ namespace Rusty.ISA
                 default:
                     throw new Exception();
             }
+        }
+
+        /// <summary>
+        /// Convert to XML.
+        /// </summary>
+        public abstract string GetXml();
+
+        /* Protected methods. */
+        protected string GetXml(string type, string defaultValue = "", string minValue = "", string maxValue = "",
+            bool removeDefaultOutput = false, string previewArgument = "")
+        {
+            string str = $"<{type} id=\"{ID}\">";
+            if (DisplayName != "")
+                str += $"\n  <name>{DisplayName}</name>";
+            if (Description != "")
+                str += $"\n  <desc>{Description}</desc>";
+            if (defaultValue != "")
+                str += $"\n  <default>{defaultValue}</default>";
+            if (minValue != "")
+                str += $"\n  <min>{minValue}</min>";
+            if (maxValue != "")
+                str += $"\n  <max>{maxValue}</max>";
+            if (removeDefaultOutput)
+                str += $"\n  <remove_default/>";
+            if (previewArgument != "")
+                str += $"\n  <preview_arg>{previewArgument}</preview_arg>";
+            str += $"\n</{type}>";
+            return str;
         }
     }
 }

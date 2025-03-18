@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-
-namespace Rusty.ISA
+﻿namespace Rusty.ISA
 {
     /// <summary>
     /// An utility class that can serialize instruction definitions.
@@ -23,11 +20,7 @@ namespace Rusty.ISA
         /// </summary>
         public static string Serialize(InstructionDefinitionDescriptor descriptor)
         {
-            XmlSerializer serializer = new(typeof(InstructionDefinitionDescriptor));
-            StringWriter writer = new StringWriter();
-            serializer.Serialize(writer, descriptor);
-            writer.Close();
-            return writer.ToString();
+            return descriptor.GetXml();
         }
     }
 }

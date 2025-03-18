@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace Rusty.ISA
+﻿namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a multiline parameter. Used for serialization and deserialization.
@@ -8,7 +6,6 @@ namespace Rusty.ISA
     public class MultilineParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("default")]
         public string DefaultValue { get; set; }
 
         /* Constructors. */
@@ -29,6 +26,11 @@ namespace Rusty.ISA
         public override MultilineParameter Generate()
         {
             return new MultilineParameter(ID, DisplayName, Description, DefaultValue);
+        }
+
+        public override string GetXml()
+        {
+            return GetXml("multiline", DefaultValue);
         }
     }
 }

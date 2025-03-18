@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace Rusty.ISA
+﻿namespace Rusty.ISA
 {
     /// <summary>
     /// A descriptor for a int slider parameter. Used for serialization and deserialization.
@@ -8,11 +6,8 @@ namespace Rusty.ISA
     public class IntSliderParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        [XmlAttribute("default")]
         public int DefaultValue { get; set; }
-        [XmlAttribute("min")]
         public int MinValue { get; set; }
-        [XmlAttribute("max")]
         public int MaxValue { get; set; }
 
         /* Constructors. */
@@ -35,6 +30,12 @@ namespace Rusty.ISA
         public override IntSliderParameter Generate()
         {
             return new IntSliderParameter(ID, DisplayName, Description, DefaultValue, MinValue, MaxValue);
+        }
+
+        public override string GetXml()
+        {
+            return GetXml("islider", DefaultValue != 0 ? DefaultValue.ToString() : "",
+                MinValue != 0 ? MinValue.ToString() : "", MaxValue != 0 ? MaxValue.ToString() : "");
         }
     }
 }

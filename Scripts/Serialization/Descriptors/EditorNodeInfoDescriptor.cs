@@ -1,4 +1,5 @@
 ﻿using Godot;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Rusty.ISA
@@ -35,6 +36,26 @@ namespace Rusty.ISA
             TextColor = node.TextColor;
         }
 
+        public EditorNodeInfoDescriptor(XmlElement xml)
+        {
+            foreach (XmlNode child in xml.ChildNodes)
+            {
+                if (child is XmlElement element)
+                {
+                    if (element.Name == "priority")
+                        Priority = Parser.ParseInt(element.InnerText);
+                    if (element.Name == "min_width")
+                        MinWidth = Parser.ParseInt(element.InnerText);
+                    if (element.Name == "min_height")
+                        MinHeight = Parser.ParseInt(element.InnerText);
+                    if (element.Name == "main_color")
+                        MainColor = Parser.ParseColor(element.InnerText);
+                    if (element.Name == "text_color")
+                        TextColor = Parser.ParseColor(element.InnerText);
+                }
+            }
+        }
+
         /* Public methods. */
         /// <summary>
         /// Generate an editor node info from this descriptor.
@@ -42,6 +63,26 @@ namespace Rusty.ISA
         public EditorNodeInfo Generate()
         {
             return new(Priority, MinWidth, MinHeight, MainColor, TextColor);
+        }
+
+        public string GetXml()
+        {
+            string mainColor = MainColor.ToHtml(MainColor.A < 1f);
+            string textColor = TextColor.ToHtml(TextColor.A < 1f);
+
+            string str = "<editor_node>";
+            if (Priority != 0)
+                str += $"\n  <priority>{Priority}</priority>";
+            if (MinWidth != 128)
+                str += $"\n  <min_width>{MinWidth}</min_width>";
+            if (MinHeight != 32)
+            str += $"\n  <min_height>{MinHeight}</min_height>";
+            if (mainColor != "696969")
+                str += $"\n  <main_color>#{mainColor}</main_color>";
+            if (textColor != "ffffff")
+                str += $"\n  <text_color>#{textColor}</text_color>";
+            str += "\n</editor_node>";
+            return str;
         }
     }
 }
