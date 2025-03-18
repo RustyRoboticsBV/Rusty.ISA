@@ -173,10 +173,27 @@ namespace Rusty.ISA
                 parameters[i] = Parameters[i].Generate();
             }
 
+            // Generate preview terms.
+            PreviewTerm[] previewTerms = new PreviewTerm[0];
+
+            // Generate pre-instructions.
+            CompileRule[] preInstructions = new CompileRule[PreInstructions.Count];
+            for (int i = 0; i < preInstructions.Length; i++)
+            {
+                preInstructions[i] = PreInstructions[i].Generate();
+            }
+
+            // Generate post-instructions.
+            CompileRule[] postInstructions = new CompileRule[PostInstructions.Count];
+            for (int i = 0; i < preInstructions.Length; i++)
+            {
+                postInstructions[i] = PostInstructions[i].Generate();
+            }
+
             // Create instruction definition.
             return new InstructionDefinition(Opcode, parameters, Implementation,
                 iconTexture, DisplayName, Description, Category,
-                EditorNodeInfo.Generate(), PreviewTerms.ToArray(), PreInstructions.ToArray(), PostInstructions.ToArray());
+                EditorNodeInfo.Generate(), previewTerms, preInstructions, postInstructions);
         }
 
         /// <summary>
