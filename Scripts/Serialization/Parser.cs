@@ -71,6 +71,14 @@ namespace Rusty.ISA
             }
         }
 
+        /// <summary>
+        /// Try to parse a string array.
+        /// </summary>
+        public static string[] ParseStrings(string str)
+        {
+            return str.Split(',');
+        }
+
         /* Private methods. */
         /// <summary>
         /// Parse a color name.

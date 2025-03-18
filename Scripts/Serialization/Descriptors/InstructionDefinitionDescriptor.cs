@@ -14,7 +14,7 @@ namespace Rusty.ISA
         // Definition.
         public string Opcode { get; set; } = "";
         public List<ParameterDescriptor> Parameters { get; set; } = new();
-        public Implementation Implementation { get; set; } = null;
+        public ImplementationDescriptor Implementation { get; set; } = null;
 
         // Metadata.
         public string IconPath { get; set; } = "";
@@ -41,7 +41,7 @@ namespace Rusty.ISA
             {
                 Parameters.Add(ParameterDescriptor.Create(parameter));
             }
-            Implementation = definition.Implementation;
+            Implementation = new(definition.Implementation);
 
             IconPath = definition.Icon.ResourcePath;
             DisplayName = definition.DisplayName;
@@ -84,7 +84,7 @@ namespace Rusty.ISA
 
                     // Implementation.
                     else if (element.Name == "impl")
-                    { }
+                        Implementation = new(element);
 
                     // Metadata.
                     else if (element.Name == "icon")
@@ -193,7 +193,7 @@ namespace Rusty.ISA
             }
 
             // Create instruction definition.
-            return new InstructionDefinition(Opcode, parameters, Implementation,
+            return new InstructionDefinition(Opcode, parameters, Implementation.Generate(),
                 iconTexture, DisplayName, Description, Category,
                 EditorNodeInfo.Generate(), previewTerms, preInstructions, postInstructions);
         }
