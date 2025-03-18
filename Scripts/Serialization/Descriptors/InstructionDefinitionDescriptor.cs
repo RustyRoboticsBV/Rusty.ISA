@@ -25,8 +25,8 @@ namespace Rusty.ISA
         // Editor.
         public EditorNodeInfoDescriptor EditorNodeInfo { get; set; } = null;
         public List<PreviewTerm> PreviewTerms { get; } = new();
-        public List<CompileRule> PreInstructions { get; } = new();
-        public List<CompileRule> PostInstructions { get; } = new();
+        public List<CompileRuleDescriptor> PreInstructions { get; } = new();
+        public List<CompileRuleDescriptor> PostInstructions { get; } = new();
 
         /* Constructors. */
         public InstructionDefinitionDescriptor() { }
@@ -55,11 +55,11 @@ namespace Rusty.ISA
             }
             foreach (CompileRule pre in definition.PreInstructions)
             {
-                PreInstructions.Add(pre);
+                PreInstructions.Add(CompileRuleDescriptor.Create(pre));
             }
             foreach (CompileRule post in definition.PostInstructions)
             {
-                PreInstructions.Add(post);
+                PostInstructions.Add(CompileRuleDescriptor.Create(post));
             }
         }
 
@@ -106,11 +106,31 @@ namespace Rusty.ISA
 
                     // Pre-instructions.
                     else if (element.Name == "pre")
-                    { }
+                    {
+                        foreach (XmlNode preNode in element.ChildNodes)
+                        {
+                            if (preNode is XmlElement preElement && preElement.Name == "instruction"
+                                 && preElement.Name == "option" && preElement.Name == "choice" && preElement.Name == "tuple"
+                                 && preElement.Name == "list")
+                            {
+                                PreInstructions.Add(CompileRuleDescriptor.Create(preElement));
+                            }
+                        }
+                    }
 
                     // Post-instructions.
                     else if (element.Name == "post")
-                    { }
+                    {
+                        foreach (XmlNode postNode in element.ChildNodes)
+                        {
+                            if (postNode is XmlElement postElement && postElement.Name == "instruction"
+                                 && postElement.Name == "option" && postElement.Name == "choice" && postElement.Name == "tuple"
+                                 && postElement.Name == "list")
+                            {
+                                PostInstructions.Add(CompileRuleDescriptor.Create(postElement));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -173,6 +193,8 @@ namespace Rusty.ISA
             }
 
             // Implementation.
+            if (Implementation != null)
+            { }
 
             // Metadata.
             if (IconPath != "")
@@ -187,6 +209,32 @@ namespace Rusty.ISA
             // Editor node info.
             if (EditorNodeInfo != null)
                 str += "\n  " + EditorNodeInfo.GetXml().Replace("\n", "\n  ");
+
+            // Preview terms.
+            if (PreviewTerms.Count > 0)
+            { }
+
+            // Pre-instructions.
+            if (PreInstructions.Count > 0)
+            {
+                str += "\n  <pre>";
+                foreach (CompileRuleDescriptor rule in PreInstructions)
+                {
+                    str += "\n    " + rule.GetXml().Replace("\n", "\n    ");
+                }
+                str += "\n  </pre>";
+            }
+
+            // Post-instructions.
+            if (PostInstructions.Count > 0)
+            {
+                str += "\n  <post>";
+                foreach (CompileRuleDescriptor rule in PostInstructions)
+                {
+                    str += "\n    " + rule.GetXml().Replace("\n", "\n    ");
+                }
+                str += "\n  </post>";
+            }
 
             str += "\n</definition>";
             return str;

@@ -69,8 +69,8 @@ namespace Rusty.ISA
                     return new FloatSliderParameterDescriptor(fslider);
                 case CharParameter @char:
                     return new CharParameterDescriptor(@char);
-                case TextParameter text:
-                    return new TextParameterDescriptor(text);
+                case TextlineParameter text:
+                    return new TextlineParameterDescriptor(text);
                 case MultilineParameter multiline:
                     return new MultilineParameterDescriptor(multiline);
                 case ColorParameter color:
@@ -102,7 +102,7 @@ namespace Rusty.ISA
                 case "char":
                     return new CharParameterDescriptor(xml);
                 case "textline":
-                    return new TextParameterDescriptor(xml);
+                    return new TextlineParameterDescriptor(xml);
                 case "multiline":
                     return new MultilineParameterDescriptor(xml);
                 case "color":

@@ -3,20 +3,20 @@
 namespace Rusty.ISA
 {
     /// <summary>
-    /// A descriptor for a text parameter. Used for serialization and deserialization.
+    /// A descriptor for a text line parameter. Used for serialization and deserialization.
     /// </summary>
-    public class TextParameterDescriptor : ParameterDescriptor
+    public class TextlineParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
         public string DefaultValue { get; set; }
 
         /* Constructors. */
-        public TextParameterDescriptor() : base() { }
+        public TextlineParameterDescriptor() : base() { }
 
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
-        public TextParameterDescriptor(TextParameter parameter) : base(parameter)
+        public TextlineParameterDescriptor(TextlineParameter parameter) : base(parameter)
         {
             DefaultValue = parameter.DefaultValue;
         }
@@ -24,7 +24,7 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor from an XML element.
         /// </summary>
-        public TextParameterDescriptor(XmlElement xml) : base(xml)
+        public TextlineParameterDescriptor(XmlElement xml) : base(xml)
         {
             foreach (XmlNode child in xml.ChildNodes)
             {
@@ -40,9 +40,9 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a parameter from this descriptor.
         /// </summary>
-        public override TextParameter Generate()
+        public override TextlineParameter Generate()
         {
-            return new TextParameter(ID, DisplayName, Description, DefaultValue);
+            return new TextlineParameter(ID, DisplayName, Description, DefaultValue);
         }
 
         public override string GetXml()
