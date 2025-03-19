@@ -70,7 +70,7 @@ namespace Rusty.ISA
 
         public override string GetXml()
         {
-            return GetXml(XmlKeywords.ChoiceRule, "", false, DefaultSelected, "", Choices.ToArray());
+            return GetXml(XmlKeywords.ChoiceRule, "", false, DefaultSelected, "", Choices);
         }
     }
 }

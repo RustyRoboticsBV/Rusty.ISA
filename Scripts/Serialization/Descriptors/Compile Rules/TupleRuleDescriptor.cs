@@ -56,7 +56,7 @@ namespace Rusty.ISA
 
         public override string GetXml()
         {
-            return GetXml(XmlKeywords.TupleRule, "", false, -1, "", Types.ToArray());
+            return GetXml(XmlKeywords.TupleRule, "", false, -1, "", Types);
         }
     }
 }

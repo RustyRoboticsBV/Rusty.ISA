@@ -30,7 +30,7 @@ namespace Rusty.ISA
         public OptionRuleDescriptor(OptionRule rule) : base(rule)
         {
             Type = Create(rule.Type);
-            DefaultEnabled = rule.StartEnabled;
+            DefaultEnabled = rule.DefaultEnabled;
         }
 
         /// <summary>

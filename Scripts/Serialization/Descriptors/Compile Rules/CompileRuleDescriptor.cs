@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace Rusty.ISA
@@ -115,6 +116,12 @@ namespace Rusty.ISA
         public abstract string GetXml();
 
         /* Protected methods. */
+        protected string GetXml(string type, string opcode, bool startEnabled, int startSelected, string addButtonText,
+            List<CompileRuleDescriptor> children)
+        {
+            return GetXml(type, opcode, startEnabled, startSelected, addButtonText, children.ToArray());
+        }
+
         protected string GetXml(string type, string opcode, bool startEnabled, int startSelected, string addButtonText,
             params CompileRuleDescriptor[] children)
         {

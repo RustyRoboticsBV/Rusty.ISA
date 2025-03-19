@@ -136,7 +136,7 @@ namespace Rusty.ISA
 
         /* Protected methods. */
         protected string GetXml(string type, string defaultValue = "", string minValue = "", string maxValue = "",
-            bool removeDefaultOutput = false, string preview = "")
+            bool removeDefaultOutput = false)
         {
             string str = $"<{type} {XmlKeywords.ID}=\"{ID}\">";
             if (DisplayName != "")
@@ -151,8 +151,8 @@ namespace Rusty.ISA
                 str += $"\n  <{XmlKeywords.MaxValue}>{maxValue}</{XmlKeywords.MaxValue}>";
             if (removeDefaultOutput)
                 str += $"\n  <{XmlKeywords.RemoveDefaultOutput}/>";
-            if (preview != "")
-                str += $"\n  <{XmlKeywords.Preview}>{preview}</{XmlKeywords.Preview}>";
+            if (Preview != "")
+                str += $"\n  <{XmlKeywords.Preview}>{Preview}</{XmlKeywords.Preview}>";
             str += $"\n</{type}>";
             return str;
         }

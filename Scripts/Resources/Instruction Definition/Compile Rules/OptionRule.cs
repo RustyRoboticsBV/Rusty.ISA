@@ -20,7 +20,7 @@ namespace Rusty.ISA
         /// <summary>
         /// Whether the toggle is enabled by default or not.
         /// </summary>
-        [Export] public bool StartEnabled { get; private set; }
+        [Export] public bool DefaultEnabled { get; private set; }
         /// <summary>
         /// An expression that defines how previews will be generated for this rule. If left empty, then the preview of the
         /// target rule is generated if the option is enabled, and the empty string is generated if the option is disabled.
@@ -30,11 +30,11 @@ namespace Rusty.ISA
         /* Constructors. */
         public OptionRule() : base() { }
 
-        public OptionRule(string id, string displayName, string description, CompileRule target, bool startEnabled,
+        public OptionRule(string id, string displayName, string description, CompileRule target, bool defaultEnabled,
             string preview) : base(id, displayName, description, preview)
         {
             Type = target;
-            StartEnabled = startEnabled;
+            DefaultEnabled = defaultEnabled;
 
             ResourceName = ToString();
         }
