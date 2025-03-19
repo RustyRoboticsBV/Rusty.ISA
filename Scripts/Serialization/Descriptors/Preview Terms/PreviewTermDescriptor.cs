@@ -9,12 +9,19 @@ namespace Rusty.ISA
     public class PreviewTermDescriptor
     {
         /* Public properties. */
-        public HideIf HideIf { get; set; } = HideIf.Never;
         public string Type { get; set; } = "";
         public string Value { get; set; } = "";
+        public HideIf HideIf { get; set; } = HideIf.Never;
 
         /* Constructors. */
         public PreviewTermDescriptor() { }
+
+        public PreviewTermDescriptor(string type, string value, HideIf hideIf)
+        {
+            Type = type;
+            Value = value;
+            HideIf = hideIf;
+        }
 
         /// <summary>
         /// Generate a descriptor for a preview term.
