@@ -30,7 +30,7 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "opcode")
+                    if (element.Name == XmlKeywords.Opcode)
                         Opcode = element.InnerText;
                 }
             }
@@ -42,12 +42,12 @@ namespace Rusty.ISA
         /// </summary>
         public override InstructionRule Generate()
         {
-            return new InstructionRule(ID, DisplayName, Description, Opcode);
+            return new InstructionRule(ID, DisplayName, Description, Opcode, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("instruction", Opcode, false, -1, "", "", null);
+            return GetXml(XmlKeywords.InstructionRule, Opcode, false, -1, "", "", null);
         }
     }
 }

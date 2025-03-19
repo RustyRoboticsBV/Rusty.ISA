@@ -23,15 +23,21 @@ namespace Rusty.ISA
         /// The description of this parameter. Used for editor tooltips and documentation generation.
         /// </summary>
         public abstract string Description { get; protected set; }
+        /// <summary>
+        /// An expression that defines how previews will be generated for this parameter. If left empty, this will result in
+        /// the corresponding argument value being printed.
+        /// </summary>
+        public abstract string Preview { get; protected set; }
 
         /* Constructors. */
-        public Parameter() { }
+        public Parameter() : base() { }
 
-        public Parameter(string id, string displayName, string description)
+        public Parameter(string id, string displayName, string description, string preview) : base()
         {
             ID = id;
             DisplayName = displayName;
             Description = description;
+            Preview = preview;
 
             ResourceName = ToString();
         }

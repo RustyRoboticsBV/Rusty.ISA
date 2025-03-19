@@ -17,20 +17,19 @@ namespace Rusty.ISA
         /// If enabled, then any node that contains this parameter will not have a default output.
         /// </summary>
         [Export] public bool RemoveDefaultOutput { get; private set; }
-
         /// <summary>
-        /// Use the value of another parameter as the label for this output. Reference this parameter by its ID.
+        /// An expression that defines how previews will be generated for this output. If left empty, this will result in
+        /// the empty string being printed.
         /// </summary>
-        [Export] public string UseArgumentAsPreview { get; private set; } = "";
+        [Export(PropertyHint.MultilineText)] public override string Preview { get; protected set; } = "";
 
         /* Constructors. */
         public OutputParameter() : base() { }
 
-        public OutputParameter(string id, string displayName, string description, bool removeDefaultOutput,
-            string useParameterAsPreview) : base(id, displayName, description)
+        public OutputParameter(string id, string displayName, string description, bool removeDefaultOutput, string preview)
+            : base(id, displayName, description, preview)
         {
             RemoveDefaultOutput = removeDefaultOutput;
-            UseArgumentAsPreview = useParameterAsPreview;
         }
 
         /* Public methods. */

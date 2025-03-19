@@ -9,7 +9,6 @@ namespace Rusty.ISA
     {
         /* Public properties. */
         public bool RemoveDefaultOutput { get; set; }
-        public string PreviewArgument { get; set; } = "";
 
         /* Constructors. */
         public OutputParameterDescriptor() : base() { }
@@ -17,11 +16,10 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
-        public OutputParameterDescriptor(string id, string name, string description, bool removeDefaultOutput,
-            string previewArgument) : base(id, name, description)
+        public OutputParameterDescriptor(string id, string name, string description, bool removeDefaultOutput, string preview)
+            : base(id, name, description, preview)
         {
             RemoveDefaultOutput = removeDefaultOutput;
-            PreviewArgument = previewArgument;
         }
 
         /// <summary>
@@ -30,7 +28,6 @@ namespace Rusty.ISA
         public OutputParameterDescriptor(OutputParameter parameter) : base(parameter)
         {
             RemoveDefaultOutput = parameter.RemoveDefaultOutput;
-            PreviewArgument = parameter.UseArgumentAsPreview;
         }
 
         /// <summary>
@@ -42,10 +39,8 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "remove_default")
+                    if (element.Name == XmlKeywords.RemoveDefaultOutput)
                         RemoveDefaultOutput = true;
-                    else if (element.Name == "preview_arg")
-                        PreviewArgument = element.InnerText;
                 }
             }
         }
@@ -56,12 +51,12 @@ namespace Rusty.ISA
         /// </summary>
         public override OutputParameter Generate()
         {
-            return new OutputParameter(ID, DisplayName, Description, RemoveDefaultOutput, PreviewArgument);
+            return new OutputParameter(ID, DisplayName, Description, RemoveDefaultOutput, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("output", "", "", "", RemoveDefaultOutput, PreviewArgument);
+            return GetXml(XmlKeywords.OutputParameter, "", "", "", RemoveDefaultOutput, Preview);
         }
     }
 }

@@ -24,7 +24,6 @@ namespace Rusty.ISA
             {
                 Types.Add(Create(type));
             }
-            Separator = rule.PreviewSeparator;
         }
 
         /// <summary>
@@ -36,13 +35,8 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "instruction" || element.Name == "tuple" || element.Name == "tuple"
-                        || element.Name == "tuple" || element.Name == "list")
-                    {
+                    if (XmlKeywords.CompileRules.Contains(element.Name))
                         Types.Add(Create(element));
-                    }
-                    else if (element.Name == "separator")
-                        Separator = element.InnerText;
                 }
             }
         }
@@ -63,7 +57,7 @@ namespace Rusty.ISA
 
         public override string GetXml()
         {
-            return GetXml("tuple", "", false, -1, Separator, "", Types.ToArray());
+            return GetXml(XmlKeywords.TupleRule, "", false, -1, Separator, "", Types.ToArray());
         }
     }
 }

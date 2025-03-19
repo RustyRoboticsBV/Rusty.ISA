@@ -24,7 +24,7 @@ namespace Rusty.ISA
 
         // Editor.
         public EditorNodeInfoDescriptor EditorNodeInfo { get; set; } = null;
-        public List<PreviewTermDescriptor> PreviewTerms { get; } = new();
+        public string Preview { get; set; } = "";
         public List<CompileRuleDescriptor> PreInstructions { get; } = new();
         public List<CompileRuleDescriptor> PostInstructions { get; } = new();
 
@@ -49,10 +49,7 @@ namespace Rusty.ISA
             Category = definition.Category;
 
             EditorNodeInfo = new(definition.EditorNode);
-            foreach (PreviewTerm term in definition.PreviewTerms)
-            {
-                PreviewTerms.Add(new(term));
-            }
+            Preview = definition.Preview;
             foreach (CompileRule pre in definition.PreInstructions)
             {
                 PreInstructions.Add(CompileRuleDescriptor.Create(pre));
@@ -72,18 +69,18 @@ namespace Rusty.ISA
             XmlElement root = null;
             foreach (XmlNode rootNode in xml.ChildNodes)
             {
-                if (rootNode is XmlElement element && element.Name == "definition")
+                if (rootNode is XmlElement element && element.Name == XmlKeywords.InstructionDefinition)
                     root = element;
             }
 
             if (root == null)
             {
-                GD.PrintErr("Invalid XML file: the file had no \"definition\" root element.");
+                GD.PrintErr($"Invalid XML file: the file had no \"{XmlKeywords.InstructionDefinition}\" root element.");
                 return;
             }
 
-            // Get opcode.
-            Opcode = root.GetAttribute("opcode");
+            // Get opcode.s
+            Opcode = root.GetAttribute(XmlKeywords.Opcode);
 
             // Parse elements...
             foreach (XmlNode node in root.ChildNodes)
@@ -91,62 +88,48 @@ namespace Rusty.ISA
                 if (node is XmlElement element)
                 {
                     // Parameters.
-                    if (element.Name == "bool" || element.Name == "int" || element.Name == "islider" || element.Name == "float"
-                        || element.Name == "fslider" || element.Name == "char" || element.Name == "textline"
-                        || element.Name == "multiline" || element.Name == "color" || element.Name == "output")
-                    {
+                    if (XmlKeywords.Parameters.Contains(element.Name))
                         Parameters.Add(ParameterDescriptor.Create(element));
-                    }
 
                     // Implementation.
-                    else if (element.Name == "impl")
+                    else if (element.Name == XmlKeywords.Implementation)
                         Implementation = new(element);
 
                     // Metadata.
-                    else if (element.Name == "icon")
+                    else if (element.Name == XmlKeywords.Icon)
                         IconPath = element.InnerText;
-                    else if (element.Name == "name")
+                    else if (element.Name == XmlKeywords.DisplayName)
                         DisplayName = element.InnerText;
-                    else if (element.Name == "desc")
+                    else if (element.Name == XmlKeywords.Description)
                         Description = element.InnerText;
-                    else if (element.Name == "category")
+                    else if (element.Name == XmlKeywords.Category)
                         Category = element.InnerText;
 
                     // Editor node info.
-                    else if (element.Name == "editor_node")
+                    else if (element.Name == XmlKeywords.EditorNode)
                         EditorNodeInfo = new(element);
 
                     // Preview terms.
-                    else if (element.Name == "text_term" || element.Name == "arg_term" || element.Name == "rule_term")
-                    {
-                        PreviewTerms.Add(new(element));
-                    }
+                    else if (element.Name == XmlKeywords.Preview)
+                        Preview = element.InnerText;
 
                     // Pre-instructions.
-                    else if (element.Name == "pre")
+                    else if (element.Name == XmlKeywords.PreInstructions)
                     {
                         foreach (XmlNode preNode in element.ChildNodes)
                         {
-                            if (preNode is XmlElement preElement && preElement.Name == "instruction"
-                                 && preElement.Name == "option" && preElement.Name == "choice" && preElement.Name == "tuple"
-                                 && preElement.Name == "list")
-                            {
+                            if (preNode is XmlElement preElement && XmlKeywords.CompileRules.Contains(preElement.Name))
                                 PreInstructions.Add(CompileRuleDescriptor.Create(preElement));
-                            }
                         }
                     }
 
                     // Post-instructions.
-                    else if (element.Name == "post")
+                    else if (element.Name == XmlKeywords.PostInstructions)
                     {
                         foreach (XmlNode postNode in element.ChildNodes)
                         {
-                            if (postNode is XmlElement postElement && postElement.Name == "instruction"
-                                 && postElement.Name == "option" && postElement.Name == "choice" && postElement.Name == "tuple"
-                                 && postElement.Name == "list")
-                            {
+                            if (postNode is XmlElement postElement && XmlKeywords.CompileRules.Contains(postElement.Name))
                                 PostInstructions.Add(CompileRuleDescriptor.Create(postElement));
-                            }
                         }
                     }
                 }
@@ -191,9 +174,6 @@ namespace Rusty.ISA
                 parameters[i] = Parameters[i].Generate();
             }
 
-            // Generate preview terms.
-            PreviewTerm[] previewTerms = new PreviewTerm[0];
-
             // Generate pre-instructions.
             CompileRule[] preInstructions = new CompileRule[PreInstructions.Count];
             for (int i = 0; i < preInstructions.Length; i++)
@@ -211,7 +191,7 @@ namespace Rusty.ISA
             // Create instruction definition.
             return new InstructionDefinition(Opcode, parameters, Implementation?.Generate(),
                 iconTexture, DisplayName, Description, Category,
-                EditorNodeInfo?.Generate(), previewTerms, preInstructions, postInstructions);
+                EditorNodeInfo?.Generate(), Preview, preInstructions, postInstructions);
         }
 
         /// <summary>
@@ -219,7 +199,7 @@ namespace Rusty.ISA
         /// </summary>
         public string GetXml()
         {
-            string str = $"<definition opcode=\"{Opcode}\">";
+            string str = $"<{XmlKeywords.InstructionDefinition} {XmlKeywords.Opcode}=\"{Opcode}\">";
 
             // Parameters.
             foreach (ParameterDescriptor parameter in Parameters)
@@ -233,50 +213,45 @@ namespace Rusty.ISA
 
             // Metadata.
             if (IconPath != "")
-                str += $"\n  <icon>{IconPath}</icon>";
+                str += $"\n  <{XmlKeywords.Icon}>{IconPath}</{XmlKeywords.Icon}>";
             if (DisplayName != "")
-                str += $"\n  <name>{DisplayName}</name>";
+                str += $"\n  <{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>";
             if (Description != "")
-                str += $"\n  <desc>{Description}</desc>";
+                str += $"\n  <{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>";
             if (Category != "")
-                str += $"\n  <category>{Category}</category>";
+                str += $"\n  <{XmlKeywords.Category}>{Category}</{XmlKeywords.Category}>";
 
             // Editor node info.
             if (EditorNodeInfo != null)
                 str += $"\n  {EditorNodeInfo.GetXml().Replace("\n", "\n  ")}";
 
             // Preview terms.
-            if (PreviewTerms.Count > 0)
-            {
-                foreach (PreviewTermDescriptor term in PreviewTerms)
-                {
-                    str += $"\n  {term.GetXml().Replace("\n", "\n  ")}";
-                }
-            }
+            if (Preview != "")
+                str += $"\n  <{XmlKeywords.Preview}>{Preview}</{XmlKeywords.Preview}>";
 
             // Pre-instructions.
             if (PreInstructions.Count > 0)
             {
-                str += "\n  <pre>";
+                str += $"\n  <{XmlKeywords.PreInstructions}>";
                 foreach (CompileRuleDescriptor rule in PreInstructions)
                 {
                     str += $"\n    {rule.GetXml().Replace("\n", "\n    ")}";
                 }
-                str += "\n  </pre>";
+                str += $"\n  </{XmlKeywords.PreInstructions}>";
             }
 
             // Post-instructions.
             if (PostInstructions.Count > 0)
             {
-                str += "\n  <post>";
+                str += $"\n  <{XmlKeywords.PostInstructions}>";
                 foreach (CompileRuleDescriptor rule in PostInstructions)
                 {
                     str += $"\n    {rule.GetXml().Replace("\n", "\n    ")}";
                 }
-                str += "\n  </post>";
+                str += $"\n  </{XmlKeywords.PostInstructions}>";
             }
 
-            str += "\n</definition>";
+            str += $"\n</{XmlKeywords.InstructionDefinition}>";
             return str;
         }
     }

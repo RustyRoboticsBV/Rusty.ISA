@@ -13,26 +13,25 @@ namespace Rusty.ISA
         [Export] public override string ID { get; protected set; } = "";
         [Export] public override string DisplayName { get; protected set; } = "";
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
-
         /// <summary>
         /// The default value of this parameter in the editor.
         /// </summary>
         [Export] public float DefaultValue { get; private set; }
         /// <summary>
-        /// Sliders only: the minimum value of this parameter in the editor.
+        /// The minimum value of this parameter in the editor.
         /// </summary>
         [Export] public float MinValue { get; private set; }
         /// <summary>
-        /// Sliders only: the maximum value of this parameter in the editor.
+        /// The maximum value of this parameter in the editor.
         /// </summary>
         [Export] public float MaxValue { get; private set; } = 100f;
+        [Export(PropertyHint.MultilineText)] public override string Preview { get; protected set; } = "";
 
         /* Constructors. */
         public FloatSliderParameter() : base() { }
 
-        public FloatSliderParameter(string id, string displayName, string description, float defaultValue,
-            float minValue, float maxValue)
-            : base(id, displayName, description)
+        public FloatSliderParameter(string id, string displayName, string description, float defaultValue, float minValue
+            , float maxValue, string preview) : base(id, displayName, description, preview)
         {
             DefaultValue = defaultValue;
             MinValue = minValue;

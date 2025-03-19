@@ -12,6 +12,7 @@ namespace Rusty.ISA
         public string ID { get; set; } = "";
         public string DisplayName { get; set; } = "";
         public string Description { get; set; } = "";
+        public string Preview { get; set; } = "";
 
         /* Constructors. */
         public ParameterDescriptor() { }
@@ -19,11 +20,12 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
-        public ParameterDescriptor(string id, string displayName, string description)
+        public ParameterDescriptor(string id, string displayName, string description, string preview)
         {
             ID = id;
             DisplayName = displayName;
             Description = description;
+            Preview = preview;
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace Rusty.ISA
             ID = parameter.ID;
             DisplayName = parameter.DisplayName;
             Description = parameter.Description;
+            Preview = parameter.Preview;
         }
 
         /// <summary>
@@ -41,15 +44,17 @@ namespace Rusty.ISA
         /// </summary>
         public ParameterDescriptor(XmlElement xml)
         {
-            ID = xml.GetAttribute("id");
+            ID = xml.GetAttribute(XmlKeywords.ID);
             foreach (XmlNode child in xml.ChildNodes)
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "name")
+                    if (element.Name == XmlKeywords.DisplayName)
                         DisplayName = element.InnerText;
-                    else if (element.Name == "desc")
+                    else if (element.Name == XmlKeywords.Description)
                         Description = element.InnerText;
+                    else if (child.Name == XmlKeywords.Preview)
+                        Preview = element.InnerText;
                 }
             }
         }
@@ -99,25 +104,25 @@ namespace Rusty.ISA
         {
             switch (xml.Name)
             {
-                case "bool":
+                case XmlKeywords.BoolParameter:
                     return new BoolParameterDescriptor(xml);
-                case "int":
+                case XmlKeywords.IntParameter:
                     return new IntParameterDescriptor(xml);
-                case "islider":
+                case XmlKeywords.IntSliderParameter:
                     return new IntSliderParameterDescriptor(xml);
-                case "float":
+                case XmlKeywords.FloatParameter:
                     return new FloatParameterDescriptor(xml);
-                case "fslider":
+                case XmlKeywords.FloatSliderParameter:
                     return new FloatSliderParameterDescriptor(xml);
-                case "char":
+                case XmlKeywords.CharParameter:
                     return new CharParameterDescriptor(xml);
-                case "textline":
+                case XmlKeywords.TextlineParameter:
                     return new TextlineParameterDescriptor(xml);
-                case "multiline":
+                case XmlKeywords.MultilineParameter:
                     return new MultilineParameterDescriptor(xml);
-                case "color":
+                case XmlKeywords.ColorParameter:
                     return new ColorParameterDescriptor(xml);
-                case "output":
+                case XmlKeywords.OutputParameter:
                     return new OutputParameterDescriptor(xml);
                 default:
                     return null;
@@ -131,23 +136,23 @@ namespace Rusty.ISA
 
         /* Protected methods. */
         protected string GetXml(string type, string defaultValue = "", string minValue = "", string maxValue = "",
-            bool removeDefaultOutput = false, string previewArgument = "")
+            bool removeDefaultOutput = false, string preview = "")
         {
-            string str = $"<{type} id=\"{ID}\">";
+            string str = $"<{type} {XmlKeywords.ID}=\"{ID}\">";
             if (DisplayName != "")
-                str += $"\n  <name>{DisplayName}</name>";
+                str += $"\n  <{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>";
             if (Description != "")
-                str += $"\n  <desc>{Description}</desc>";
+                str += $"\n  <{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>";
             if (defaultValue != "")
-                str += $"\n  <default>{defaultValue}</default>";
+                str += $"\n  <{XmlKeywords.DefaultValue}>{defaultValue}</{XmlKeywords.DefaultValue}>";
             if (minValue != "")
-                str += $"\n  <min>{minValue}</min>";
+                str += $"\n  <{XmlKeywords.MinValue}>{minValue}</{XmlKeywords.MinValue}>";
             if (maxValue != "")
-                str += $"\n  <max>{maxValue}</max>";
+                str += $"\n  <{XmlKeywords.MaxValue}>{maxValue}</{XmlKeywords.MaxValue}>";
             if (removeDefaultOutput)
-                str += $"\n  <remove_default/>";
-            if (previewArgument != "")
-                str += $"\n  <preview_arg>{previewArgument}</preview_arg>";
+                str += $"\n  <{XmlKeywords.RemoveDefaultOutput}/>";
+            if (preview != "")
+                str += $"\n  <{XmlKeywords.Preview}>{preview}</{XmlKeywords.Preview}>";
             str += $"\n</{type}>";
             return str;
         }

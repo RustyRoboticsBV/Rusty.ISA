@@ -16,8 +16,8 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
-        public CharParameterDescriptor(string id, string name, string description, char defaultValue)
-            : base(id, name, description)
+        public CharParameterDescriptor(string id, string name, string description, char defaultValue, string preview)
+            : base(id, name, description, preview)
         {
             DefaultValue = defaultValue;
         }
@@ -39,7 +39,7 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "default")
+                    if (element.Name == XmlKeywords.DefaultValue)
                         DefaultValue = Parser.ParseChar(element.InnerText);
                 }
             }
@@ -51,12 +51,12 @@ namespace Rusty.ISA
         /// </summary>
         public override CharParameter Generate()
         {
-            return new CharParameter(ID, DisplayName, Description, DefaultValue);
+            return new CharParameter(ID, DisplayName, Description, DefaultValue, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("char", DefaultValue != 'A' ? DefaultValue.ToString() : "");
+            return GetXml(XmlKeywords.CharParameter, DefaultValue != 'A' ? DefaultValue.ToString() : "");
         }
     }
 }

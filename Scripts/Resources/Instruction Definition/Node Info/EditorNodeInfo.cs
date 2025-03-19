@@ -33,17 +33,23 @@ namespace Rusty.ISA
         /// The text color of the editor node.
         /// </summary>
         [Export] public Color TextColor { get; private set; } = Colors.White;
+        /// <summary>
+        /// An expression that defines how previews for this node will be generated. If left empty, then the preview of the
+        /// associated instruction definition is used instead.
+        /// </summary>
+        [Export(PropertyHint.MultilineText)] public string Preview { get; private set; } = "";
 
         /* Constructors. */
         public EditorNodeInfo() { }
 
-        public EditorNodeInfo(int priority, int minWidth, int minHeight, Color mainColor, Color textColor)
+        public EditorNodeInfo(int priority, int minWidth, int minHeight, Color mainColor, Color textColor, string preview)
         {
             Priority = priority;
             MinWidth = minWidth;
             MinHeight = minHeight;
             MainColor = mainColor;
             TextColor = textColor;
+            Preview = preview;
         }
     }
 }

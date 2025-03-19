@@ -19,7 +19,7 @@ namespace Rusty.ISA
         /// Generate a descriptor for a parameter.
         /// </summary>
         public FloatSliderParameterDescriptor(string id, string name, string description, float defaultValue, float minValue,
-            float maxValue) : base(id, name, description)
+            float maxValue, string preview) : base(id, name, description, preview)
         {
             DefaultValue = defaultValue;
             MinValue = minValue;
@@ -45,11 +45,11 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "default")
+                    if (element.Name == XmlKeywords.DefaultValue)
                         DefaultValue = Parser.ParseFloat(element.InnerText);
-                    else if (element.Name == "min")
+                    else if (element.Name == XmlKeywords.MinValue)
                         MinValue = Parser.ParseFloat(element.InnerText);
-                    else if (element.Name == "max")
+                    else if (element.Name == XmlKeywords.MaxValue)
                         MaxValue = Parser.ParseFloat(element.InnerText);
                 }
             }
@@ -61,12 +61,12 @@ namespace Rusty.ISA
         /// </summary>
         public override FloatSliderParameter Generate()
         {
-            return new FloatSliderParameter(ID, DisplayName, Description, DefaultValue, MinValue, MaxValue);
+            return new FloatSliderParameter(ID, DisplayName, Description, DefaultValue, MinValue, MaxValue, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("fslider", DefaultValue != 0f ? DefaultValue.ToString() : "",
+            return GetXml(XmlKeywords.FloatSliderParameter, DefaultValue != 0f ? DefaultValue.ToString() : "",
                 MinValue != 0f ? MinValue.ToString() : "", MaxValue != 0f ? MaxValue.ToString() : "");
         }
     }

@@ -53,9 +53,10 @@ namespace Rusty.ISA
         [Export] public EditorNodeInfo EditorNode { get; private set; }
 
         /// <summary>
-        /// A list of rules that tell the editor how to generate node previews.
+        /// An expression that defines how previews for this instruction will be generated. If left empty, the empty string is
+        /// generated.
         /// </summary>
-        [Export] public PreviewTerm[] PreviewTerms { get; private set; } = new PreviewTerm[0];
+        [Export(PropertyHint.MultilineText)] public string Preview { get; private set; } = "";
 
         /// <summary>
         /// Defines rules for how the editor may create additional instructions before instructions of this type.
@@ -71,12 +72,21 @@ namespace Rusty.ISA
 
         public InstructionDefinition(string opcode, Parameter[] parameters, Implementation implementation,
             Texture2D icon, string displayName, string description, string category,
-            EditorNodeInfo editorNode, PreviewTerm[] previewTerms, CompileRule[] preInstructions, CompileRule[] postInstructions)
+            EditorNodeInfo editorNode, string preview, CompileRule[] preInstructions, CompileRule[] postInstructions)
         {
+            if (opcode == null)
+                opcode = "";
+            if (displayName == null)
+                displayName = "";
+            if (description == null)
+                description = "";
+            if (category == null)
+                category = "";
+            if (preview == null)
+                preview = "";
+
             if (parameters == null)
                 parameters = new Parameter[0];
-            if (previewTerms == null)
-                previewTerms = new PreviewTerm[0];
             if (preInstructions == null)
                 preInstructions = new CompileRule[0];
             if (postInstructions == null)
@@ -90,7 +100,7 @@ namespace Rusty.ISA
             Description = description;
             Category = category;
             EditorNode = editorNode;
-            PreviewTerms = previewTerms;
+            Preview = preview;
             PreInstructions = preInstructions;
             PostInstructions = postInstructions;
 

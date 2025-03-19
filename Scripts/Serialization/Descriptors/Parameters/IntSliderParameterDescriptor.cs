@@ -19,7 +19,7 @@ namespace Rusty.ISA
         /// Generate a descriptor for a parameter.
         /// </summary>
         public IntSliderParameterDescriptor(string id, string name, string description, int defaultValue, int minValue,
-            int maxValue) : base(id, name, description)
+            int maxValue, string preview) : base(id, name, description, preview)
         {
             DefaultValue = defaultValue;
             MinValue = minValue;
@@ -45,11 +45,11 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "default")
+                    if (element.Name == XmlKeywords.DefaultValue)
                         DefaultValue = Parser.ParseInt(element.InnerText);
-                    else if (element.Name == "min")
+                    else if (element.Name == XmlKeywords.MinValue)
                         MinValue = Parser.ParseInt(element.InnerText);
-                    else if (element.Name == "max")
+                    else if (element.Name == XmlKeywords.MaxValue)
                         MaxValue = Parser.ParseInt(element.InnerText);
                 }
             }
@@ -61,12 +61,12 @@ namespace Rusty.ISA
         /// </summary>
         public override IntSliderParameter Generate()
         {
-            return new IntSliderParameter(ID, DisplayName, Description, DefaultValue, MinValue, MaxValue);
+            return new IntSliderParameter(ID, DisplayName, Description, DefaultValue, MinValue, MaxValue, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("islider", DefaultValue != 0 ? DefaultValue.ToString() : "",
+            return GetXml(XmlKeywords.IntSliderParameter, DefaultValue != 0 ? DefaultValue.ToString() : "",
                 MinValue != 0 ? MinValue.ToString() : "", MaxValue != 0 ? MaxValue.ToString() : "");
         }
     }

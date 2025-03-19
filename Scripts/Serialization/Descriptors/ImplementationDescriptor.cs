@@ -48,13 +48,13 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "deps")
+                    if (element.Name == XmlKeywords.Dependencies)
                         Dependencies = new(Parser.ParseStrings(element.InnerText));
-                    else if (element.Name == "members")
+                    else if (element.Name == XmlKeywords.Members)
                         Members = element.InnerText;
-                    else if (element.Name == "init")
+                    else if (element.Name == XmlKeywords.Initialize)
                         Initialize = element.InnerText;
-                    else if (element.Name == "exec")
+                    else if (element.Name == XmlKeywords.Execute)
                         Execute = element.InnerText;
                 }
             }
@@ -83,16 +83,16 @@ namespace Rusty.ISA
                 dependencies += dependency;
             }
 
-            string str = "<impl>";
+            string str = $"<{XmlKeywords.Implementation}>";
             if (dependencies != "")
-                str += $"\n  <deps>{dependencies}</deps>";
+                str += $"\n  <{XmlKeywords.Dependencies}>{dependencies}</{XmlKeywords.Dependencies}>";
             if (Members != "")
-                str += $"\n  <members>{Members}</members>";
+                str += $"\n  <{XmlKeywords.Members}>{Members}</{XmlKeywords.Members}>";
             if (Initialize != "")
-                str += $"\n  <init>{Initialize}</init>";
+                str += $"\n  <{XmlKeywords.Initialize}>{Initialize}</{XmlKeywords.Initialize}>";
             if (Execute != "")
-                str += $"\n  <exec>{Execute}</exec>";
-            str += "\n</impl>";
+                str += $"\n  <{XmlKeywords.Execute}>{Execute}</{XmlKeywords.Execute}>";
+            str += $"\n</{XmlKeywords.Implementation}>";
             return str;
         }
     }

@@ -16,8 +16,8 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
-        public FloatParameterDescriptor(string id, string name, string description, float defaultValue)
-            : base(id, name, description)
+        public FloatParameterDescriptor(string id, string name, string description, float defaultValue, string preview)
+            : base(id, name, description, preview)
         {
             DefaultValue = defaultValue;
         }
@@ -39,7 +39,7 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "default")
+                    if (element.Name == XmlKeywords.DefaultValue)
                         DefaultValue = Parser.ParseFloat(element.InnerText);
                 }
             }
@@ -51,12 +51,12 @@ namespace Rusty.ISA
         /// </summary>
         public override FloatParameter Generate()
         {
-            return new FloatParameter(ID, DisplayName, Description, DefaultValue);
+            return new FloatParameter(ID, DisplayName, Description, DefaultValue, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("float", DefaultValue != 0f ? DefaultValue.ToString() : "");
+            return GetXml(XmlKeywords.FloatParameter, DefaultValue != 0f ? DefaultValue.ToString() : "");
         }
     }
 }

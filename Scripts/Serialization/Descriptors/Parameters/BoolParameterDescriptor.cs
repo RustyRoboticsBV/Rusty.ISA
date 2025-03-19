@@ -13,8 +13,8 @@ namespace Rusty.ISA
         /* Constructors. */
         public BoolParameterDescriptor() : base() { }
 
-        public BoolParameterDescriptor(string id, string name, string description, bool defaultValue)
-            : base(id, name, description)
+        public BoolParameterDescriptor(string id, string name, string description, bool defaultValue, string preview)
+            : base(id, name, description, preview)
         {
             DefaultValue = defaultValue;
         }
@@ -36,7 +36,7 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "default")
+                    if (element.Name == XmlKeywords.DefaultValue)
                         DefaultValue = Parser.ParseBool(element.InnerText);
                 }
             }
@@ -48,12 +48,12 @@ namespace Rusty.ISA
         /// </summary>
         public override BoolParameter Generate()
         {
-            return new BoolParameter(ID, DisplayName, Description, DefaultValue);
+            return new BoolParameter(ID, DisplayName, Description, DefaultValue, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("bool", DefaultValue ? "true" : "");
+            return GetXml(XmlKeywords.BoolParameter, DefaultValue ? "true" : "");
         }
     }
 }

@@ -32,12 +32,9 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "instruction" || element.Name == "option" || element.Name == "choice"
-                        || element.Name == "tuple" || element.Name == "list")
-                    {
+                    if (XmlKeywords.CompileRules.Contains(element.Name))
                         Type = Create(element);
-                    }
-                    else if (element.Name == "enabled")
+                    else if (element.Name == XmlKeywords.DefaultEnabled)
                         StartEnabled = Parser.ParseBool(element.InnerText);
                 }
             }
@@ -49,12 +46,12 @@ namespace Rusty.ISA
         /// </summary>
         public override OptionRule Generate()
         {
-            return new OptionRule(ID, DisplayName, Description, Type.Generate(), StartEnabled);
+            return new OptionRule(ID, DisplayName, Description, Type.Generate(), StartEnabled, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("option", "", StartEnabled, -1, "", "", Type);
+            return GetXml(XmlKeywords.OptionRule, "", StartEnabled, -1, "", "", Type);
         }
     }
 }

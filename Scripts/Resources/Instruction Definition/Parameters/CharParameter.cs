@@ -13,17 +13,17 @@ namespace Rusty.ISA
         [Export] public override string ID { get; protected set; } = "";
         [Export] public override string DisplayName { get; protected set; } = "";
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
-
         /// <summary>
         /// The default value of this parameter in the editor.
         /// </summary>
         [Export] public char DefaultValue { get; private set; } = 'A';
+        [Export(PropertyHint.MultilineText)] public override string Preview { get; protected set; } = "";
 
         /* Constructors. */
         public CharParameter() : base() { }
 
-        public CharParameter(string id, string displayName, string description, char defaultValue)
-            : base(id, displayName, description)
+        public CharParameter(string id, string displayName, string description, char defaultValue, string preview)
+            : base(id, displayName, description, preview)
         {
             DefaultValue = defaultValue;
         }

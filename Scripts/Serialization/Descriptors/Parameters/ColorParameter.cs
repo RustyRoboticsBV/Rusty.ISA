@@ -17,8 +17,8 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
-        public ColorParameterDescriptor(string id, string name, string description, Color defaultValue)
-            : base(id, name, description)
+        public ColorParameterDescriptor(string id, string name, string description, Color defaultValue, string preview)
+            : base(id, name, description, preview)
         {
             DefaultValue = defaultValue;
         }
@@ -40,7 +40,7 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "default")
+                    if (element.Name == XmlKeywords.DefaultValue)
                         DefaultValue = Parser.ParseColor(element.InnerText);
                 }
             }
@@ -52,12 +52,12 @@ namespace Rusty.ISA
         /// </summary>
         public override ColorParameter Generate()
         {
-            return new ColorParameter(ID, DisplayName, Description, DefaultValue);
+            return new ColorParameter(ID, DisplayName, Description, DefaultValue, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("color", DefaultValue != Colors.White ? Serialize(DefaultValue) : "");
+            return GetXml(XmlKeywords.ColorParameter, DefaultValue != Colors.White ? Serialize(DefaultValue) : "");
         }
 
         /* Private methods. */

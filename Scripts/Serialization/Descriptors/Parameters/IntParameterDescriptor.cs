@@ -16,8 +16,8 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
-        public IntParameterDescriptor(string id, string name, string description, int defaultValue)
-            : base(id, name, description)
+        public IntParameterDescriptor(string id, string name, string description, int defaultValue, string preview)
+            : base(id, name, description, preview)
         {
             DefaultValue = defaultValue;
         }
@@ -39,7 +39,7 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "default")
+                    if (element.Name == XmlKeywords.DefaultValue)
                         DefaultValue = Parser.ParseInt(element.InnerText);
                 }
             }
@@ -51,12 +51,12 @@ namespace Rusty.ISA
         /// </summary>
         public override IntParameter Generate()
         {
-            return new IntParameter(ID, DisplayName, Description, DefaultValue);
+            return new IntParameter(ID, DisplayName, Description, DefaultValue, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("int", DefaultValue != 0 ? DefaultValue.ToString() : "");
+            return GetXml(XmlKeywords.IntParameter, DefaultValue != 0 ? DefaultValue.ToString() : "");
         }
     }
 }

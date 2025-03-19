@@ -22,7 +22,6 @@ namespace Rusty.ISA
         {
             Type = Create(rule);
             AddButtonText = rule.AddButtonText;
-            Separator = rule.PreviewSeparator;
         }
 
         /// <summary>
@@ -34,15 +33,10 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "instruction" || element.Name == "list" || element.Name == "list"
-                        || element.Name == "tuple" || element.Name == "list")
-                    {
+                    if (XmlKeywords.CompileRules.Contains(element.Name))
                         Type = Create(element);
-                    }
-                    else if (element.Name == "button_text")
+                    else if (element.Name == XmlKeywords.AddButtonText)
                         AddButtonText = element.InnerText;
-                    else if (element.Name == "separator")
-                        Separator = element.InnerText;
                 }
             }
         }
@@ -58,7 +52,7 @@ namespace Rusty.ISA
 
         public override string GetXml()
         {
-            return GetXml("list", "", false, -1, AddButtonText, Separator, Type);
+            return GetXml(XmlKeywords.ListRule, "", false, -1, AddButtonText, Separator, Type);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Rusty.ISA
         public string ID { get; set; } = "";
         public string DisplayName { get; set; } = "";
         public string Description { get; set; } = "";
+        public string Preview { get; set; } = "";
 
         /* Constructors. */
         public CompileRuleDescriptor() { }
@@ -24,6 +25,7 @@ namespace Rusty.ISA
             ID = rule.ID;
             DisplayName = rule.DisplayName;
             Description = rule.Description;
+            Preview = rule.Preview;
         }
 
         /// <summary>
@@ -31,15 +33,17 @@ namespace Rusty.ISA
         /// </summary>
         public CompileRuleDescriptor(XmlElement xml)
         {
-            ID = xml.GetAttribute("id");
+            ID = xml.GetAttribute(XmlKeywords.ID);
             foreach (XmlNode child in xml.ChildNodes)
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "name")
+                    if (element.Name == XmlKeywords.DisplayName)
                         DisplayName = element.InnerText;
-                    else if (element.Name == "desc")
+                    else if (element.Name == XmlKeywords.Description)
                         Description = element.InnerText;
+                    else if (element.Name == XmlKeywords.Preview)
+                        Preview = element.InnerText;
                 }
             }
         }
@@ -79,15 +83,15 @@ namespace Rusty.ISA
         {
             switch (xml.Name)
             {
-                case "instruction":
+                case XmlKeywords.InstructionRule:
                     return new InstructionRuleDescriptor(xml);
-                case "option":
+                case XmlKeywords.OptionRule:
                     return new OptionRuleDescriptor(xml);
-                case "choice":
+                case XmlKeywords.ChoiceRule:
                     return new ChoiceRuleDescriptor(xml);
-                case "tuple":
+                case XmlKeywords.TupleRule:
                     return new TupleRuleDescriptor(xml);
-                case "list":
+                case XmlKeywords.ListRule:
                     return new ListRuleDescriptor(xml);
                 default:
                     return null;
@@ -105,19 +109,17 @@ namespace Rusty.ISA
         {
             string str = $"<{type} id=\"{ID}\">";
             if (opcode != "")
-                str += $"\n  <opcode>{opcode}</opcode>";
+                str += $"\n  <{XmlKeywords.Opcode}>{opcode}</{XmlKeywords.Opcode}>";
             if (DisplayName != "")
-                str += $"\n  <name>{DisplayName}</name>";
+                str += $"\n  <{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>";
             if (Description != "")
-                str += $"\n  <desc>{Description}</desc>";
+                str += $"\n  <{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>";
             if (startEnabled)
-                str += $"\n  <enabled>true</enabled>";
+                str += $"\n  <{XmlKeywords.DefaultEnabled}>true</{XmlKeywords.DefaultEnabled}>";
             if (startSelected > 0)
-                str += $"\n  <selected>{startSelected}</selected>";
-            if (separator != "")
-                str += $"\n  <separator>{separator}</separator>";
+                str += $"\n  <{XmlKeywords.DefaultSelected}>{startSelected}</{XmlKeywords.DefaultSelected}>";
             if (addButtonText != "")
-                str += $"\n  <button_text>{addButtonText}</button_text>";
+                str += $"\n  <{XmlKeywords.AddButtonText}>{addButtonText}</{XmlKeywords.AddButtonText}>";
             foreach (CompileRuleDescriptor child in children)
             {
                 str += "\n  " + child.GetXml().Replace("\n", "\n  ");

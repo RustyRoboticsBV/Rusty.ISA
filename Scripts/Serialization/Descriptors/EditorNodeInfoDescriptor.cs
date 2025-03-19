@@ -14,6 +14,7 @@ namespace Rusty.ISA
         public int MinHeight { get; set; } = 32;
         public Color MainColor { get; set; } = Color.FromHtml("696969");
         public Color TextColor { get; set; } = Colors.White;
+        public string Preview { get; set; } = "";
 
         /* Constructors. */
         public EditorNodeInfoDescriptor() { }
@@ -21,13 +22,15 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor from an editor node info.
         /// </summary>
-        public EditorNodeInfoDescriptor(int priority, int minWidth, int minHeight, Color mainColor, Color textColor)
+        public EditorNodeInfoDescriptor(int priority, int minWidth, int minHeight, Color mainColor, Color textColor,
+            string preview)
         {
             Priority = priority;
             MinWidth = minWidth;
             MinHeight = minHeight;
             MainColor = mainColor;
             TextColor = textColor;
+            Preview = preview;
         }
 
         /// <summary>
@@ -40,6 +43,7 @@ namespace Rusty.ISA
             MinHeight = node.MinHeight;
             MainColor = node.MainColor;
             TextColor = node.TextColor;
+            Preview = node.Preview;
         }
 
         /// <summary>
@@ -51,16 +55,18 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "priority")
+                    if (element.Name == XmlKeywords.Priority)
                         Priority = Parser.ParseInt(element.InnerText);
-                    else if (element.Name == "min_width")
+                    else if (element.Name == XmlKeywords.MinWidth)
                         MinWidth = Parser.ParseInt(element.InnerText);
-                    else if (element.Name == "min_height")
+                    else if (element.Name == XmlKeywords.MinHeight)
                         MinHeight = Parser.ParseInt(element.InnerText);
-                    else if (element.Name == "main_color")
+                    else if (element.Name == XmlKeywords.MainColor)
                         MainColor = Parser.ParseColor(element.InnerText);
-                    else if (element.Name == "text_color")
+                    else if (element.Name == XmlKeywords.TextColor)
                         TextColor = Parser.ParseColor(element.InnerText);
+                    else if (element.Name == XmlKeywords.Preview)
+                        Preview = element.InnerText;
                 }
             }
         }
@@ -71,7 +77,7 @@ namespace Rusty.ISA
         /// </summary>
         public EditorNodeInfo Generate()
         {
-            return new(Priority, MinWidth, MinHeight, MainColor, TextColor);
+            return new(Priority, MinWidth, MinHeight, MainColor, TextColor, Preview);
         }
 
         /// <summary>
@@ -83,18 +89,20 @@ namespace Rusty.ISA
             string mainColor = MainColor.ToHtml(MainColor.A < 1f);
             string textColor = TextColor.ToHtml(TextColor.A < 1f);
 
-            string str = "<editor_node>";
+            string str = $"<{XmlKeywords.EditorNode}>";
             if (Priority != 0)
-                str += $"\n  <priority>{Priority}</priority>";
+                str += $"\n  <{XmlKeywords.Priority}>{Priority}</{XmlKeywords.Priority}>";
             if (MinWidth != 128)
-                str += $"\n  <min_width>{MinWidth}</min_width>";
+                str += $"\n  <{XmlKeywords.MinWidth}>{MinWidth}</{XmlKeywords.MinWidth}>";
             if (MinHeight != 32)
-            str += $"\n  <min_height>{MinHeight}</min_height>";
+            str += $"\n  <{XmlKeywords.MinHeight}>{MinHeight}</{XmlKeywords.MinHeight}>";
             if (mainColor != "696969")
-                str += $"\n  <main_color>#{mainColor}</main_color>";
+                str += $"\n  <{XmlKeywords.MainColor}>#{mainColor}</{XmlKeywords.MainColor}>";
             if (textColor != "ffffff")
-                str += $"\n  <text_color>#{textColor}</text_color>";
-            str += "\n</editor_node>";
+                str += $"\n  <{XmlKeywords.TextColor}>#{textColor}</{XmlKeywords.TextColor}>";
+            if (Preview != "")
+                str += $"\n  <{XmlKeywords.Preview}>#{Preview}</{XmlKeywords.Preview}>";
+            str += $"\n</{XmlKeywords.EditorNode}>";
             return str;
         }
     }

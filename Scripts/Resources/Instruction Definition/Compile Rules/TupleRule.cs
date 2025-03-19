@@ -13,25 +13,23 @@ namespace Rusty.ISA
         [Export] public override string ID { get; protected set; } = "";
         [Export] public override string DisplayName { get; protected set; } = "";
         [Export(PropertyHint.MultilineText)] public override string Description { get; protected set; } = "";
-
         /// <summary>
         /// The items contained within this tuple. Can include both instruction rules and container rules.
         /// </summary>
         [Export] public CompileRule[] Types { get; private set; } = new CompileRule[0];
-
         /// <summary>
-        /// The separation string that is inserted between element previews when getting a preview of this compile rule.
+        /// An expression that defines how previews will be generated for this rule. If left empty, then the previews of all
+        /// elements are generated, separated by spaces.
         /// </summary>
-        [Export(PropertyHint.MultilineText)] public string PreviewSeparator { get; private set; } = "\n";
+        [Export(PropertyHint.MultilineText)] public override string Preview { get; protected set; } = "";
 
         /* Constructors. */
-        public TupleRule() : base("", "", "") { }
+        public TupleRule() : base() { }
 
-        public TupleRule(string id, string displayName, string description, CompileRule[] types, string previewSeparator)
-            : base(id, displayName, description)
+        public TupleRule(string id, string displayName, string description, CompileRule[] types, string preview)
+            : base(id, displayName, description, preview)
         {
             Types = types;
-            PreviewSeparator = previewSeparator;
 
             ResourceName = ToString();
         }

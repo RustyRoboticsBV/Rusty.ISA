@@ -24,7 +24,7 @@ namespace Rusty.ISA
             {
                 Types.Add(Create(type));
             }
-            StartSelected = rule.StartSelected;
+            StartSelected = rule.DefaultSelected;
         }
 
         /// <summary>
@@ -36,12 +36,9 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "instruction" || element.Name == "choice" || element.Name == "choice"
-                        || element.Name == "tuple" || element.Name == "list")
-                    {
+                    if (XmlKeywords.CompileRules.Contains(element.Name))
                         Types.Add(Create(element));
-                    }
-                    else if (element.Name == "selected")
+                    else if (element.Name == XmlKeywords.DefaultSelected)
                         StartSelected = Parser.ParseInt(element.InnerText);
                 }
             }
@@ -58,12 +55,12 @@ namespace Rusty.ISA
             {
                 types.Add(type.Generate());
             }
-            return new ChoiceRule(ID, DisplayName, Description, types.ToArray(), StartSelected);
+            return new ChoiceRule(ID, DisplayName, Description, types.ToArray(), StartSelected, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("choice", "", false, StartSelected, "", "", Types.ToArray());
+            return GetXml(XmlKeywords.ChoiceRule, "", false, StartSelected, "", "", Types.ToArray());
         }
     }
 }

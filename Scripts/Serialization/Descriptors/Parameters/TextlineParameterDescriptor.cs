@@ -8,7 +8,7 @@ namespace Rusty.ISA
     public class TextlineParameterDescriptor : ParameterDescriptor
     {
         /* Public properties. */
-        public string DefaultValue { get; set; }
+        public string DefaultValue { get; set; } = "";
 
         /* Constructors. */
         public TextlineParameterDescriptor() : base() { }
@@ -16,8 +16,8 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
-        public TextlineParameterDescriptor(string id, string name, string description, string defaultValue)
-            : base(id, name, description)
+        public TextlineParameterDescriptor(string id, string name, string description, string defaultValue, string preview)
+            : base(id, name, description, preview)
         {
             DefaultValue = defaultValue;
         }
@@ -39,7 +39,7 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == "default")
+                    if (element.Name == XmlKeywords.DefaultValue)
                         DefaultValue = element.InnerText;
                 }
             }
@@ -51,12 +51,12 @@ namespace Rusty.ISA
         /// </summary>
         public override TextlineParameter Generate()
         {
-            return new TextlineParameter(ID, DisplayName, Description, DefaultValue);
+            return new TextlineParameter(ID, DisplayName, Description, DefaultValue, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml("text", DefaultValue);
+            return GetXml(XmlKeywords.TextlineParameter, DefaultValue);
         }
     }
 }
