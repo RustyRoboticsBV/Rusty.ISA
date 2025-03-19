@@ -16,6 +16,15 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
+        public MultilineParameterDescriptor(string id, string name, string description, string defaultValue)
+            : base(id, name, description)
+        {
+            DefaultValue = defaultValue;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a parameter.
+        /// </summary>
         public MultilineParameterDescriptor(MultilineParameter parameter) : base(parameter)
         {
             DefaultValue = parameter.DefaultValue;

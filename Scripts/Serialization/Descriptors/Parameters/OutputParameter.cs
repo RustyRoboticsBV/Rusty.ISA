@@ -17,6 +17,16 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
+        public OutputParameterDescriptor(string id, string name, string description, bool removeDefaultOutput,
+            string previewArgument) : base(id, name, description)
+        {
+            RemoveDefaultOutput = removeDefaultOutput;
+            PreviewArgument = previewArgument;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a parameter.
+        /// </summary>
         public OutputParameterDescriptor(OutputParameter parameter) : base(parameter)
         {
             RemoveDefaultOutput = parameter.RemoveDefaultOutput;

@@ -13,6 +13,12 @@ namespace Rusty.ISA
         /* Constructors. */
         public BoolParameterDescriptor() : base() { }
 
+        public BoolParameterDescriptor(string id, string name, string description, bool defaultValue)
+            : base(id, name, description)
+        {
+            DefaultValue = defaultValue;
+        }
+
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>

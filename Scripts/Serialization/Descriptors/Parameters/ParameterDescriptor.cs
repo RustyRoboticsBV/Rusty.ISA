@@ -19,6 +19,16 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
+        public ParameterDescriptor(string id, string displayName, string description)
+        {
+            ID = id;
+            DisplayName = displayName;
+            Description = description;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a parameter.
+        /// </summary>
         public ParameterDescriptor(Parameter parameter)
         {
             ID = parameter.ID;

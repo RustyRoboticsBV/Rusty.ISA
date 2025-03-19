@@ -16,6 +16,15 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
+        public FloatParameterDescriptor(string id, string name, string description, float defaultValue)
+            : base(id, name, description)
+        {
+            DefaultValue = defaultValue;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a parameter.
+        /// </summary>
         public FloatParameterDescriptor(FloatParameter parameter) : base(parameter)
         {
             DefaultValue = parameter.DefaultValue;

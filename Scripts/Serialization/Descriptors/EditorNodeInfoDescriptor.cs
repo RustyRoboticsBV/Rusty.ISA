@@ -21,6 +21,18 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor from an editor node info.
         /// </summary>
+        public EditorNodeInfoDescriptor(int priority, int minWidth, int minHeight, Color mainColor, Color textColor)
+        {
+            Priority = priority;
+            MinWidth = minWidth;
+            MinHeight = minHeight;
+            MainColor = mainColor;
+            TextColor = textColor;
+        }
+
+        /// <summary>
+        /// Generate a descriptor from an editor node info.
+        /// </summary>
         public EditorNodeInfoDescriptor(EditorNodeInfo node)
         {
             Priority = node.Priority;

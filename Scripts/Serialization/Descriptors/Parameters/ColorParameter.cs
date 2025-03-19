@@ -17,6 +17,15 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
+        public ColorParameterDescriptor(string id, string name, string description, Color defaultValue)
+            : base(id, name, description)
+        {
+            DefaultValue = defaultValue;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a parameter.
+        /// </summary>
         public ColorParameterDescriptor(ColorParameter parameter) : base(parameter)
         {
             DefaultValue = parameter.DefaultValue;

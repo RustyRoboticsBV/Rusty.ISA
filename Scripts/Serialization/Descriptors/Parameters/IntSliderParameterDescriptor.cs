@@ -18,6 +18,17 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
+        public IntSliderParameterDescriptor(string id, string name, string description, int defaultValue, int minValue,
+            int maxValue) : base(id, name, description)
+        {
+            DefaultValue = defaultValue;
+            MinValue = minValue;
+            MaxValue = maxValue;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a parameter.
+        /// </summary>
         public IntSliderParameterDescriptor(IntSliderParameter parameter) : base(parameter)
         {
             DefaultValue = parameter.DefaultValue;

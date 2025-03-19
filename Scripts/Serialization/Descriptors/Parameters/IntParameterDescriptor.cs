@@ -16,6 +16,15 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a parameter.
         /// </summary>
+        public IntParameterDescriptor(string id, string name, string description, int defaultValue)
+            : base(id, name, description)
+        {
+            DefaultValue = defaultValue;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a parameter.
+        /// </summary>
         public IntParameterDescriptor(IntParameter parameter) : base(parameter)
         {
             DefaultValue = parameter.DefaultValue;
