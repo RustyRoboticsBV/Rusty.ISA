@@ -9,11 +9,21 @@ namespace Rusty.ISA
     public class ChoiceRuleDescriptor : CompileRuleDescriptor
     {
         /* Public properties. */
-        public List<CompileRuleDescriptor> Types { get; set; } = new();
-        public int StartSelected { get; set; }
+        public List<CompileRuleDescriptor> Choices { get; set; } = new();
+        public int DefaultSelected { get; set; }
 
         /* Constructors. */
         public ChoiceRuleDescriptor() : base() { }
+
+        /// <summary>
+        /// Generate a descriptor for a compile rule.
+        /// </summary>
+        public ChoiceRuleDescriptor(string id, string displayName, string description, List<CompileRuleDescriptor> choices,
+            int defaultSelected, string preview) : base(id, displayName, description, preview)
+        {
+            Choices = choices;
+            DefaultSelected = defaultSelected;
+        }
 
         /// <summary>
         /// Generate a descriptor for a compile rule.
@@ -22,9 +32,9 @@ namespace Rusty.ISA
         {
             foreach (CompileRule type in rule.Types)
             {
-                Types.Add(Create(type));
+                Choices.Add(Create(type));
             }
-            StartSelected = rule.DefaultSelected;
+            DefaultSelected = rule.DefaultSelected;
         }
 
         /// <summary>
@@ -37,9 +47,9 @@ namespace Rusty.ISA
                 if (child is XmlElement element)
                 {
                     if (XmlKeywords.CompileRules.Contains(element.Name))
-                        Types.Add(Create(element));
+                        Choices.Add(Create(element));
                     else if (element.Name == XmlKeywords.DefaultSelected)
-                        StartSelected = Parser.ParseInt(element.InnerText);
+                        DefaultSelected = Parser.ParseInt(element.InnerText);
                 }
             }
         }
@@ -51,16 +61,16 @@ namespace Rusty.ISA
         public override ChoiceRule Generate()
         {
             List<CompileRule> types = new();
-            foreach (CompileRuleDescriptor type in Types)
+            foreach (CompileRuleDescriptor type in Choices)
             {
                 types.Add(type.Generate());
             }
-            return new ChoiceRule(ID, DisplayName, Description, types.ToArray(), StartSelected, Preview);
+            return new ChoiceRule(ID, DisplayName, Description, types.ToArray(), DefaultSelected, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml(XmlKeywords.ChoiceRule, "", false, StartSelected, "", "", Types.ToArray());
+            return GetXml(XmlKeywords.ChoiceRule, "", false, DefaultSelected, "", Choices.ToArray());
         }
     }
 }

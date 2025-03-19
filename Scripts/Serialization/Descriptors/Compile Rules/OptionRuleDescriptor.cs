@@ -9,7 +9,7 @@ namespace Rusty.ISA
     {
         /* Public properties. */
         public CompileRuleDescriptor Type { get; set; }
-        public bool StartEnabled { get; set; }
+        public bool DefaultEnabled { get; set; }
 
         /* Constructors. */
         public OptionRuleDescriptor() : base() { }
@@ -17,10 +17,20 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a compile rule.
         /// </summary>
+        public OptionRuleDescriptor(string id, string displayName, string description, CompileRuleDescriptor type,
+            bool defaultEnabled, string preview) : base(id, displayName, description, preview)
+        {
+            Type = type;
+            DefaultEnabled = defaultEnabled;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a compile rule.
+        /// </summary>
         public OptionRuleDescriptor(OptionRule rule) : base(rule)
         {
             Type = Create(rule.Type);
-            StartEnabled = rule.StartEnabled;
+            DefaultEnabled = rule.StartEnabled;
         }
 
         /// <summary>
@@ -35,7 +45,7 @@ namespace Rusty.ISA
                     if (XmlKeywords.CompileRules.Contains(element.Name))
                         Type = Create(element);
                     else if (element.Name == XmlKeywords.DefaultEnabled)
-                        StartEnabled = Parser.ParseBool(element.InnerText);
+                        DefaultEnabled = Parser.ParseBool(element.InnerText);
                 }
             }
         }
@@ -46,12 +56,12 @@ namespace Rusty.ISA
         /// </summary>
         public override OptionRule Generate()
         {
-            return new OptionRule(ID, DisplayName, Description, Type.Generate(), StartEnabled, Preview);
+            return new OptionRule(ID, DisplayName, Description, Type.Generate(), DefaultEnabled, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml(XmlKeywords.OptionRule, "", StartEnabled, -1, "", "", Type);
+            return GetXml(XmlKeywords.OptionRule, "", DefaultEnabled, -1, "", Type);
         }
     }
 }

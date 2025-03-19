@@ -10,10 +10,19 @@ namespace Rusty.ISA
         /* Public properties. */
         public CompileRuleDescriptor Type { get; set; }
         public string AddButtonText { get; set; } = "";
-        public string Separator { get; set; } = "";
 
         /* Constructors. */
         public ListRuleDescriptor() : base() { }
+
+        /// <summary>
+        /// Generate a descriptor for a compile rule.
+        /// </summary>
+        public ListRuleDescriptor(string id, string displayName, string description, CompileRuleDescriptor type,
+            string addButtonText, string preview) : base(id, displayName, description, preview)
+        {
+            Type = type;
+            AddButtonText = addButtonText;
+        }
 
         /// <summary>
         /// Generate a descriptor for a compile rule.
@@ -47,12 +56,12 @@ namespace Rusty.ISA
         /// </summary>
         public override ListRule Generate()
         {
-            return new ListRule(ID, DisplayName, Description, Type.Generate(), AddButtonText, Separator);
+            return new ListRule(ID, DisplayName, Description, Type.Generate(), AddButtonText, Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml(XmlKeywords.ListRule, "", false, -1, AddButtonText, Separator, Type);
+            return GetXml(XmlKeywords.ListRule, "", false, -1, AddButtonText, Type);
         }
     }
 }

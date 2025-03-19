@@ -16,6 +16,15 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a compile rule.
         /// </summary>
+        public InstructionRuleDescriptor(string id, string displayName, string description, string opcode, string preview)
+            : base(id, displayName, description, preview)
+        {
+            Opcode = opcode;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a compile rule.
+        /// </summary>
         public InstructionRuleDescriptor(InstructionRule rule) : base(rule)
         {
             Opcode = rule.Opcode;
@@ -47,7 +56,7 @@ namespace Rusty.ISA
 
         public override string GetXml()
         {
-            return GetXml(XmlKeywords.InstructionRule, Opcode, false, -1, "", "", null);
+            return GetXml(XmlKeywords.InstructionRule, Opcode, false, -1, "", null);
         }
     }
 }

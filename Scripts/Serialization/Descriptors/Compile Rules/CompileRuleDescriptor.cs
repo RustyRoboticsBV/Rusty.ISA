@@ -20,6 +20,17 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor for a compile rule.
         /// </summary>
+        public CompileRuleDescriptor(string id, string displayName, string description, string preview)
+        {
+            ID = id;
+            DisplayName = displayName;
+            Description = description;
+            Preview = preview;
+        }
+
+        /// <summary>
+        /// Generate a descriptor for a compile rule.
+        /// </summary>
         public CompileRuleDescriptor(CompileRule rule)
         {
             ID = rule.ID;
@@ -104,10 +115,10 @@ namespace Rusty.ISA
         public abstract string GetXml();
 
         /* Protected methods. */
-        protected string GetXml(string type, string opcode, bool startEnabled, int startSelected, string separator, string addButtonText,
+        protected string GetXml(string type, string opcode, bool startEnabled, int startSelected, string addButtonText,
             params CompileRuleDescriptor[] children)
         {
-            string str = $"<{type} id=\"{ID}\">";
+            string str = $"<{type} {XmlKeywords.ID}=\"{ID}\">";
             if (opcode != "")
                 str += $"\n  <{XmlKeywords.Opcode}>{opcode}</{XmlKeywords.Opcode}>";
             if (DisplayName != "")

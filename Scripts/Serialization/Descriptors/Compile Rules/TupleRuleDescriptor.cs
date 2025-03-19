@@ -10,7 +10,6 @@ namespace Rusty.ISA
     {
         /* Public properties. */
         public List<CompileRuleDescriptor> Types { get; set; } = new();
-        public string Separator { get; set; } = "";
 
         /* Constructors. */
         public TupleRuleDescriptor() : base() { }
@@ -52,12 +51,12 @@ namespace Rusty.ISA
             {
                 types.Add(type.Generate());
             }
-            return new TupleRule(ID, DisplayName, Description, types.ToArray(), Separator);
+            return new TupleRule(ID, DisplayName, Description, types.ToArray(), Preview);
         }
 
         public override string GetXml()
         {
-            return GetXml(XmlKeywords.TupleRule, "", false, -1, Separator, "", Types.ToArray());
+            return GetXml(XmlKeywords.TupleRule, "", false, -1, "", Types.ToArray());
         }
     }
 }

@@ -60,6 +60,24 @@ namespace Rusty.ISA
             }
         }
 
+        public InstructionDefinitionDescriptor(string opcode, List<ParameterDescriptor> parameters,
+            ImplementationDescriptor implemementation, string iconPath, string displayName, string description, string category,
+            EditorNodeInfoDescriptor editorNodeInfo, string preview, List<CompileRuleDescriptor> preInstructions,
+            List<CompileRuleDescriptor> postInstructions)
+        {
+            Opcode = opcode;
+            Parameters = parameters;
+            Implementation = implemementation;
+            IconPath = iconPath;
+            DisplayName = displayName;
+            Description = description;
+            Category = category;
+            EditorNodeInfo = editorNodeInfo;
+            Preview = preview;
+            PreInstructions = preInstructions;
+            PostInstructions = postInstructions;
+        }
+
         /// <summary>
         /// Generate a descriptor for an instruction definition from XML.
         /// </summary>
