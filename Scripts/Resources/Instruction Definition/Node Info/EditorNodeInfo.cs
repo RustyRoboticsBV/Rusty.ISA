@@ -16,7 +16,7 @@ namespace Rusty.ISA
         /// <summary>
         /// The menu priority of this node in the "create node" menu. Determines how high in the menu the node will appear.
         /// </summary>
-        [Export] public int Priority { get; private set; } = -1;
+        [Export] public int Priority { get; private set; } = 0;
         /// <summary>
         /// The minimum width of the editor node (in pixels).
         /// </summary>
@@ -42,7 +42,7 @@ namespace Rusty.ISA
         /// Whether or the editor node preview should automatically break between lines. This disables automatic horizontal
         /// resizing of the node.
         /// </summary>
-        [Export] public bool EnableWordWrap { get; private set; } = true;
+        [Export] public bool EnableWordWrap { get; private set; } = false;
 
         /* Constructors. */
         public EditorNodeInfo() { }

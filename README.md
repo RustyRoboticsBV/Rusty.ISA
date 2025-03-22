@@ -338,3 +338,42 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
      </post>
      
     </definition>
+
+## Previews
+You can control how elements of a node are drawn in the editor using previews. They can be defined for editor nodes, instruction definitions, parameters and compile rules. Previews take the form of GDScript expressions and can refer to the previews of other objects, allowing you to create dynamic behavior for them.
+
+Preview expressions should either return a string, or write to a string variable named `result`. Simple, one-line expressions don't need to do this explicitly.
+
+So the following are all valid preview strings:
+
+    result = "preview";
+<br/>
+
+    return "preview";
+<br/>
+
+    "preview";
+
+But the following is NOT:
+
+    "preview";
+    "preview";
+
+### Special Syntaxes
+The following special syntaxes can be used:
+- `%<parameter_id>%`: Gets replaced with the value of an argument when used in a parameter preview, and with the preview of a parameter when used anywhere else.
+- `[<compile_rule_id>]`: Gets replaced with the preview of a compile rule. You can only reference top-level compile rules with this syntax, not nested compile rules! The exception to this is tuple rules, which can also access their direct children via this syntax. Other compile rules can access the previews of their direct children via the following syntaxes:
+  - `[target]`: Can be used in instruction rules to access its instruction's preview.
+  - `[option]`: Can be used in option rules to access its child rule's preview. Returns the empty string if the option has been disabled.
+  - `[selected]`: Can be used in choice rules to access the preview of the selected choice.
+  - `[element n]`: Can be used in list rules to access the preview of the nth element. `n` should be a valid integer literal or integer variable.
+  - `[count]`: Can be used in list rule to access the number of elements. Returns an integer, not a string!
+- `<base>`: can be used in editor node previews to access the instruction's regular preview.
+
+Be careful to not introduce loops when using compile rule references!
+
+### Notes
+- If the editor node preview is left blank, the instruction definition's preview is used instead.
+- The previews of output parameters are used as their output slot labels.
+- Instruction definition previews are also used as instruction rule previews. Editor node previews are not.
+- If an instruction definition does not define a preview, this will result in an empty string.
