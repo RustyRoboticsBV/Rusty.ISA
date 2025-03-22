@@ -58,6 +58,7 @@ namespace Rusty.ISA
         public const string MinHeight = "min_height";
         public const string MainColor = "main_color";
         public const string TextColor = "text_color";
+        public const string EnableWordWrap = "word_wrap";
 
         public const string Preview = "preview";
 

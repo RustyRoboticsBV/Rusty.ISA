@@ -38,11 +38,17 @@ namespace Rusty.ISA
         /// associated instruction definition is used instead.
         /// </summary>
         [Export(PropertyHint.MultilineText)] public string Preview { get; private set; } = "";
+        /// <summary>
+        /// Whether or the editor node preview should automatically break between lines. This disables automatic horizontal
+        /// resizing of the node.
+        /// </summary>
+        [Export] public bool EnableWordWrap { get; private set; } = true;
 
         /* Constructors. */
         public EditorNodeInfo() { }
 
-        public EditorNodeInfo(int priority, int minWidth, int minHeight, Color mainColor, Color textColor, string preview)
+        public EditorNodeInfo(int priority, int minWidth, int minHeight, Color mainColor, Color textColor, string preview,
+            bool enableWordWrap)
         {
             Priority = priority;
             MinWidth = minWidth;
@@ -50,6 +56,7 @@ namespace Rusty.ISA
             MainColor = mainColor;
             TextColor = textColor;
             Preview = preview;
+            EnableWordWrap = enableWordWrap;
         }
     }
 }

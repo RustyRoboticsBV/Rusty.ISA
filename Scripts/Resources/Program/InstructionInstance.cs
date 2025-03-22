@@ -14,11 +14,11 @@ namespace Rusty.ISA
         /// <summary>
         /// The opcode of the associated instruction definition.
         /// </summary>
-        [Export] public string Opcode { get; set; }
+        [Export] public string Opcode { get; private set; }
         /// <summary>
         /// The arguments that will be passed to the execution handler.
         /// </summary>
-        [Export] public string[] Arguments { get; set; } = new string[0];
+        [Export] public string[] Arguments { get; private set; } = new string[0];
 
         /* Constructors. */
         public InstructionInstance() : this("", 0) { }

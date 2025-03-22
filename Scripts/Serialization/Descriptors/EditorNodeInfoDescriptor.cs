@@ -15,6 +15,7 @@ namespace Rusty.ISA
         public Color MainColor { get; set; } = Color.FromHtml("696969");
         public Color TextColor { get; set; } = Colors.White;
         public string Preview { get; set; } = "";
+        public bool EnableWordWrap { get; set; } = false;
 
         /* Constructors. */
         public EditorNodeInfoDescriptor() { }
@@ -23,7 +24,7 @@ namespace Rusty.ISA
         /// Generate a descriptor from an editor node info.
         /// </summary>
         public EditorNodeInfoDescriptor(int priority, int minWidth, int minHeight, Color mainColor, Color textColor,
-            string preview)
+            string preview, bool enableWordWrap)
         {
             Priority = priority;
             MinWidth = minWidth;
@@ -31,6 +32,7 @@ namespace Rusty.ISA
             MainColor = mainColor;
             TextColor = textColor;
             Preview = preview;
+            EnableWordWrap = enableWordWrap;
         }
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace Rusty.ISA
             MainColor = node.MainColor;
             TextColor = node.TextColor;
             Preview = node.Preview;
+            EnableWordWrap = node.EnableWordWrap;
         }
 
         /// <summary>
@@ -67,6 +70,8 @@ namespace Rusty.ISA
                         TextColor = Parser.ParseColor(element.InnerText);
                     else if (element.Name == XmlKeywords.Preview)
                         Preview = element.InnerText;
+                    else if (element.Name == XmlKeywords.EnableWordWrap)
+                        EnableWordWrap = Parser.ParseBool(element.InnerText);
                 }
             }
         }
@@ -77,7 +82,7 @@ namespace Rusty.ISA
         /// </summary>
         public EditorNodeInfo Generate()
         {
-            return new(Priority, MinWidth, MinHeight, MainColor, TextColor, Preview);
+            return new(Priority, MinWidth, MinHeight, MainColor, TextColor, Preview, EnableWordWrap);
         }
 
         /// <summary>
@@ -86,8 +91,8 @@ namespace Rusty.ISA
         /// <returns></returns>
         public string GetXml()
         {
-            string mainColor = MainColor.ToHtml(MainColor.A < 1f);
-            string textColor = TextColor.ToHtml(TextColor.A < 1f);
+            string mainColor = '#' + MainColor.ToHtml(MainColor.A < 1f);
+            string textColor = '#' + TextColor.ToHtml(TextColor.A < 1f);
 
             string str = $"<{XmlKeywords.EditorNode}>";
             if (Priority != 0)
@@ -97,11 +102,13 @@ namespace Rusty.ISA
             if (MinHeight != 32)
             str += $"\n  <{XmlKeywords.MinHeight}>{MinHeight}</{XmlKeywords.MinHeight}>";
             if (mainColor != "696969")
-                str += $"\n  <{XmlKeywords.MainColor}>#{mainColor}</{XmlKeywords.MainColor}>";
+                str += $"\n  <{XmlKeywords.MainColor}>{mainColor}</{XmlKeywords.MainColor}>";
             if (textColor != "ffffff")
-                str += $"\n  <{XmlKeywords.TextColor}>#{textColor}</{XmlKeywords.TextColor}>";
+                str += $"\n  <{XmlKeywords.TextColor}>{textColor}</{XmlKeywords.TextColor}>";
             if (Preview != "")
-                str += $"\n  <{XmlKeywords.Preview}>#{Preview}</{XmlKeywords.Preview}>";
+                str += $"\n  <{XmlKeywords.Preview}>{Preview}</{XmlKeywords.Preview}>";
+            if (EnableWordWrap)
+                str += $"\n  <{XmlKeywords.EnableWordWrap}>{EnableWordWrap}</{XmlKeywords.EnableWordWrap}>";
             str += $"\n</{XmlKeywords.EditorNode}>";
             return str;
         }
