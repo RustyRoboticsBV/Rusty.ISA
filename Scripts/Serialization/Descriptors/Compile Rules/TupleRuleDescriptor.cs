@@ -14,6 +14,14 @@ namespace Rusty.ISA
         /* Constructors. */
         public TupleRuleDescriptor() : base() { }
 
+        public TupleRuleDescriptor(string id, string displayName, string description, List<CompileRuleDescriptor> types,
+            string preview) : base(id, displayName, description, preview)
+        {
+            if (types == null)
+                types = new();
+            Types = types;
+        }
+
         /// <summary>
         /// Generate a descriptor for a compile rule.
         /// </summary>

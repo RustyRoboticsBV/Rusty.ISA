@@ -21,6 +21,8 @@ namespace Rusty.ISA
         public ChoiceRuleDescriptor(string id, string displayName, string description, List<CompileRuleDescriptor> choices,
             int defaultSelected, string preview) : base(id, displayName, description, preview)
         {
+            if (choices == null)
+                choices = new();
             Choices = choices;
             DefaultSelected = defaultSelected;
         }
