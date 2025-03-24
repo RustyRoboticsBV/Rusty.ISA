@@ -3,7 +3,7 @@
     /// <summary>
     /// An utility class that can serialize instruction definitions.
     /// </summary>
-    public class DefinitionSerializer
+    public static class DefinitionSerializer
     {
         /* Public methods. */
         /// <summary>

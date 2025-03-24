@@ -33,10 +33,13 @@ namespace Rusty.ISA
         /// </summary>
         public ImplementationDescriptor(Implementation implementation)
         {
-            Dependencies = new(implementation.Dependencies);
-            Members = implementation.Members;
-            Initialize = implementation.Initialize;
-            Execute = implementation.Execute;
+            if (implementation != null)
+            {
+                Dependencies = new(implementation.Dependencies);
+                Members = implementation.Members;
+                Initialize = implementation.Initialize;
+                Execute = implementation.Execute;
+            }
         }
 
         /// <summary>

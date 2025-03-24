@@ -40,13 +40,16 @@ namespace Rusty.ISA
         /// </summary>
         public EditorNodeInfoDescriptor(EditorNodeInfo node)
         {
-            Priority = node.Priority;
-            MinWidth = node.MinWidth;
-            MinHeight = node.MinHeight;
-            MainColor = node.MainColor;
-            TextColor = node.TextColor;
-            Preview = node.Preview;
-            EnableWordWrap = node.EnableWordWrap;
+            if (node != null)
+            {
+                Priority = node.Priority;
+                MinWidth = node.MinWidth;
+                MinHeight = node.MinHeight;
+                MainColor = node.MainColor;
+                TextColor = node.TextColor;
+                Preview = node.Preview;
+                EnableWordWrap = node.EnableWordWrap;
+            }
         }
 
         /// <summary>

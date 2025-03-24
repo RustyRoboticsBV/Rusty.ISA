@@ -43,7 +43,8 @@ namespace Rusty.ISA
             }
             Implementation = new(definition.Implementation);
 
-            IconPath = definition.Icon.ResourcePath;
+            if (definition.Icon != null)
+                IconPath = definition.Icon.ResourcePath;
             DisplayName = definition.DisplayName;
             Description = definition.Description;
             Category = definition.Category;
@@ -160,30 +161,7 @@ namespace Rusty.ISA
         /// </summary>
         public InstructionDefinition Generate(bool makeIconTransparent)
         {
-            // Get icon image.
-            string globalIconPath = PathUtility.GetPath(IconPath);
-            byte[] iconBytes = File.ReadAllBytes(IconPath);
-            Image iconImage = new();
-            iconImage.LoadPngFromBuffer(iconBytes);
-
-            // Make icon image transparent (if enabled).
-            if (makeIconTransparent)
-            {
-                for (int i = 0; i < iconImage.GetWidth(); i++)
-                {
-                    for (int j = 0; j < iconImage.GetHeight(); j++)
-                    {
-                        if (iconImage.GetPixel(i, j) == Colors.Black)
-                            iconImage.SetPixel(i, j, Colors.Transparent);
-                        else
-                            iconImage.SetPixel(i, j, Colors.White);
-                    }
-                }
-            }
-
-            // Create icon texture.
-            ImageTexture iconTexture = new ImageTexture();
-            iconTexture.SetImage(iconImage);
+            Texture2D iconTexture = GetIcon(makeIconTransparent);
 
             // Generate parameters.
             Parameter[] parameters = new Parameter[Parameters.Count];
@@ -201,7 +179,7 @@ namespace Rusty.ISA
 
             // Generate post-instructions.
             CompileRule[] postInstructions = new CompileRule[PostInstructions.Count];
-            for (int i = 0; i < preInstructions.Length; i++)
+            for (int i = 0; i < postInstructions.Length; i++)
             {
                 postInstructions[i] = PostInstructions[i].Generate();
             }
@@ -271,6 +249,45 @@ namespace Rusty.ISA
 
             str += $"\n</{XmlKeywords.InstructionDefinition}>";
             return str;
+        }
+
+        /* Private methods. */
+        private Texture2D GetIcon(bool makeIconTransparent)
+        {
+            // Get icon image.
+            string globalIconPath = PathUtility.GetPath(IconPath);
+            byte[] iconBytes = new byte[0];
+            try
+            {
+                iconBytes = File.ReadAllBytes(IconPath);
+            }
+            catch
+            {
+                return null;
+            }
+            Image iconImage = new();
+            iconImage.LoadPngFromBuffer(iconBytes);
+
+            // Make icon image transparent (if enabled).
+            if (makeIconTransparent)
+            {
+                for (int i = 0; i < iconImage.GetWidth(); i++)
+                {
+                    for (int j = 0; j < iconImage.GetHeight(); j++)
+                    {
+                        if (iconImage.GetPixel(i, j) == Colors.Black)
+                            iconImage.SetPixel(i, j, Colors.Transparent);
+                        else
+                            iconImage.SetPixel(i, j, Colors.White);
+                    }
+                }
+            }
+
+            // Create icon texture.
+            ImageTexture iconTexture = new ImageTexture();
+            iconTexture.SetImage(iconImage);
+
+            return iconTexture;
         }
     }
 }

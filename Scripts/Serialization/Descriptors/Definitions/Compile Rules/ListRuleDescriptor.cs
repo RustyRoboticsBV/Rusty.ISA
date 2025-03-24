@@ -29,7 +29,7 @@ namespace Rusty.ISA
         /// </summary>
         public ListRuleDescriptor(ListRule rule) : base(rule)
         {
-            Type = Create(rule);
+            Type = Create(rule.Type);
             AddButtonText = rule.AddButtonText;
         }
 
