@@ -155,6 +155,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <name>str</name>
       <desc>str</desc>
       <default>false</default>
+      <preview>str</preview>
      </bool>
      
      <!-- An integer parameter. -->
@@ -162,6 +163,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <name>str</name>
       <desc>str</desc>
       <default>0</default>
+      <preview>str</preview>
      </int>
 
      <!-- An integer slider parameter. -->
@@ -171,6 +173,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <default>0</default>
       <min>0</min>
       <max>0</max>
+      <preview>str</preview>
      </islider>
      
      <!-- A floating-point parameter. -->
@@ -178,6 +181,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <name>str</name>
       <desc>str</desc>
       <default>0.0</default>
+      <preview>str</preview>
      </float>
 
      <!-- A floating-point slider parameter. -->
@@ -187,6 +191,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <default>0.0</default>
       <min>0.0</min>
       <max>0.0</max>
+      <preview>str</preview>
      </fslider>
 
      <!-- A character parameter. -->
@@ -194,6 +199,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <name>str</name>
       <desc>str</desc>
       <default>c</default>
+      <preview>str</preview>
      </char>
 
      <!-- A single-line text parameter. -->
@@ -201,6 +207,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <name>str</name>
       <desc>str</desc>
       <default>str</default>
+      <preview>str</preview>
      </textline>
 
      <!-- A multi-line text parameter. -->
@@ -208,6 +215,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <name>str</name>
       <desc>str</desc>
       <default>str</default>
+      <preview>str</preview>
      </multiline>
 
      <!-- A color parameter. -->
@@ -215,6 +223,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <name>str</name>
       <desc>str</desc>
       <default>#FFFFFFFF</default>
+      <preview>str</preview>
      </color>
 
      <!-- An output parameter. -->
@@ -223,6 +232,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <desc>str</desc>
       <remove_default>true</remove_default>
       <preview_arg>str</preview_arg>
+      <preview>str</preview>
      </output>
      
      
@@ -244,31 +254,12 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
       <min_height>0</min_height>
       <main_color>#FFFFFF</main_color>
       <text_color>#FFFFFF</text_color>
+      <preview>str</preview>
       <word_wrap>true</word_wrap>
      </editor_node>
      
-     
-     
-     <!-- The preview terms. The <hide_if> elements should contain one of the following values: never, prev_empty,
-          next_empty, either_empty or both_empty. -->
-     
-     <!-- A text preview term. -->
-     <text_term>
-      <text>str</text>
-      <hideif>never</hideif>
-     </text_term>
-     
-     <!-- An argument preview term. The parameter value should match a parameter ID. -->
-     <arg_term>
-      <id>str</parameter>
-      <hideif>never</hideif>
-     </arg_term>
-     
-     <!-- A compile rule term. The rule value should match a pre-instruction or post-instruction rule ID. -->
-     <rule_term>
-      <id>str</id>
-      <hideif>never</hideif>
-     </rule_term>
+     <!-- The preview code. -->
+     <preview>str</preview>
      
      
      
@@ -284,6 +275,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
        <desc>str</desc>
        <enabled>true</enabled>
        (nested rule)
+       <preview>str</preview>
       </option>
       
       <!-- A choice rule. -->
@@ -292,14 +284,15 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
        <desc>str</desc>
        <selected>0</selected>
        (nested rule(s))
+       <preview>str</preview>
       </choice>
       
       <!-- A tuple rule. -->
       <tuple id="str">
        <name>str</name>
        <desc>str</desc>
-       <separator>str</separator>
        (nested rule(s))
+       <preview>str</preview>
       </tuple>
       
       <!-- A list rule. -->
@@ -307,8 +300,8 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
        <name>str</name>
        <desc>str</desc>
        <button_text>true</button_text>
-       <separator>str</separator>
        (nested rule)
+       <preview>str</preview>
       </list>
       
       <!-- An instruction rule. -->
@@ -316,6 +309,7 @@ Instruction definitions are serialized using the XML format. Unless otherwise sp
        <name>str</name>
        <desc>str</desc>
        <opcode>str</opcode>
+       <preview>str</preview>
       </instruction>
       
      </pre>
