@@ -15,26 +15,30 @@ namespace Rusty.ISA
         /// <summary>
         /// The instruction definitions in local to this instruction set.
         /// </summary>
-        [Export] public InstructionDefinition[] Definitions { get; private set; } = { };
+        [Export] public InstructionDefinition[] Local { get; private set; } = { };
         /// <summary>
         /// A list of modules of instructions that need to be included in this instruction set.
         /// </summary>
         [Export] public InstructionSet[] Modules { get; private set; } = { };
+
         /// <summary>
-        /// The number of instruction definitions in this instruction set (if you combine all local instructions and the
-        /// instructions from the referenced modules).
+        /// All instructions in this instruction set, including both local and module instructions.
         /// </summary>
-        public int Count
+        public InstructionDefinition[] Definitions
         {
             get
             {
-                EnsureList();
-                return List.Count;
+                EnsureBuild();
+                return Build;
             }
         }
+        /// <summary>
+        /// The number of instruction definitions in this instruction set. This includes both local and module instructions.
+        /// </summary>
+        public int Count => Definitions.Length;
 
         /* Private properties. */
-        private List<InstructionDefinition> List { get; set; }
+        private InstructionDefinition[] Build { get; set; }
         private Dictionary<string, InstructionDefinition> Lookup { get; set; }
 
         /* Constructors. */
@@ -42,26 +46,30 @@ namespace Rusty.ISA
 
         public InstructionSet(InstructionDefinition[] definitions)
         {
-            Definitions = definitions;
+            Local = definitions;
         }
 
         public InstructionSet(InstructionDefinition[] definitions, InstructionSet[] modules)
         {
-            Definitions = definitions;
+            Local = definitions;
             Modules = modules;
         }
 
         /* Indexers. */
+        /// <summary>
+        /// Access an instruction definition by its opcode.
+        /// </summary>
         public InstructionDefinition this[string opcode] => GetDefinition(opcode);
+        /// <summary>
+        /// Access an instruction definition by its index in the instruction set.
+        /// </summary>
         public InstructionDefinition this[int index] => GetDefinition(index);
 
         /* Public methods. */
         public override string ToString()
         {
-            EnsureList();
-
             string str = "";
-            foreach (InstructionDefinition definition in List)
+            foreach (InstructionDefinition definition in Definitions)
             {
                 if (str != "")
                     str += "\n";
@@ -91,10 +99,8 @@ namespace Rusty.ISA
         /// </summary>
         public InstructionDefinition GetDefinition(int index)
         {
-            EnsureList();
-
-            if (index >= 0 && index < List.Count)
-                return List[index];
+            if (index >= 0 && index < Count)
+                return Definitions[index];
             else
             {
                 throw new ArgumentException($"Tried to get instruction definition with index '{index}', but this index was out "
@@ -112,25 +118,32 @@ namespace Rusty.ISA
         }
 
         /* Private methods. */
-        private void EnsureList()
+        /// <summary>
+        /// Make sure that the combined array of local and module instructions exists and is properly set up.
+        /// </summary>
+        private void EnsureBuild()
         {
-            if (List != null)
+            if (Build != null)
                 return;
 
-            List = new();
+            List<InstructionDefinition> list = new();
+
+            // Add module instructions.
             foreach (InstructionSet module in Modules)
             {
-                module.EnsureList();
-                foreach (InstructionDefinition definition in module.List)
+                foreach (InstructionDefinition definition in module.Definitions)
                 {
-                    List.Add(definition);
+                    list.Add(definition);
                 }
             }
 
-            foreach (InstructionDefinition definition in Definitions)
+            // Add local instructions.
+            foreach (InstructionDefinition definition in Local)
             {
-                List.Add(definition);
+                list.Add(definition);
             }
+
+            Build = list.ToArray();
         }
 
         /// <summary>
@@ -141,10 +154,8 @@ namespace Rusty.ISA
             if (Lookup != null)
                 return;
 
-            EnsureList();
-
             Lookup = new();
-            foreach (InstructionDefinition definition in List)
+            foreach (InstructionDefinition definition in Definitions)
             {
                 if (!Lookup.ContainsKey(definition.Opcode))
                     Lookup.Add(definition.Opcode, definition);

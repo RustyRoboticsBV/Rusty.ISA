@@ -21,7 +21,7 @@ namespace Rusty.ISA
         /// </summary>
         public InstructionSetDescriptor(InstructionSet set)
         {
-            foreach (InstructionDefinition definition in set.Definitions)
+            foreach (InstructionDefinition definition in set.Local)
             {
                 Definitions.Add(new(definition));
             }

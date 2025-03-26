@@ -13,7 +13,7 @@ namespace Rusty.ISA
         public const string BoolParameter = "bool";
         public const string IntParameter = "int";
         public const string IntSliderParameter = "islider";
-        public const string FloatParameter = "f";
+        public const string FloatParameter = "float";
         public const string FloatSliderParameter = "fslider";
         public const string CharParameter = "char";
         public const string TextlineParameter = "textline";

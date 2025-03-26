@@ -18,7 +18,7 @@ namespace Rusty.ISA
             ZipArchive archive = new(stream, ZipArchiveMode.Update, true);
 
             // Add definitions.
-            foreach (InstructionDefinition definition in set.Definitions)
+            foreach (InstructionDefinition definition in set.Local)
             {
                 // Get category.
                 string category = definition.Category;

@@ -161,6 +161,7 @@ namespace Rusty.ISA
         /// </summary>
         public InstructionDefinition Generate(bool makeIconTransparent)
         {
+            // Get icon.
             Texture2D iconTexture = GetIcon(makeIconTransparent);
 
             // Generate parameters.
