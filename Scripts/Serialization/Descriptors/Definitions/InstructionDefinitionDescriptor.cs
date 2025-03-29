@@ -11,12 +11,15 @@ namespace Rusty.ISA
     public sealed class InstructionDefinitionDescriptor
     {
         /* Public properties. */
+        public string FolderPath { get; set; } = "";
+
         // Definition.
         public string Opcode { get; set; } = "";
         public List<ParameterDescriptor> Parameters { get; set; } = new();
         public ImplementationDescriptor Implementation { get; set; } = null;
 
         // Metadata.
+        public Texture2D IconTexture { get; set; }
         public string IconPath { get; set; } = "";
         public string DisplayName { get; set; } = "";
         public string Description { get; set; } = "";
@@ -44,12 +47,16 @@ namespace Rusty.ISA
             Implementation = new(definition.Implementation);
 
             if (definition.Icon != null)
+            {
+                IconTexture = definition.Icon;
                 IconPath = definition.Icon.ResourcePath;
+            }
             DisplayName = definition.DisplayName;
             Description = definition.Description;
             Category = definition.Category;
 
-            EditorNodeInfo = new(definition.EditorNode);
+            if (definition.EditorNode != null)
+                EditorNodeInfo = new(definition.EditorNode);
             Preview = definition.Preview;
             foreach (CompileRule pre in definition.PreInstructions)
             {
@@ -59,6 +66,28 @@ namespace Rusty.ISA
             {
                 PostInstructions.Add(CompileRuleDescriptor.Create(post));
             }
+        }
+
+        public InstructionDefinitionDescriptor(string opcode, List<ParameterDescriptor> parameters,
+            ImplementationDescriptor implemementation, Texture2D iconTexture, string displayName, string description,
+            string category, EditorNodeInfoDescriptor editorNodeInfo, string preview,
+            List<CompileRuleDescriptor> preInstructions, List<CompileRuleDescriptor> postInstructions)
+        {
+            Opcode = opcode;
+            Parameters = parameters;
+            Implementation = implemementation;
+            if (IconTexture != null)
+            {
+                IconTexture = iconTexture;
+                IconPath = iconTexture.ResourcePath;
+            }
+            DisplayName = displayName;
+            Description = description;
+            Category = category;
+            EditorNodeInfo = editorNodeInfo;
+            Preview = preview;
+            PreInstructions = preInstructions;
+            PostInstructions = postInstructions;
         }
 
         public InstructionDefinitionDescriptor(string opcode, List<ParameterDescriptor> parameters,
@@ -98,7 +127,7 @@ namespace Rusty.ISA
                 return;
             }
 
-            // Get opcode.s
+            // Get opcodes.
             Opcode = root.GetAttribute(XmlKeywords.Opcode);
 
             // Parse elements...
@@ -159,10 +188,25 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate an instruction definition from this descriptor.
         /// </summary>
-        public InstructionDefinition Generate(bool makeIconTransparent)
+        public InstructionDefinition Generate(bool iconIsAlphaTexture)
         {
             // Get icon.
-            Texture2D iconTexture = GetIcon(makeIconTransparent);
+            Texture2D iconTexture = IconTexture;
+            if (iconTexture == null)
+            {
+                string iconPath = "";
+                if (FolderPath != "")
+                    iconPath = FolderPath + "/" + IconPath;
+                else
+                    iconPath = PathUtility.GetPath(IconPath);
+
+                iconTexture = IconLoader.Load(iconPath, iconIsAlphaTexture);
+            }
+            else if (iconIsAlphaTexture)
+            {
+                GD.Print(Opcode);
+                iconTexture = IconLoader.AlphaToColor(iconTexture);
+            }
 
             // Generate parameters.
             Parameter[] parameters = new Parameter[Parameters.Count];
@@ -250,45 +294,6 @@ namespace Rusty.ISA
 
             str += $"\n</{XmlKeywords.InstructionDefinition}>";
             return str;
-        }
-
-        /* Private methods. */
-        private Texture2D GetIcon(bool makeIconTransparent)
-        {
-            // Get icon image.
-            string globalIconPath = PathUtility.GetPath(IconPath);
-            byte[] iconBytes = new byte[0];
-            try
-            {
-                iconBytes = File.ReadAllBytes(IconPath);
-            }
-            catch
-            {
-                return null;
-            }
-            Image iconImage = new();
-            iconImage.LoadPngFromBuffer(iconBytes);
-
-            // Make icon image transparent (if enabled).
-            if (makeIconTransparent)
-            {
-                for (int i = 0; i < iconImage.GetWidth(); i++)
-                {
-                    for (int j = 0; j < iconImage.GetHeight(); j++)
-                    {
-                        if (iconImage.GetPixel(i, j) == Colors.Black)
-                            iconImage.SetPixel(i, j, Colors.Transparent);
-                        else
-                            iconImage.SetPixel(i, j, Colors.White);
-                    }
-                }
-            }
-
-            // Create icon texture.
-            ImageTexture iconTexture = new ImageTexture();
-            iconTexture.SetImage(iconImage);
-
-            return iconTexture;
         }
     }
 }
