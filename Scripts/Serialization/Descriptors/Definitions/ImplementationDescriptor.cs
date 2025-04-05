@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Godot;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace Rusty.ISA
@@ -9,7 +10,7 @@ namespace Rusty.ISA
     public sealed class ImplementationDescriptor
     {
         /* Public properties. */
-        public List<string> Dependencies { get; set; } = new();
+        public List<DependencyDescriptor> Dependencies { get; private set; } = new();
         public string Members { get; set; } = "";
         public string Initialize { get; set; } = "";
         public string Execute { get; set; } = "";
@@ -20,9 +21,25 @@ namespace Rusty.ISA
         /// <summary>
         /// Generate a descriptor from constructor arguments.
         /// </summary>
-        public ImplementationDescriptor(string[] dependencies, string members, string initialize, string execute)
+        public ImplementationDescriptor(DependencyDescriptor[] dependencies, string members, string initialize,
+            string execute)
         {
             Dependencies = new(dependencies);
+            Members = members;
+            Initialize = initialize;
+            Execute = execute;
+        }
+
+        /// <summary>
+        /// Generate a descriptor from constructor arguments.
+        /// </summary>
+        public ImplementationDescriptor(Dependency[] dependencies, string members, string initialize,
+            string execute)
+        {
+            foreach (Dependency dependency in dependencies)
+            {
+                Dependencies.Add(new(dependency));
+            }
             Members = members;
             Initialize = initialize;
             Execute = execute;
@@ -35,7 +52,10 @@ namespace Rusty.ISA
         {
             if (implementation != null)
             {
-                Dependencies = new(implementation.Dependencies);
+                foreach (Dependency dependency in implementation.Dependencies)
+                {
+                    Dependencies.Add(new(dependency));
+                }
                 Members = implementation.Members;
                 Initialize = implementation.Initialize;
                 Execute = implementation.Execute;
@@ -51,8 +71,8 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == XmlKeywords.Dependencies)
-                        Dependencies = new(Parser.ParseStrings(element.InnerText));
+                    if (element.Name == XmlKeywords.Dependency)
+                        Dependencies.Add(new(element));
                     else if (element.Name == XmlKeywords.Members)
                         Members = element.InnerText;
                     else if (element.Name == XmlKeywords.Initialize)
@@ -69,32 +89,31 @@ namespace Rusty.ISA
         /// </summary>
         public Implementation Generate()
         {
-            return new(Dependencies.ToArray(), Members, Initialize, Execute);
+            List<Dependency> dependencies = new();
+            foreach (DependencyDescriptor dependency in Dependencies)
+            {
+                dependencies.Add(dependency.Generate());
+            }
+
+            return new(dependencies.ToArray(), Members, Initialize, Execute);
         }
 
         /// <summary>
         /// Generate XML for this descriptor.
         /// </summary>
-        /// <returns></returns>
         public string GetXml()
         {
-            string dependencies = "";
-            foreach (string dependency in Dependencies)
-            {
-                if (dependencies.Length > 0)
-                    dependencies += ",";
-                dependencies += dependency;
-            }
-
             string str = $"<{XmlKeywords.Implementation}>";
-            if (dependencies != "")
-                str += $"\n  <{XmlKeywords.Dependencies}>{dependencies}</{XmlKeywords.Dependencies}>";
+            foreach (var dependency in Dependencies)
+            {
+                str += $"\n\t{dependency.GetXml().Replace("\n", "\n\t")}";
+            }
             if (Members != "")
-                str += $"\n  <{XmlKeywords.Members}>{Members}</{XmlKeywords.Members}>";
+                str += $"\n\t<{XmlKeywords.Members}>{Members}</{XmlKeywords.Members}>";
             if (Initialize != "")
-                str += $"\n  <{XmlKeywords.Initialize}>{Initialize}</{XmlKeywords.Initialize}>";
+                str += $"\n\t<{XmlKeywords.Initialize}>{Initialize}</{XmlKeywords.Initialize}>";
             if (Execute != "")
-                str += $"\n  <{XmlKeywords.Execute}>{Execute}</{XmlKeywords.Execute}>";
+                str += $"\n\t<{XmlKeywords.Execute}>{Execute}</{XmlKeywords.Execute}>";
             str += $"\n</{XmlKeywords.Implementation}>";
             return str;
         }

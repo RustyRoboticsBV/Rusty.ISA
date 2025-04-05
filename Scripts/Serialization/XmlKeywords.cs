@@ -41,7 +41,7 @@ namespace Rusty.ISA
         public const string RemoveDefaultOutput = "remove_default";
 
         public const string Implementation = "impl";
-        public const string Dependencies = "deps";
+        public const string Dependency = "dep";
         public const string Members = "members";
         public const string Initialize = "init";
         public const string Execute = "exec";

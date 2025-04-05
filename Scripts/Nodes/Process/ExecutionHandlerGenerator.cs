@@ -100,12 +100,12 @@ namespace Rusty.ISA
             string opcode = InstructionDefinition.Opcode;
 
             // Check for dependencies.
-            string[] dependencies = InstructionDefinition.Implementation.Dependencies;
+            Dependency[] dependencies = InstructionDefinition.Implementation.Dependencies;
             bool dependenciesFailed = false;
-            foreach (string dependency in dependencies)
+            foreach (Dependency dependency in dependencies)
             {
                 // If the dependency could not be found...
-                if (!GlobalTypeChecker.Check(dependency))
+                if (!GlobalTypeChecker.Check(dependency.Name))
                 {
                     // Print a warning message.
                     GD.PrintErr($"Instructions with opcode '{opcode}' require that global class with name '{dependency}' "
