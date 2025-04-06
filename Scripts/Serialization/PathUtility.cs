@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using System.IO;
 
 namespace Rusty.ISA
 {
@@ -14,15 +15,29 @@ namespace Rusty.ISA
         /// </summary>
         public static string GetPath(string path)
         {
+            // Rooted paths.
+            if (Path.IsPathRooted(path))
+                return path;
+
             // Res or user.
-            if (path.StartsWith("res://") || path.StartsWith("user://"))
+            else if (path.StartsWith("res://") || path.StartsWith("user://"))
                 return ProjectSettings.GlobalizePath(path);
 
-            // Other paths.
+            // Other relative paths.
+            // In the editor, this returns a .godot sub-path.
+            // Otherwise, it returns a base directory sub-path.
             else if (OS.HasFeature("editor"))
                 return ProjectSettings.GlobalizePath("res://") + ".godot/" + path;
             else
                 return AppDomain.CurrentDomain.BaseDirectory + path;
+        }
+
+        /// <summary>
+        /// Check if a path starts with a '\' or a drive (such as "C:\").
+        /// </summary>
+        public static bool IsGlobalPath(string path)
+        {
+            return Path.IsPathRooted(path);
         }
     }
 }
