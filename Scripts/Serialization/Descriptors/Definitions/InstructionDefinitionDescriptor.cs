@@ -1,6 +1,5 @@
 using Godot;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 namespace Rusty.ISA
@@ -8,7 +7,7 @@ namespace Rusty.ISA
     /// <summary>
     /// An instruction definition descriptor. Used for serialization and deserialization.
     /// </summary>
-    public sealed class InstructionDefinitionDescriptor
+    public sealed class InstructionDefinitionDescriptor : Descriptor
     {
         /* Public properties. */
         public string FolderPath { get; set; } = "";
@@ -245,51 +244,51 @@ namespace Rusty.ISA
             // Parameters.
             foreach (ParameterDescriptor parameter in Parameters)
             {
-                str += $"\n  {parameter.GetXml().Replace("\n", "\n  ")}";
+                str += Indent(parameter.GetXml());
             }
 
             // Implementation.
             if (Implementation != null)
-                str += $"\n  {Implementation.GetXml().Replace("\n", "\n  ")}";
+                str += Indent(Implementation.GetXml());
 
             // Metadata.
             if (IconPath != "")
-                str += $"\n  <{XmlKeywords.Icon}>{IconPath}</{XmlKeywords.Icon}>";
+                str += Indent($"\n<{XmlKeywords.Icon}>{IconPath}</{XmlKeywords.Icon}>");
             if (DisplayName != "")
-                str += $"\n  <{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>";
+                str += Indent($"\n<{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>");
             if (Description != "")
-                str += $"\n  <{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>";
+                str += Indent($"\n<{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>");
             if (Category != "")
-                str += $"\n  <{XmlKeywords.Category}>{Category}</{XmlKeywords.Category}>";
+                str += Indent($"\n<{XmlKeywords.Category}>{Category}</{XmlKeywords.Category}>");
 
             // Editor node info.
             if (EditorNodeInfo != null)
-                str += $"\n  {EditorNodeInfo.GetXml().Replace("\n", "\n  ")}";
+                str += Indent(EditorNodeInfo.GetXml());
 
-            // Preview terms.
+            // Preview.
             if (Preview != "")
-                str += $"\n  <{XmlKeywords.Preview}>{Preview}</{XmlKeywords.Preview}>";
+                str += Indent($"<{XmlKeywords.Preview}>{Preview}</{XmlKeywords.Preview}>");
 
             // Pre-instructions.
             if (PreInstructions.Count > 0)
             {
-                str += $"\n  <{XmlKeywords.PreInstructions}>";
+                str += Indent($"\n<{XmlKeywords.PreInstructions}>");
                 foreach (CompileRuleDescriptor rule in PreInstructions)
                 {
-                    str += $"\n    {rule.GetXml().Replace("\n", "\n    ")}";
+                    str += Indent2(rule.GetXml());
                 }
-                str += $"\n  </{XmlKeywords.PreInstructions}>";
+                str += Indent($"\n</{XmlKeywords.PreInstructions}>");
             }
 
             // Post-instructions.
             if (PostInstructions.Count > 0)
             {
-                str += $"\n  <{XmlKeywords.PostInstructions}>";
+                str += Indent($"\n<{XmlKeywords.PostInstructions}>");
                 foreach (CompileRuleDescriptor rule in PostInstructions)
                 {
-                    str += $"\n    {rule.GetXml().Replace("\n", "\n    ")}";
+                    str += Indent2(rule.GetXml());
                 }
-                str += $"\n  </{XmlKeywords.PostInstructions}>";
+                str += Indent($"\n</{XmlKeywords.PostInstructions}>");
             }
 
             str += $"\n</{XmlKeywords.InstructionDefinition}>";

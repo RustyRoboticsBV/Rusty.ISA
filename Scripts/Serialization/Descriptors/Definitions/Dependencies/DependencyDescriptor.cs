@@ -65,9 +65,9 @@ namespace Rusty.ISA
         /// </summary>
         public string GetXml()
         {
-            string str = $"<{XmlKeywords.Dependency}>";
+            string str = $"<{XmlKeywords.Dependencies}>";
             str += $"\n\t<{XmlKeywords.DisplayName}>{Name}</{XmlKeywords.DisplayName}>";
-            str += $"\n</{XmlKeywords.Dependency}>";
+            str += $"\n</{XmlKeywords.Dependencies}>";
             return str;
         }
     }

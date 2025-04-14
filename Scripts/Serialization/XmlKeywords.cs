@@ -7,6 +7,10 @@ namespace Rusty.ISA
     /// </summary>
     public static class XmlKeywords
     {
+        /* Constants. */
+        public const string Indent = "\t";
+        public const string Indent2 = Indent + Indent;
+
         public const string InstructionDefinition = "definition";
         public const string Opcode = "opcode";
 
@@ -41,7 +45,7 @@ namespace Rusty.ISA
         public const string RemoveDefaultOutput = "remove_default";
 
         public const string Implementation = "impl";
-        public const string Dependency = "dep";
+        public const string Dependencies = "deps";
         public const string Members = "members";
         public const string Initialize = "init";
         public const string Execute = "exec";

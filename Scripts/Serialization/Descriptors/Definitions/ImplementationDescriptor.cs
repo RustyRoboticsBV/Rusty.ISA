@@ -1,5 +1,4 @@
-﻿using Godot;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
 
 namespace Rusty.ISA
@@ -71,7 +70,7 @@ namespace Rusty.ISA
             {
                 if (child is XmlElement element)
                 {
-                    if (element.Name == XmlKeywords.Dependency)
+                    if (element.Name == XmlKeywords.Dependencies)
                         Dependencies.Add(new(element));
                     else if (element.Name == XmlKeywords.Members)
                         Members = element.InnerText;
