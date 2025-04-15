@@ -7,7 +7,7 @@ namespace Rusty.ISA
     /// <summary>
     /// A descriptor for a compile rule. Used for serialization and deserialization.
     /// </summary>
-    public abstract class CompileRuleDescriptor
+    public abstract class CompileRuleDescriptor : Descriptor
     {
         /* Public properties. */
         public string ID { get; set; } = "";
@@ -126,22 +126,24 @@ namespace Rusty.ISA
             params CompileRuleDescriptor[] children)
         {
             string str = $"<{type} {XmlKeywords.ID}=\"{ID}\">";
+            string contents = "";
             if (opcode != "")
-                str += $"\n  <{XmlKeywords.Opcode}>{opcode}</{XmlKeywords.Opcode}>";
+                contents += '\n' + Encapsulate(XmlKeywords.Opcode, opcode);
             if (DisplayName != "")
-                str += $"\n  <{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>";
+                contents += '\n' + Encapsulate(XmlKeywords.DisplayName, DisplayName);
             if (Description != "")
-                str += $"\n  <{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>";
+                contents += '\n' + Encapsulate(XmlKeywords.Description, Description);
             if (startEnabled)
-                str += $"\n  <{XmlKeywords.DefaultEnabled}>true</{XmlKeywords.DefaultEnabled}>";
+                contents += '\n' + Encapsulate(XmlKeywords.DefaultEnabled, "true");
             if (startSelected > 0)
-                str += $"\n  <{XmlKeywords.DefaultSelected}>{startSelected}</{XmlKeywords.DefaultSelected}>";
+                contents += '\n' + Encapsulate(XmlKeywords.DefaultSelected, startSelected);
             if (addButtonText != "")
-                str += $"\n  <{XmlKeywords.AddButtonText}>{addButtonText}</{XmlKeywords.AddButtonText}>";
+                contents += '\n' + Encapsulate(XmlKeywords.AddButtonText, addButtonText);
             foreach (CompileRuleDescriptor child in children)
             {
-                str += "\n  " + child.GetXml().Replace("\n", "\n  ");
+                contents += $"\n{child.GetXml()}";
             }
+            str += Indent(contents);
             str += $"\n</{type}>";
             return str;
         }

@@ -242,56 +242,70 @@ namespace Rusty.ISA
             string str = $"<{XmlKeywords.InstructionDefinition} {XmlKeywords.Opcode}=\"{Opcode}\">";
 
             // Parameters.
+            string parameters = "";
             foreach (ParameterDescriptor parameter in Parameters)
             {
-                str += Indent(parameter.GetXml());
+                parameters += '\n' + Indent(parameter.GetXml());
             }
+            if (parameters != "")
+                parameters = '\n' + Indent(Comment("Parameters.")) + parameters;
+            str += '\n' + parameters;
 
             // Implementation.
             if (Implementation != null)
-                str += Indent(Implementation.GetXml());
+                str += '\n' + Indent(Implementation.GetXml());
 
             // Metadata.
+            string metadata = "";
             if (IconPath != "")
-                str += Indent($"\n<{XmlKeywords.Icon}>{IconPath}</{XmlKeywords.Icon}>");
+                metadata += '\n' + Indent($"<{XmlKeywords.Icon}>{IconPath}</{XmlKeywords.Icon}>");
             if (DisplayName != "")
-                str += Indent($"\n<{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>");
+                metadata += '\n' + Indent($"<{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>");
             if (Description != "")
-                str += Indent($"\n<{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>");
+                metadata += '\n' + Indent($"<{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>");
             if (Category != "")
-                str += Indent($"\n<{XmlKeywords.Category}>{Category}</{XmlKeywords.Category}>");
+                metadata += '\n' + Indent($"<{XmlKeywords.Category}>{Category}</{XmlKeywords.Category}>");
+            if (metadata != "")
+                metadata = '\n' + Indent(Comment("Metadata.")) + metadata;
+            str += '\n' + metadata;
 
             // Editor node info.
             if (EditorNodeInfo != null)
-                str += Indent(EditorNodeInfo.GetXml());
+                str += '\n' + Indent(EditorNodeInfo.GetXml());
 
             // Preview.
             if (Preview != "")
-                str += Indent($"<{XmlKeywords.Preview}>{Preview}</{XmlKeywords.Preview}>");
+            {
+                string preview = Indent(Preview);
+                str += "\n\n" + Indent(Comment("Preview."));
+                str += '\n' + Indent($"<{XmlKeywords.Preview}>\n{preview}\n</{XmlKeywords.Preview}>");
+            }
 
             // Pre-instructions.
             if (PreInstructions.Count > 0)
             {
-                str += Indent($"\n<{XmlKeywords.PreInstructions}>");
+                str += "\n\n" + Indent(Comment("Pre-instructions."));
+                str += '\n' + Indent($"<{XmlKeywords.PreInstructions}>");
                 foreach (CompileRuleDescriptor rule in PreInstructions)
                 {
-                    str += Indent2(rule.GetXml());
+                    str += '\n' + Indent2(rule.GetXml());
                 }
-                str += Indent($"\n</{XmlKeywords.PreInstructions}>");
+                str += '\n' + Indent($"</{XmlKeywords.PreInstructions}>");
             }
 
             // Post-instructions.
             if (PostInstructions.Count > 0)
             {
-                str += Indent($"\n<{XmlKeywords.PostInstructions}>");
+                str += "\n\n" + Indent(Comment("Post-instructions."));
+                str += '\n' + Indent($"<{XmlKeywords.PostInstructions}>");
                 foreach (CompileRuleDescriptor rule in PostInstructions)
                 {
-                    str += Indent2(rule.GetXml());
+                    str += '\n' + Indent2(rule.GetXml());
                 }
-                str += Indent($"\n</{XmlKeywords.PostInstructions}>");
+                str += '\n' + Indent($"</{XmlKeywords.PostInstructions}>");
             }
 
-            str += $"\n</{XmlKeywords.InstructionDefinition}>";
+            str += "\n\n" + $"</{XmlKeywords.InstructionDefinition}>";
             return str;
         }
     }

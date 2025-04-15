@@ -6,7 +6,7 @@ namespace Rusty.ISA
     /// <summary>
     /// An editor node info, meant for serialization.
     /// </summary>
-    public sealed class EditorNodeInfoDescriptor
+    public sealed class EditorNodeInfoDescriptor : Descriptor
     {
         /* Public properties. */
         public int Priority { get; set; } = 0;
@@ -97,21 +97,21 @@ namespace Rusty.ISA
             string mainColor = '#' + MainColor.ToHtml(MainColor.A < 1f);
             string textColor = '#' + TextColor.ToHtml(TextColor.A < 1f);
 
-            string str = $"<{XmlKeywords.EditorNode}>";
+            string str = '\n' + Comment("Editor node.") + '\n' + $"<{XmlKeywords.EditorNode}>";
             if (Priority != 0)
-                str += $"\n  <{XmlKeywords.Priority}>{Priority}</{XmlKeywords.Priority}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.Priority, Priority));
             if (MinWidth != 128)
-                str += $"\n  <{XmlKeywords.MinWidth}>{MinWidth}</{XmlKeywords.MinWidth}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.MinWidth, MinWidth));
             if (MinHeight != 32)
-            str += $"\n  <{XmlKeywords.MinHeight}>{MinHeight}</{XmlKeywords.MinHeight}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.MinHeight, MinHeight));
             if (mainColor != "696969")
-                str += $"\n  <{XmlKeywords.MainColor}>{mainColor}</{XmlKeywords.MainColor}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.MainColor, mainColor));
             if (textColor != "ffffff")
-                str += $"\n  <{XmlKeywords.TextColor}>{textColor}</{XmlKeywords.TextColor}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.TextColor, textColor));
             if (Preview != "")
-                str += $"\n  <{XmlKeywords.Preview}>{Preview}</{XmlKeywords.Preview}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.Preview, Preview));
             if (EnableWordWrap)
-                str += $"\n  <{XmlKeywords.EnableWordWrap}>{EnableWordWrap}</{XmlKeywords.EnableWordWrap}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.EnableWordWrap, "true"));
             str += $"\n</{XmlKeywords.EditorNode}>";
             return str;
         }

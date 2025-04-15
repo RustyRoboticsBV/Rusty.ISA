@@ -6,7 +6,7 @@ namespace Rusty.ISA
     /// <summary>
     /// An implementation descriptor, meant for serialization.
     /// </summary>
-    public sealed class ImplementationDescriptor
+    public sealed class ImplementationDescriptor : Descriptor
     {
         /* Public properties. */
         public List<DependencyDescriptor> Dependencies { get; private set; } = new();
@@ -102,18 +102,18 @@ namespace Rusty.ISA
         /// </summary>
         public string GetXml()
         {
-            string str = $"<{XmlKeywords.Implementation}>";
+            string str = '\n' + Comment("Implementation.") + '\n' + $"<{XmlKeywords.Implementation}>";
             foreach (var dependency in Dependencies)
             {
-                str += $"\n\t{dependency.GetXml().Replace("\n", "\n\t")}";
+                str += '\n' + Indent(dependency.GetXml());
             }
             if (Members != "")
-                str += $"\n\t<{XmlKeywords.Members}>{Members}</{XmlKeywords.Members}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.Members, Members, true));
             if (Initialize != "")
-                str += $"\n\t<{XmlKeywords.Initialize}>{Initialize}</{XmlKeywords.Initialize}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.Initialize, Initialize, true));
             if (Execute != "")
-                str += $"\n\t<{XmlKeywords.Execute}>{Execute}</{XmlKeywords.Execute}>";
-            str += $"\n</{XmlKeywords.Implementation}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.Execute, Execute, true));
+            str += '\n' + $"</{XmlKeywords.Implementation}>";
             return str;
         }
     }

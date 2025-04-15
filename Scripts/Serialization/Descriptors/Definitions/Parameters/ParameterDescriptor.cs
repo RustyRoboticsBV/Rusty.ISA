@@ -6,7 +6,7 @@ namespace Rusty.ISA
     /// <summary>
     /// A descriptor for a parameter. Used for serialization and deserialization.
     /// </summary>
-    public abstract class ParameterDescriptor
+    public abstract class ParameterDescriptor : Descriptor
     {
         /* Public properties. */
         public string ID { get; set; } = "";
@@ -140,19 +140,19 @@ namespace Rusty.ISA
         {
             string str = $"<{type} {XmlKeywords.ID}=\"{ID}\">";
             if (DisplayName != "")
-                str += $"\n  <{XmlKeywords.DisplayName}>{DisplayName}</{XmlKeywords.DisplayName}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.DisplayName, DisplayName));
             if (Description != "")
-                str += $"\n  <{XmlKeywords.Description}>{Description}</{XmlKeywords.Description}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.Description, Description));
             if (defaultValue != "")
-                str += $"\n  <{XmlKeywords.DefaultValue}>{defaultValue}</{XmlKeywords.DefaultValue}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.DefaultValue, defaultValue));
             if (minValue != "")
-                str += $"\n  <{XmlKeywords.MinValue}>{minValue}</{XmlKeywords.MinValue}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.MinValue, minValue));
             if (maxValue != "")
-                str += $"\n  <{XmlKeywords.MaxValue}>{maxValue}</{XmlKeywords.MaxValue}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.MaxValue, maxValue));
             if (removeDefaultOutput)
-                str += $"\n  <{XmlKeywords.RemoveDefaultOutput}/>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.RemoveDefaultOutput, "true"));
             if (Preview != "")
-                str += $"\n  <{XmlKeywords.Preview}>{Preview}</{XmlKeywords.Preview}>";
+                str += '\n' + Indent(Encapsulate(XmlKeywords.Preview, Preview));
             str += $"\n</{type}>";
             return str;
         }
