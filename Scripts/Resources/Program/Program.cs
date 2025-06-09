@@ -5,8 +5,7 @@ namespace Rusty.ISA;
 /// <summary>
 /// A program that can be executed by a process node.
 /// </summary>
-[Tool]
-[GlobalClass]
+[Tool, GlobalClass]
 public sealed partial class Program : InstructionResource
 {
     /* Public properties. */

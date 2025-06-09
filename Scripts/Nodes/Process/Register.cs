@@ -3,11 +3,11 @@ using Godot.Collections;
 
 namespace Rusty.ISA;
 
-[GlobalClass]
 /// <summary>
 /// A register that can be accessed by instruction execution handlers, and can be used to store data.
 /// All execution handlers can access all registers.
 /// </summary>
+[GlobalClass]
 public sealed partial class Register : Resource
 {
     /* Public properties. */
