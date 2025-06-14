@@ -1,186 +1,213 @@
-[gd_resource type="Resource" script_class="InstructionSet" load_steps=29 format=3 uid="uid://brpnbl7l2o4ha"]
+[gd_resource type="Resource" script_class="InstructionSet" load_steps=30 format=3 uid="uid://brpnbl7l2o4ha"]
 
 [ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
-[ext_resource type="Script" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
-[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
-[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/TextParameter.cs" id="3_suvwn"]
-[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
+[ext_resource type="Script" uid="uid://cecyq1lx2acho" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
+[ext_resource type="Script" uid="uid://yv1p0xvly16v" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
+[ext_resource type="Script" uid="uid://d02yl7f7rgu3u" path="res://Scripts/Resources/Instruction Definition/Parameters/TextlineParameter.cs" id="3_suvwn"]
+[ext_resource type="Texture2D" uid="uid://c6nj8ormy6u2x" path="res://Built-In Instructions/IconLAB.bmp" id="4_4wg55"]
+[ext_resource type="Script" uid="uid://nj3anaafielp" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
 [ext_resource type="Texture2D" uid="uid://d2p6fihx03ulm" path="res://Built-In Instructions/IconEND.bmp" id="5_ypkac"]
 [ext_resource type="Texture2D" uid="uid://dbw2hjlfspdf" path="res://Built-In Instructions/IconGTO.bmp" id="6_rjc6t"]
 [ext_resource type="Texture2D" uid="uid://bmrw4vxts8i3o" path="res://Built-In Instructions/IconWRN.bmp" id="7_ar60a"]
-[ext_resource type="Script" path="res://Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
+[ext_resource type="Script" uid="uid://dkpdexe5sfgdv" path="res://Scripts/Resources/Instruction Definition/Parameters/OutputParameter.cs" id="8_5til1"]
+[ext_resource type="Script" uid="uid://beorwwi6t13op" path="res://Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
 [ext_resource type="Texture2D" uid="uid://bhfjn5nohucmy" path="res://Built-In Instructions/IconERR.bmp" id="9_iqsxj"]
 
-[sub_resource type="Resource" id="Resource_1vmac"]
+[sub_resource type="Resource" id="Resource_71txg"]
+resource_name = "Imlementation"
 script = ExtResource("2_dp32q")
-Dependencies = PackedStringArray()
+Dependencies = []
 Members = ""
 Initialize = ""
 Execute = ""
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
-[sub_resource type="Resource" id="Resource_03qba"]
-resource_name = "name (text)"
+[sub_resource type="Resource" id="Resource_equsc"]
+resource_name = "name (textline)"
 script = ExtResource("3_suvwn")
 ID = "name"
 DisplayName = "Name"
 Description = "The name of this start point."
 DefaultValue = ""
+Preview = ""
+metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
 
-[sub_resource type="Resource" id="Resource_dd7mn"]
-resource_name = "BEG"
+[sub_resource type="Resource" id="Resource_1ceop"]
+resource_name = "BEG(name)"
 script = ExtResource("4_r77ix")
 Opcode = "BEG"
-Parameters = [SubResource("Resource_03qba")]
-Implementation = SubResource("Resource_1vmac")
+Parameters = [SubResource("Resource_equsc")]
+Implementation = SubResource("Resource_71txg")
 Icon = ExtResource("1_4ubkm")
-DisplayName = "Begin"
+DisplayName = "Start Point"
 Description = "Defines a start point in an instruction program. Processes can start playing the program from these points."
 Category = "Core"
-PreviewTerms = []
+Preview = "\"Start point: \" + [[name]]"
 PreInstructions = []
 PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
 
-[sub_resource type="Resource" id="Resource_knia7"]
+[sub_resource type="Resource" id="Resource_pudsc"]
+resource_name = "Implementation"
 script = ExtResource("2_dp32q")
-Dependencies = PackedStringArray()
+Dependencies = []
 Members = ""
 Initialize = ""
 Execute = "end();"
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
-[sub_resource type="Resource" id="Resource_57yso"]
-resource_name = "END"
+[sub_resource type="Resource" id="Resource_hkqpj"]
+resource_name = "END()"
 script = ExtResource("4_r77ix")
 Opcode = "END"
 Parameters = []
-Implementation = SubResource("Resource_knia7")
+Implementation = SubResource("Resource_pudsc")
 Icon = ExtResource("5_ypkac")
-DisplayName = "End"
-Description = ""
+DisplayName = "End Point"
+Description = "Terminates the current program's execution."
 Category = "Core"
-PreviewTerms = []
+Preview = "END"
 PreInstructions = []
 PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v01mf"]
-load_path = "res://.godot/imported/IconLAB.bmp-667ba35c557b4b6730299cf1f082c1b1.ctex"
-
-[sub_resource type="Resource" id="Resource_bcejy"]
+[sub_resource type="Resource" id="Resource_s0kus"]
+resource_name = "Imlementation"
 script = ExtResource("2_dp32q")
-Dependencies = PackedStringArray()
+Dependencies = []
 Members = ""
 Initialize = ""
 Execute = ""
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
-[sub_resource type="Resource" id="Resource_1e2l0"]
-resource_name = "name (line)"
+[sub_resource type="Resource" id="Resource_5til1"]
+resource_name = "name (textline)"
 script = ExtResource("3_suvwn")
 ID = "name"
 DisplayName = "Name"
 Description = "The name of this label."
 DefaultValue = ""
+Preview = ""
+metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
 
-[sub_resource type="Resource" id="Resource_57b2h"]
-resource_name = "LAB"
+[sub_resource type="Resource" id="Resource_4ef8f"]
+resource_name = "LAB(name)"
 script = ExtResource("4_r77ix")
 Opcode = "LAB"
-Parameters = [SubResource("Resource_1e2l0")]
-Implementation = SubResource("Resource_bcejy")
-Icon = SubResource("CompressedTexture2D_v01mf")
+Parameters = [SubResource("Resource_5til1")]
+Implementation = SubResource("Resource_s0kus")
+Icon = ExtResource("4_4wg55")
 DisplayName = "Label"
-Description = "Defines a point that can be jumped to by the goto function."
+Description = "Defines a point in the program that can be jumped to by the goto function."
 Category = "Core"
-PreviewTerms = []
+Preview = "\"Label: \" + [[name]]"
 PreInstructions = []
 PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
 
-[sub_resource type="Resource" id="Resource_2kv4i"]
+[sub_resource type="Resource" id="Resource_bmik3"]
+resource_name = "Imlementation"
 script = ExtResource("2_dp32q")
-Dependencies = PackedStringArray()
+Dependencies = []
 Members = ""
 Initialize = ""
-Execute = "goto(%target_label%);"
+Execute = "goto([[target_label]]);"
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
-[sub_resource type="Resource" id="Resource_enmpn"]
-resource_name = "target_label (line)"
-script = ExtResource("3_suvwn")
+[sub_resource type="Resource" id="Resource_4ya1r"]
+resource_name = "target_label (output)"
+script = ExtResource("8_5til1")
 ID = "target_label"
 DisplayName = "Target Label"
 Description = "The name of the label that must be jumped to."
-DefaultValue = ""
+RemoveDefaultOutput = true
+Preview = ""
+metadata/_custom_type_script = "uid://dkpdexe5sfgdv"
 
-[sub_resource type="Resource" id="Resource_amc61"]
-resource_name = "GTO"
+[sub_resource type="Resource" id="Resource_35oan"]
+resource_name = "GTO(target_label)"
 script = ExtResource("4_r77ix")
 Opcode = "GTO"
-Parameters = [SubResource("Resource_enmpn")]
-Implementation = SubResource("Resource_2kv4i")
+Parameters = [SubResource("Resource_4ya1r")]
+Implementation = SubResource("Resource_bmik3")
 Icon = ExtResource("6_rjc6t")
 DisplayName = "Goto"
 Description = "Jumps the program counter to a label instruction with some name."
 Category = "Core"
-PreviewTerms = []
+Preview = "\"Goto: \" + [[target_label]]"
 PreInstructions = []
 PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
 
-[sub_resource type="Resource" id="Resource_1ohjd"]
+[sub_resource type="Resource" id="Resource_su0df"]
+resource_name = "Imlementation"
 script = ExtResource("2_dp32q")
-Dependencies = PackedStringArray()
+Dependencies = []
 Members = ""
 Initialize = ""
-Execute = "warning(%message%);"
+Execute = "warning([[target_label]]);"
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
-[sub_resource type="Resource" id="Resource_h5qet"]
-resource_name = "message (multiline)"
+[sub_resource type="Resource" id="Resource_qbgrv"]
+resource_name = "message (textline)"
 script = ExtResource("8_lid40")
 ID = "message"
 DisplayName = "Message"
 Description = "The warning message that must be printed."
 DefaultValue = "Undefined warning."
+Preview = ""
+metadata/_custom_type_script = "uid://beorwwi6t13op"
 
-[sub_resource type="Resource" id="Resource_6aex3"]
-resource_name = "WRN"
+[sub_resource type="Resource" id="Resource_f0ci4"]
+resource_name = "WRN(message)"
 script = ExtResource("4_r77ix")
-Opcode = "WRN"
-Parameters = [SubResource("Resource_h5qet")]
-Implementation = SubResource("Resource_1ohjd")
+Opcode = ""
+Parameters = [SubResource("Resource_qbgrv")]
+Implementation = SubResource("Resource_su0df")
 Icon = ExtResource("7_ar60a")
 DisplayName = "Warning"
 Description = "Prints a warning message."
 Category = "Core"
-PreviewTerms = []
+Preview = "\"Warning: \\\"\" + [[message]] + \"\\\"\""
 PreInstructions = []
 PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
 
-[sub_resource type="Resource" id="Resource_7uu0l"]
+[sub_resource type="Resource" id="Resource_w1ddm"]
+resource_name = "Imlementation"
 script = ExtResource("2_dp32q")
-Dependencies = PackedStringArray()
+Dependencies = []
 Members = ""
 Initialize = ""
-Execute = "error(%message%);"
+Execute = "error([[message]]);"
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
-[sub_resource type="Resource" id="Resource_l4yxf"]
-resource_name = "message (multiline)"
+[sub_resource type="Resource" id="Resource_eyyt5"]
+resource_name = "message (textline)"
 script = ExtResource("8_lid40")
 ID = "message"
 DisplayName = "Message"
 Description = "The error message that must be printed."
 DefaultValue = "Undefined error."
+Preview = ""
+metadata/_custom_type_script = "uid://beorwwi6t13op"
 
-[sub_resource type="Resource" id="Resource_6655h"]
-resource_name = "ERR"
+[sub_resource type="Resource" id="Resource_m8hn8"]
+resource_name = "ERR(message)"
 script = ExtResource("4_r77ix")
-Opcode = "ERR"
-Parameters = [SubResource("Resource_l4yxf")]
-Implementation = SubResource("Resource_7uu0l")
+Opcode = ""
+Parameters = [SubResource("Resource_eyyt5")]
+Implementation = SubResource("Resource_w1ddm")
 Icon = ExtResource("9_iqsxj")
 DisplayName = "Error"
 Description = "Prints an error message and terminates program execution."
 Category = "Core"
-PreviewTerms = []
+Preview = "\"Error: \\\"\" + [[message]] + \"\\\"\""
 PreInstructions = []
 PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
 
 [resource]
 script = ExtResource("1_mfbc6")
-Definitions = [SubResource("Resource_dd7mn"), SubResource("Resource_57yso"), SubResource("Resource_57b2h"), SubResource("Resource_amc61"), SubResource("Resource_6aex3"), SubResource("Resource_6655h")]
+Local = [SubResource("Resource_1ceop"), SubResource("Resource_hkqpj"), SubResource("Resource_4ef8f"), SubResource("Resource_35oan"), SubResource("Resource_f0ci4"), SubResource("Resource_m8hn8")]
 Modules = []

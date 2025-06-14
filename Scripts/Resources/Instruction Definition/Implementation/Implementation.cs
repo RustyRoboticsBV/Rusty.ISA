@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 
 namespace Rusty.ISA;
 
@@ -36,5 +36,13 @@ public sealed partial class Implementation : InstructionResource
         Members = members;
         Initialize = initialize;
         Execute = execute;
+
+        ResourceName = ToString();
+    }
+
+    /* Public methods. */
+    public override string ToString()
+    {
+        return GetType().Name;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using System;
 using System.Reflection;
 using System.Xml;
@@ -13,10 +13,32 @@ public static class XmlDeserializer
     /// <summary>
     /// Deserialize an XML element into an instruction resource.
     /// </summary>
+    public static InstructionResource Deserialize(string xml, string folderPath)
+    {
+        // Create XML document.
+        XmlDocument document = new();
+        document.LoadXml(xml);
+
+        // Parse root element.
+        foreach (XmlNode node in document.ChildNodes)
+        {
+            if (node is XmlElement element)
+                return Deserialize(element, folderPath);
+        }
+
+        // If there was no root element, throw an exception.
+        throw new XmlException("The XML file had no root element.");
+    }
+
+    /// <summary>
+    /// Deserialize an XML element into an instruction resource.
+    /// </summary>
     public static InstructionResource Deserialize(XmlElement element, string folderPath)
     {
         // Find all types in the assembly.
         Type[] resourceTypes = Assembly.GetExecutingAssembly().GetTypes();
+
+        // For each type in the assembly, try to parse the XML element as this type.
         foreach (Type type in resourceTypes)
         {
             // Ignore classes that are not resources.
@@ -33,17 +55,39 @@ public static class XmlDeserializer
                 continue;
 
             // Get MethodInfo for the generic Deserialize<T> method.
-            MethodInfo genericMethod = typeof(XmlDeserializer)
-                .GetMethod(nameof(Deserialize), [ typeof(XmlElement), typeof(string) ]);
+            MethodInfo genericMethod = null;
+            MethodInfo[] methods = typeof(XmlDeserializer).GetMethods(BindingFlags.Public | BindingFlags.Static);
+            foreach (MethodInfo methodInfo in methods)
+            {
+                if (methodInfo.Name == nameof(Deserialize) &&
+                    methodInfo.IsGenericMethodDefinition &&
+                    methodInfo.GetParameters().Length == 2 &&
+                    methodInfo.GetGenericArguments().Length == 1)
+                {
+                    genericMethod = methodInfo;
+                    break;
+                }
+            }
 
-            // Make a closed generic method for this type>
+            // Make a closed generic method for this type.
             MethodInfo method = genericMethod.MakeGenericMethod(type);
 
             // Invoke it and return the result.
-            return (InstructionResource)method.Invoke(null, [ element, folderPath ]);
+            var resource = (InstructionResource)method.Invoke(null, [element, folderPath]);
+            resource.ResourceName = resource.ToString();
+            return resource;
         }
 
-        throw new InvalidOperationException($"No resource type found for XML element '{element.Name}'.");
+        // If we get here, then we assume that the XML element was a wrapper.
+        // Wrappers can only contain a single element; other elements are ignored.
+        foreach (XmlNode node in element.ChildNodes)
+        {
+            if (node is XmlElement childElement)
+                return Deserialize(childElement, folderPath);
+        }
+
+        // If we get here, the wrapper was empty.
+        return null;
     }
 
     /// <summary>
@@ -92,7 +136,22 @@ public static class XmlDeserializer
             else if (property.PropertyType == typeof(Texture2D))
                 value = IconLoader.Load(folderPath + "/" + childElement.InnerText);
             else
-                value = Convert.ChangeType(childElement.InnerText, property.PropertyType);
+            {
+                string innerText = childElement.InnerText;
+                while (innerText.StartsWith("\n"))
+                {
+                    innerText = innerText.Substring(1);
+                }
+                while (innerText.StartsWith("\t"))
+                {
+                    innerText = innerText.Substring(1).Replace("\n\t", "\n");
+                }
+                while (innerText.EndsWith("\n") || innerText.EndsWith("\t"))
+                {
+                    innerText = innerText.Substring(0, innerText.Length - 1);
+                }
+                value = Convert.ChangeType(innerText, property.PropertyType);
+            }
 
             property.SetValue(instance, value);
         }

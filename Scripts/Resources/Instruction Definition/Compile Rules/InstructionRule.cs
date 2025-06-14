@@ -36,6 +36,6 @@ public sealed partial class InstructionRule : CompileRule
     /* Public methods. */
     public override string ToString()
     {
-        return Opcode;
+        return $"Instr({Opcode})";
     }
 }
