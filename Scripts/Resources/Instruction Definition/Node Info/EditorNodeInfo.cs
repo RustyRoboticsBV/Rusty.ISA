@@ -1,4 +1,5 @@
 using Godot;
+using System.Xml.Linq;
 
 namespace Rusty.ISA;
 
@@ -56,5 +57,13 @@ public sealed partial class EditorNodeInfo : InstructionResource
         TextColor = textColor;
         Preview = preview;
         EnableWordWrap = enableWordWrap;
+
+        ResourceName = ToString();
+    }
+
+    /* Public methods. */
+    public override string ToString()
+    {
+        return GetType().Name;
     }
 }

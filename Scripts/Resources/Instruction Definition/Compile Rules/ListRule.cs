@@ -19,7 +19,7 @@ public sealed partial class ListRule : CompileRule
     /// <summary>
     /// The text displayed on the "add item" button in the inspector.
     /// </summary>
-    [Export, XmlProperty("add_text")] public string AddButtonText { get; private set; } = "Add Item";
+    [Export, XmlProperty("button_text")] public string AddButtonText { get; private set; } = "Add Item";
     /// <summary>
     /// An expression that defines how previews will be generated for this rule. If left empty, then the previews of all
     /// elements are generated, separated by line-breaks.
