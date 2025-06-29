@@ -1,13 +1,14 @@
 ﻿using Godot;
 using System;
 using System.Reflection;
+using System.Xml;
 
 namespace Rusty.ISA;
 
 /// <summary>
 /// A class for serializing instruction resources to and from XML.
 /// </summary>
-public static class Xml
+public static class XmlSerializer
 {
     /// <summary>
     /// Serialize an instruction resource to a string of XML.

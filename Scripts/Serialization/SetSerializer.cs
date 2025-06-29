@@ -41,7 +41,7 @@ public static class SetSerializer
                 ZipArchiveEntry folder = archive.CreateEntry($"{category}/{opcode}/");
 
                 // Serialize definition.
-                string xml = Xml.Serialize(definition);
+                string xml = XmlSerializer.Serialize(definition);
 
                 // Create definition file.
                 ZipArchiveEntry definitionEntry = archive.CreateEntry($"{category}/{opcode}/Def.xml");
