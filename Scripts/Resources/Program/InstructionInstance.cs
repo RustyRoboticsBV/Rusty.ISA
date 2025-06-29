@@ -1,60 +1,59 @@
 using Godot;
 using System;
 
-namespace Rusty.ISA
+namespace Rusty.ISA;
+
+/// <summary>
+/// An instance of an instruction.
+/// </summary>
+[Tool]
+[GlobalClass]
+public sealed partial class InstructionInstance : InstructionResource
 {
+    /* Public properties. */
     /// <summary>
-    /// An instance of an instruction.
+    /// The opcode of the associated instruction definition.
     /// </summary>
-    [Tool]
-    [GlobalClass]
-    public sealed partial class InstructionInstance : InstructionResource
+    [Export] public string Opcode { get; private set; }
+    /// <summary>
+    /// The arguments that will be passed to the execution handler.
+    /// </summary>
+    [Export] public string[] Arguments { get; private set; } = new string[0];
+
+    /* Constructors. */
+    public InstructionInstance() : this("", 0) { }
+
+    public InstructionInstance(InstructionDefinition definition)
+        : this(definition.Opcode, definition.Parameters.Length) { }
+
+    public InstructionInstance(string opcode, int argumentCount)
+        : this(opcode, new string[argumentCount]) { }
+
+    public InstructionInstance(string opcode, string[] arguments)
     {
-        /* Public properties. */
-        /// <summary>
-        /// The opcode of the associated instruction definition.
-        /// </summary>
-        [Export] public string Opcode { get; private set; }
-        /// <summary>
-        /// The arguments that will be passed to the execution handler.
-        /// </summary>
-        [Export] public string[] Arguments { get; private set; } = new string[0];
+        Opcode = opcode;
+        Arguments = new string[arguments.Length];
+        Array.Copy(arguments, Arguments, Arguments.Length);
+    }
 
-        /* Constructors. */
-        public InstructionInstance() : this("", 0) { }
+    public InstructionInstance(InstructionInstance other)
+        : this(other.Opcode, other.Arguments) { }
 
-        public InstructionInstance(InstructionDefinition definition)
-            : this(definition.Opcode, definition.Parameters.Length) { }
+    /* Public methods. */
+    public override string ToString()
+    {
+        string str = Opcode;
 
-        public InstructionInstance(string opcode, int argumentCount)
-            : this(opcode, new string[argumentCount]) { }
-
-        public InstructionInstance(string opcode, string[] arguments)
+        // Add arguments.
+        str += "(";
+        for (int i = 0; i < Arguments.Length; i++)
         {
-            Opcode = opcode;
-            Arguments = new string[arguments.Length];
-            Array.Copy(arguments, Arguments, Arguments.Length);
+            if (i > 0)
+                str += ", ";
+            str += $"\"{Arguments[i]}\"";
         }
+        str += ")";
 
-        public InstructionInstance(InstructionInstance other)
-            : this(other.Opcode, other.Arguments) { }
-
-        /* Public methods. */
-        public override string ToString()
-        {
-            string str = Opcode;
-
-            // Add arguments.
-            str += "(";
-            for (int i = 0; i < Arguments.Length; i++)
-            {
-                if (i > 0)
-                    str += ", ";
-                str += $"\"{Arguments[i]}\"";
-            }
-            str += ")";
-
-            return str;
-        }
+        return str;
     }
 }

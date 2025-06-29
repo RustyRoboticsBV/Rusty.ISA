@@ -1,40 +1,39 @@
 using Godot;
 
-namespace Rusty.ISA
+namespace Rusty.ISA;
+
+/// <summary>
+/// A wrapper around a generate execution handler GDScipt node.
+/// </summary>
+internal sealed class ExecutionHandler
 {
-    /// <summary>
-    /// A wrapper around a generate execution handler GDScipt node.
-    /// </summary>
-    internal sealed class ExecutionHandler
+    /* Public properties. */
+    public string SourceCode { get; private set; }
+
+    /* Private properties. */
+    private Node Node { get; set; }
+
+    /* Constructors. */
+    internal ExecutionHandler(GDScript script)
     {
-        /* Public properties. */
-        public string SourceCode { get; private set; }
+        Node = (Node)script.New();
+        SourceCode = script.SourceCode;
+    }
 
-        /* Private properties. */
-        private Node Node { get; set; }
+    /* Public methods. */
+    /// <summary>
+    /// Call the handler's initialize method.
+    /// </summary>
+    public void Initialize(Process player)
+    {
+        Node.Call("_initialize", player);
+    }
 
-        /* Constructors. */
-        internal ExecutionHandler(GDScript script)
-        {
-            Node = (Node)script.New();
-            SourceCode = script.SourceCode;
-        }
-
-        /* Public methods. */
-        /// <summary>
-        /// Call the handler's initialize method.
-        /// </summary>
-        public void Initialize(Process player)
-        {
-            Node.Call("_initialize", player);
-        }
-
-        /// <summary>
-        /// Call the handler's execute method.
-        /// </summary>
-        public void Execute(string[] arguments, double deltaTime)
-        {
-            Node.Call("_execute", arguments, deltaTime);
-        }
+    /// <summary>
+    /// Call the handler's execute method.
+    /// </summary>
+    public void Execute(string[] arguments, double deltaTime)
+    {
+        Node.Call("_execute", arguments, deltaTime);
     }
 }
