@@ -5,8 +5,7 @@ namespace Rusty.ISA;
 /// <summary>
 /// The definition of an instruction.
 /// </summary>
-[Tool]
-[GlobalClass]
+[Tool, GlobalClass, XmlClass("definition")]
 public sealed partial class InstructionDefinition : InstructionResource
 {
     /* Public properties. */
@@ -15,34 +14,34 @@ public sealed partial class InstructionDefinition : InstructionResource
     /// The opcode of this instruction. This is the main identifier of an instruction, used in the program files
     /// that the editor generates. Should be a short as possible. Make sure each instruction's opcode is fully unique!
     /// </summary>
-    [Export] public string Opcode { get; private set; } = "";
+    [Export, XmlProperty("opcode")] public string Opcode { get; private set; } = "";
     /// <summary>
     /// The parameters of this instruction.
     /// </summary>
-    [Export] public Parameter[] Parameters { get; private set; } = [];
+    [Export, XmlProperty("params")] public Parameter[] Parameters { get; private set; } = [];
     /// <summary>
     /// The implementation of this instruction (in GDScript).
     /// </summary>
-    [Export(PropertyHint.MultilineText)] public Implementation Implementation { get; private set; }
+    [Export(PropertyHint.MultilineText), XmlProperty("impl")] public Implementation Implementation { get; private set; }
 
     // Metadata.
     /// <summary>
     /// The icon of this instruction, used in the graph editor.
     /// </summary>
-    [Export] public Texture2D Icon { get; private set; }
+    [Export, XmlProperty("icon")] public Texture2D Icon { get; private set; }
     /// <summary>
     /// The human-readable name of this instruction that is used in the graph editor.
     /// </summary>
-    [Export] public string DisplayName { get; private set; } = "";
+    [Export, XmlProperty("name")] public string DisplayName { get; private set; } = "";
     /// <summary>
     /// A description of this instruction. Used for documentation generation, and as a tooltip of the corresponding graph
     /// editor node, should this instruction have one.
     /// </summary>
-    [Export(PropertyHint.MultilineText)] public string Description { get; private set; } = "";
+    [Export(PropertyHint.MultilineText), XmlProperty("desc")] public string Description { get; private set; } = "";
     /// <summary>
     /// The category of the instruction. Gets used to group instructions together in the editor and documentation generation.
     /// </summary>
-    [Export] public string Category { get; private set; } = "";
+    [Export, XmlProperty("category")] public string Category { get; private set; } = "";
 
     // Editor.
     /// <summary>
@@ -50,22 +49,22 @@ public sealed partial class InstructionDefinition : InstructionResource
     /// When instantiated, this allows this instruction to be placed as a node in the graph editor.
     /// Leave this empty if this instruction should only appear as a pre-instruction of another instruction.
     /// </summary>
-    [Export] public EditorNodeInfo EditorNode { get; private set; }
+    [Export, XmlProperty("node")] public EditorNodeInfo EditorNode { get; private set; }
 
     /// <summary>
     /// An expression that defines how previews for this instruction will be generated. If left empty, the empty string is
     /// generated.
     /// </summary>
-    [Export(PropertyHint.MultilineText)] public string Preview { get; private set; } = "";
+    [Export(PropertyHint.MultilineText), XmlProperty("preview")] public string Preview { get; private set; } = "";
 
     /// <summary>
     /// Defines rules for how the editor may create additional instructions before instructions of this type.
     /// </summary>
-    [Export] public CompileRule[] PreInstructions { get; private set; } = [];
+    [Export, XmlProperty("pre")] public CompileRule[] PreInstructions { get; private set; } = [];
     /// <summary>
     /// Defines rules for how the editor may create additional instructions after instructions of this type.
     /// </summary>
-    [Export] public CompileRule[] PostInstructions { get; private set; } = [];
+    [Export, XmlProperty("post")] public CompileRule[] PostInstructions { get; private set; } = [];
 
     /* Constructors. */
     public InstructionDefinition() { }

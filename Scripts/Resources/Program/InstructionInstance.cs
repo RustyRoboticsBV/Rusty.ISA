@@ -6,8 +6,7 @@ namespace Rusty.ISA;
 /// <summary>
 /// An instance of an instruction.
 /// </summary>
-[Tool]
-[GlobalClass]
+[Tool, GlobalClass]
 public sealed partial class InstructionInstance : InstructionResource
 {
     /* Public properties. */

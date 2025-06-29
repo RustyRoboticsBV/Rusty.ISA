@@ -29,7 +29,7 @@ public static class SetSerializer
             string opcode = definition.Opcode;
             if (opcode == "")
             {
-                GD.PrintErr($"Encountered definition without opcode while serializing instruction set {set.ResourceName}! "
+                GD.PrintErr($"Encountered definition without opcode while serializing instruction set '{set.ResourceName}'! "
                     + "The definition was skipped.");
                 continue;
             }
@@ -41,18 +41,15 @@ public static class SetSerializer
                 ZipArchiveEntry folder = archive.CreateEntry($"{category}/{opcode}/");
 
                 // Serialize definition.
-                InstructionDefinitionDescriptor descriptor = Descriptor.FromObject(definition) as InstructionDefinitionDescriptor;
-                if (descriptor.IconPath != "")
-                    descriptor.IconPath = "Icon.png";
-                string xml = descriptor.GenerateXml("");
+                string xml = Xml.Serialize(definition);
 
-                // Create definition.
+                // Create definition file.
                 ZipArchiveEntry definitionEntry = archive.CreateEntry($"{category}/{opcode}/Def.xml");
                 Stream definitionStream = definitionEntry.Open();
                 definitionStream.Write(Encoding.UTF8.GetBytes(xml));
                 definitionStream.Close();
 
-                // Create icon.
+                // Create icon file.
                 if (definition.Icon != null)
                 {
                     ZipArchiveEntry iconEntry = archive.CreateEntry($"{category}/{opcode}/Icon.png");
@@ -63,7 +60,7 @@ public static class SetSerializer
             }
             catch (Exception exception)
             {
-                GD.PrintErr($"Could not add instruction {opcode} to serialized instruction set {set.ResourceName} due to "
+                GD.PrintErr($"Could not add instruction '{opcode}' to serialized instruction set '{set.ResourceName}' due to "
                     + $"exception: {exception.Message}.");
             }
         }

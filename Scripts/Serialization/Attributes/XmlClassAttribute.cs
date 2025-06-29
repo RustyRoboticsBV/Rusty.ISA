@@ -5,17 +5,17 @@ namespace Rusty.ISA;
 /// <summary>
 /// An attribute that contains serialization info about a class.
 /// </summary>
-[AttributeUsage(AttributeTargets.Property)]
-public sealed class XmlPropertyAttribute : Attribute
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class XmlClassAttribute : Attribute
 {
     /* Public properties. */
     /// <summary>
-    /// The XML tag that gets used for the target property.
+    /// The default name for XML elements of this type.
     /// </summary>
     public string XmlKeyword { get; private set; } = "";
 
     /* Constructors. */
-    public XmlPropertyAttribute(string xmlKeyword)
+    public XmlClassAttribute(string xmlKeyword = "")
     {
         XmlKeyword = xmlKeyword;
     }
