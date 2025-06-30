@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Rusty.ISA;
 
 /// <summary>
-/// A class for serializing instruction resources to and from XML.
+/// A class for serializing instruction resources into XML.
 /// </summary>
 public static class XmlSerializer
 {

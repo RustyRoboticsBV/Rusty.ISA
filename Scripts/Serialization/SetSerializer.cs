@@ -11,6 +11,9 @@ namespace Rusty.ISA;
 /// </summary>
 public static class SetSerializer
 {
+    /// <summary>
+    /// Serialize an instruction set into a byte array that can be written to a file.
+    /// </summary>
     public static byte[] Serialize(InstructionSet set)
     {
         // Create new ZIP archive.

@@ -6,7 +6,7 @@ using System.Xml;
 namespace Rusty.ISA;
 
 /// <summary>
-/// A class for serializing instruction resources to and from XML.
+/// A class for deserializing instruction resources from XML.
 /// </summary>
 public static class XmlDeserializer
 {
