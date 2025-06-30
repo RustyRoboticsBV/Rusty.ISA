@@ -19,6 +19,15 @@ public static class XmlDeserializer
         XmlDocument document = new();
         document.LoadXml(xml);
 
+        // Parse document.
+        return Deserialize(document, folderPath);
+    }
+
+    /// <summary>
+    /// Deserialize an XML document into an instruction resource.
+    /// </summary>
+    public static InstructionResource Deserialize(XmlDocument document, string folderPath)
+    {
         // Parse root element.
         foreach (XmlNode node in document.ChildNodes)
         {
