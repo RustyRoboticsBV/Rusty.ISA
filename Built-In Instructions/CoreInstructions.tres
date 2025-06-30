@@ -161,7 +161,7 @@ metadata/_custom_type_script = "uid://beorwwi6t13op"
 [sub_resource type="Resource" id="Resource_f0ci4"]
 resource_name = "WRN(message)"
 script = ExtResource("4_r77ix")
-Opcode = ""
+Opcode = "WRN"
 Parameters = [SubResource("Resource_qbgrv")]
 Implementation = SubResource("Resource_su0df")
 Icon = ExtResource("7_ar60a")
@@ -195,7 +195,7 @@ metadata/_custom_type_script = "uid://beorwwi6t13op"
 [sub_resource type="Resource" id="Resource_m8hn8"]
 resource_name = "ERR(message)"
 script = ExtResource("4_r77ix")
-Opcode = ""
+Opcode = "ERR"
 Parameters = [SubResource("Resource_eyyt5")]
 Implementation = SubResource("Resource_w1ddm")
 Icon = ExtResource("9_iqsxj")
