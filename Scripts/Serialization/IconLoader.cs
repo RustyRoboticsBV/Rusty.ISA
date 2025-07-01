@@ -32,24 +32,19 @@ public static class IconLoader
 
             // Open top-level ZIP.
             Stream stream = File.OpenRead(parts[0]);
-            GD.Print("Examining icon zip " + parts[0]);
 
             // Loop through each nested ZIP until we reach the image file.
             for (int i = 1; i < parts.Length; i++)
             {
                 // Sanitize path.
                 parts[i] = parts[i].Replace("\\", "/");
-                GD.Print("Examining icon zip part: " + parts[i]);
 
                 // Read archive.
                 using ZipArchive archive = new(stream, ZipArchiveMode.Read, true);
                 ZipArchiveEntry entry = archive.GetEntry(parts[i]);
 
                 if (entry == null)
-                {
-                    GD.Print("CANNOT FIND " + parts[i]);
                     break;
-                }
 
                 // Open memory stream to archive entry.
                 using Stream entryStream = entry.Open();
@@ -63,7 +58,6 @@ public static class IconLoader
                 // If the last part, read bytes.
                 if (i == parts.Length - 1)
                 {
-                    GD.Print("Found bytes!");
                     bytes = memoryStream.ToArray();
                     stream.Dispose();
                 }

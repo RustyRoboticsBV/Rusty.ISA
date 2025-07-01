@@ -15,6 +15,9 @@ public static class PathUtility
     /// </summary>
     public static string GetPath(string path)
     {
+        // Sanitize zip paths.
+        path = path.Replace(".zip\\", ".zip");
+        
         // Rooted paths.
         if (Path.IsPathRooted(path))
             return path;
