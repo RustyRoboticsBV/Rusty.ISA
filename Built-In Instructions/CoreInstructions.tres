@@ -210,4 +210,5 @@ metadata/_custom_type_script = "uid://nj3anaafielp"
 [resource]
 script = ExtResource("1_mfbc6")
 Local = [SubResource("Resource_1ceop"), SubResource("Resource_hkqpj"), SubResource("Resource_4ef8f"), SubResource("Resource_35oan"), SubResource("Resource_f0ci4"), SubResource("Resource_m8hn8")]
+Name = "Core"
 Modules = []

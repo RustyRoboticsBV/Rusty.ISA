@@ -93,7 +93,7 @@ public static class XmlSerializer
         foreach (object obj in array)
         {
             if (obj is InstructionResource resource)
-                xml += Newline(xml, Serialize(resource));
+                xml = Newline(xml, Serialize(resource));
             else
                 throw new InvalidOperationException($"Arrays of type '{obj.GetType().Name}' are not supported!");
         }
@@ -160,7 +160,7 @@ public static class XmlSerializer
     private static string Wrap(string keyword, string innerXml)
     {
         string xml = $"<{keyword}>";
-        if (innerXml.Contains("\n"))
+        if (innerXml.Contains("\n") || (innerXml.TrimStart().StartsWith('<') && innerXml.TrimEnd().EndsWith('>')))
             xml += "\n" + Indent(innerXml) + "\n";
         else
             xml += innerXml;
@@ -172,12 +172,12 @@ public static class XmlSerializer
     /// Append a string to another string, on a new line. Doesn't create a new line if the string is empty or ends with a
     /// line-break.
     /// </summary>
-    private static string Newline(string xml, string newline)
+    private static string Newline(string previousXml, string addedXml)
     {
-        if (xml == "")
-            return newline;
+        if (previousXml == "")
+            return addedXml;
         else
-            return xml + "\n" + newline;
+            return $"{previousXml}\n{addedXml}";
     }
 
     /// <summary>

@@ -1,5 +1,8 @@
 ﻿using Godot;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 
 namespace Rusty.ISA;
 
@@ -14,12 +17,62 @@ public static class IconLoader
     /// </summary>
     public static Texture2D Load(string globalPath, bool isAlphaTexture = false)
     {
-        // If the file exists...
-        if (File.Exists(globalPath))
-        {
-            // Read file.
-            byte[] bytes = File.ReadAllBytes(globalPath);
+        byte[] bytes = null;
 
+        // Read file if it exists...
+        if (File.Exists(globalPath))
+            bytes = File.ReadAllBytes(globalPath);
+
+        // Else, check if it's a zip entry.
+        else if (globalPath.Contains(".zip"))
+        {
+            // Split string into sub-paths for each nested ZIP file.
+            string delimitedPath = globalPath.Replace(".zip\\", ".zip>>").Replace(".zip/", ".zip>>");
+            string[] parts = delimitedPath.Split(">>");
+
+            // Open top-level ZIP.
+            Stream stream = File.OpenRead(parts[0]);
+            GD.Print("Examining icon zip " + parts[0]);
+
+            // Loop through each nested ZIP until we reach the image file.
+            for (int i = 1; i < parts.Length; i++)
+            {
+                // Sanitize path.
+                parts[i] = parts[i].Replace("\\", "/");
+                GD.Print("Examining icon zip part: " + parts[i]);
+
+                // Read archive.
+                using ZipArchive archive = new(stream, ZipArchiveMode.Read, true);
+                ZipArchiveEntry entry = archive.GetEntry(parts[i]);
+
+                if (entry == null)
+                {
+                    GD.Print("CANNOT FIND " + parts[i]);
+                    break;
+                }
+
+                // Open memory stream to archive entry.
+                using Stream entryStream = entry.Open();
+                MemoryStream memoryStream = new MemoryStream();
+                entryStream.CopyTo(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                stream.Dispose();
+                stream = memoryStream;
+
+                // If the last part, read bytes.
+                if (i == parts.Length - 1)
+                {
+                    GD.Print("Found bytes!");
+                    bytes = memoryStream.ToArray();
+                    stream.Dispose();
+                }
+            }
+        }
+
+        // Read bytes as image.
+        if (bytes != null)
+        {
             // Create image.
             string lowercase = globalPath.ToLower();
             Image image = new();
@@ -53,7 +106,10 @@ public static class IconLoader
 
         // If the file did not exist, return nothing.
         else
+        {
+            GD.PrintErr($"Could not find icon '{globalPath}'!");
             return null;
+        }
     }
 
     /// <summary>

@@ -12,6 +12,10 @@ public sealed partial class InstructionSet : InstructionResource
 {
     /* Public properties. */
     /// <summary>
+    /// The name of this instruction set.
+    /// </summary>
+    [Export] public string Name { get; set; } = "";
+    /// <summary>
     /// The instruction definitions in local to this instruction set.
     /// </summary>
     [Export] public InstructionDefinition[] Local { get; private set; } = { };
@@ -43,15 +47,13 @@ public sealed partial class InstructionSet : InstructionResource
     /* Constructors. */
     public InstructionSet() { }
 
-    public InstructionSet(InstructionDefinition[] definitions)
+    public InstructionSet(string name, InstructionDefinition[] definitions, InstructionSet[] modules)
     {
-        Local = definitions;
-    }
-
-    public InstructionSet(InstructionDefinition[] definitions, InstructionSet[] modules)
-    {
+        Name = name;
         Local = definitions;
         Modules = modules;
+
+        ResourceName = Name + $"[{Definitions.Length}]";
     }
 
     /* Indexers. */
@@ -67,12 +69,14 @@ public sealed partial class InstructionSet : InstructionResource
     /* Public methods. */
     public override string ToString()
     {
-        string str = "";
-        foreach (InstructionDefinition definition in Definitions)
+        string str = Name + ":";
+        foreach (InstructionDefinition definition in Local)
         {
-            if (str != "")
-                str += "\n";
-            str += definition;
+            str += "\n-" + definition;
+        }
+        foreach (InstructionSet module in Modules)
+        {
+            str += "\n+" + module.ToString().Replace("\n", "\n ");
         }
         return str;
     }

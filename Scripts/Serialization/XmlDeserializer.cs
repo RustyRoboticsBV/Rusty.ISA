@@ -159,7 +159,11 @@ public static class XmlDeserializer
                 {
                     innerText = innerText.Substring(0, innerText.Length - 1);
                 }
-                value = Convert.ChangeType(innerText, property.PropertyType);
+                try
+                {
+                    value = Convert.ChangeType(innerText, property.PropertyType);
+                }
+                catch { }
             }
 
             property.SetValue(instance, value);

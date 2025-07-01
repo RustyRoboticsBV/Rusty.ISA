@@ -32,7 +32,7 @@ public static class SetSerializer
             string opcode = definition.Opcode;
             if (opcode == "")
             {
-                GD.PrintErr($"Encountered definition without opcode while serializing instruction set '{set.ResourceName}'! "
+                GD.PrintErr($"Encountered definition without opcode while serializing instruction set '{set.Name}'! "
                     + "The definition was skipped.");
                 continue;
             }
@@ -63,9 +63,18 @@ public static class SetSerializer
             }
             catch (Exception exception)
             {
-                GD.PrintErr($"Could not add instruction '{opcode}' to serialized instruction set '{set.ResourceName}' due to "
+                GD.PrintErr($"Could not add instruction '{opcode}' to serialized instruction set '{set.Name}' due to "
                     + $"exception: {exception.Message}.");
             }
+        }
+
+        // Add modules.
+        foreach (InstructionSet module in set.Modules)
+        {
+            ZipArchiveEntry moduleEntry = archive.CreateEntry(module.Name + ".zip");
+            Stream definitionStream = moduleEntry.Open();
+            definitionStream.Write(Serialize(module));
+            definitionStream.Close();
         }
 
         // Close and return finished archive as a byte array.
