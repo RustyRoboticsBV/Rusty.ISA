@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cqr70pp8lhjxg"
-path="res://.godot/imported/IconBEG.bmp-e65d0d1022c5a7b86e265ea1359bfeec.ctex"
+path="res://.godot/imported/IconBEG.bmp-ed7537f38d2739741f2e4ecf8de650d2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Built-In Instructions/IconBEG.bmp"
-dest_files=["res://.godot/imported/IconBEG.bmp-e65d0d1022c5a7b86e265ea1359bfeec.ctex"]
+source_file="res://Submodules/ISA/Built-In Instructions/IconBEG.bmp"
+dest_files=["res://.godot/imported/IconBEG.bmp-ed7537f38d2739741f2e4ecf8de650d2.ctex"]
 
 [params]
 

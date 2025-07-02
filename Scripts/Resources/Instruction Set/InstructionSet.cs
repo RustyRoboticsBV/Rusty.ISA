@@ -14,7 +14,19 @@ public sealed partial class InstructionSet : InstructionResource
     /// <summary>
     /// The name of this instruction set.
     /// </summary>
-    [Export] public string Name { get; set; } = "";
+    [Export] public string Name { get; private set; } = "";
+    /// <summary>
+    /// The description of this instruction set.
+    /// </summary>
+    [Export(PropertyHint.MultilineText)] public string Description { get; private set; } = "";
+    /// <summary>
+    /// The author of this instruction set.
+    /// </summary>
+    [Export] public string Author { get; private set; } = "";
+    /// <summary>
+    /// The version of this instruction set.
+    /// </summary>
+    [Export] public string Version { get; private set; } = "1.0.0";
     /// <summary>
     /// The instruction definitions in local to this instruction set.
     /// </summary>
@@ -47,9 +59,14 @@ public sealed partial class InstructionSet : InstructionResource
     /* Constructors. */
     public InstructionSet() { }
 
-    public InstructionSet(string name, InstructionDefinition[] definitions, InstructionSet[] modules)
+    public InstructionSet(string name, string description, string author, string version,
+        InstructionDefinition[] definitions, InstructionSet[] modules)
     {
         Name = name;
+        Description = description;
+        Author = author;
+        Version = version;
+
         Local = definitions;
         Modules = modules;
 

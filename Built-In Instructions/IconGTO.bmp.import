@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dbw2hjlfspdf"
-path="res://.godot/imported/IconGTO.bmp-0cfe72c4a75867b28f8d8ffa383f87ba.ctex"
+path="res://.godot/imported/IconGTO.bmp-199025091af9149fe10e1af66c578d0b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Built-In Instructions/IconGTO.bmp"
-dest_files=["res://.godot/imported/IconGTO.bmp-0cfe72c4a75867b28f8d8ffa383f87ba.ctex"]
+source_file="res://Submodules/ISA/Built-In Instructions/IconGTO.bmp"
+dest_files=["res://.godot/imported/IconGTO.bmp-199025091af9149fe10e1af66c578d0b.ctex"]
 
 [params]
 

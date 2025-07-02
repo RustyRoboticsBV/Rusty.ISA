@@ -1,17 +1,17 @@
 [gd_resource type="Resource" script_class="InstructionSet" load_steps=30 format=3 uid="uid://brpnbl7l2o4ha"]
 
-[ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
-[ext_resource type="Script" uid="uid://cecyq1lx2acho" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
-[ext_resource type="Script" uid="uid://yv1p0xvly16v" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
-[ext_resource type="Script" uid="uid://d02yl7f7rgu3u" path="res://Scripts/Resources/Instruction Definition/Parameters/TextlineParameter.cs" id="3_suvwn"]
-[ext_resource type="Texture2D" uid="uid://c6nj8ormy6u2x" path="res://Built-In Instructions/IconLAB.bmp" id="4_4wg55"]
-[ext_resource type="Script" uid="uid://nj3anaafielp" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
-[ext_resource type="Texture2D" uid="uid://d2p6fihx03ulm" path="res://Built-In Instructions/IconEND.bmp" id="5_ypkac"]
-[ext_resource type="Texture2D" uid="uid://dbw2hjlfspdf" path="res://Built-In Instructions/IconGTO.bmp" id="6_rjc6t"]
-[ext_resource type="Texture2D" uid="uid://bmrw4vxts8i3o" path="res://Built-In Instructions/IconWRN.bmp" id="7_ar60a"]
-[ext_resource type="Script" uid="uid://dkpdexe5sfgdv" path="res://Scripts/Resources/Instruction Definition/Parameters/OutputParameter.cs" id="8_5til1"]
-[ext_resource type="Script" uid="uid://beorwwi6t13op" path="res://Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
-[ext_resource type="Texture2D" uid="uid://bhfjn5nohucmy" path="res://Built-In Instructions/IconERR.bmp" id="9_iqsxj"]
+[ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Submodules/ISA/Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
+[ext_resource type="Script" uid="uid://cecyq1lx2acho" path="res://Submodules/ISA/Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
+[ext_resource type="Script" uid="uid://yv1p0xvly16v" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
+[ext_resource type="Script" uid="uid://d02yl7f7rgu3u" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/TextlineParameter.cs" id="3_suvwn"]
+[ext_resource type="Texture2D" uid="uid://c6nj8ormy6u2x" path="res://Submodules/ISA/Built-In Instructions/IconLAB.bmp" id="4_4wg55"]
+[ext_resource type="Script" uid="uid://nj3anaafielp" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
+[ext_resource type="Texture2D" uid="uid://d2p6fihx03ulm" path="res://Submodules/ISA/Built-In Instructions/IconEND.bmp" id="5_ypkac"]
+[ext_resource type="Texture2D" uid="uid://dbw2hjlfspdf" path="res://Submodules/ISA/Built-In Instructions/IconGTO.bmp" id="6_rjc6t"]
+[ext_resource type="Texture2D" uid="uid://bmrw4vxts8i3o" path="res://Submodules/ISA/Built-In Instructions/IconWRN.bmp" id="7_ar60a"]
+[ext_resource type="Script" uid="uid://dkpdexe5sfgdv" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/OutputParameter.cs" id="8_5til1"]
+[ext_resource type="Script" uid="uid://beorwwi6t13op" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
+[ext_resource type="Texture2D" uid="uid://bhfjn5nohucmy" path="res://Submodules/ISA/Built-In Instructions/IconERR.bmp" id="9_iqsxj"]
 
 [sub_resource type="Resource" id="Resource_71txg"]
 resource_name = "Imlementation"
@@ -209,6 +209,9 @@ metadata/_custom_type_script = "uid://nj3anaafielp"
 
 [resource]
 script = ExtResource("1_mfbc6")
-Local = [SubResource("Resource_1ceop"), SubResource("Resource_hkqpj"), SubResource("Resource_4ef8f"), SubResource("Resource_35oan"), SubResource("Resource_f0ci4"), SubResource("Resource_m8hn8")]
 Name = "Core"
+Description = "The instructions that are needed for the core ISA module to function. Includes things like flow control and error handling."
+Author = "Rusty Robotics B.V."
+Version = "1.0.0"
+Local = [SubResource("Resource_1ceop"), SubResource("Resource_hkqpj"), SubResource("Resource_4ef8f"), SubResource("Resource_35oan"), SubResource("Resource_f0ci4"), SubResource("Resource_m8hn8")]
 Modules = []

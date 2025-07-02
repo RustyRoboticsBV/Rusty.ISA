@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Text.RegularExpressions;
 
 namespace Rusty.ISA;
 
@@ -28,48 +29,70 @@ public static class SetDeserializer
         List<InstructionSet> modules = new();
         GD.Print("Unpacking " + folderPath + "\\" + fileName);
 
-        using (MemoryStream zipStream = new(bytes))
-        using (ZipArchive archive = new(zipStream, ZipArchiveMode.Read))
+        using MemoryStream zipStream = new(bytes);
+        using ZipArchive archive = new(zipStream, ZipArchiveMode.Read);
+
+        // Initialize metadata.
+        string name = "";
+        string description = "";
+        string author = "";
+        string version = "";
+
+        // Read entries.
+        foreach (var entry in archive.Entries)
         {
-            foreach (var entry in archive.Entries)
+            string lowercase = entry.FullName.ToLower();
+            string pathToEntry = folderPath + $"\\{fileName}\\" + entry.FullName;
+
+            using Stream entryStream = entry.Open();
+
+            // TXT file.
+            if (lowercase.EndsWith(".txt"))
             {
-                string lowercase = entry.FullName.ToLower();
-                string pathToEntry = folderPath + $"\\{fileName}\\" + entry.FullName;
+                using StreamReader metadataReader = new(entryStream);
+                string metadata = metadataReader.ReadToEnd();
 
-                using (Stream entryStream = entry.Open())
+                name = ExtractMetadata(metadata, "Name");
+                description = ExtractMetadata(metadata, "Description");
+                author = ExtractMetadata(metadata, "Author");
+                version = ExtractMetadata(metadata, "Version");
+            }
+
+            // XML file.
+            else if (lowercase.EndsWith(".xml"))
+            {
+                using StreamReader reader = new(entryStream);
+                string xmlContent = reader.ReadToEnd();
+                InstructionDefinition definition = (InstructionDefinition)XmlDeserializer.Deserialize(xmlContent,
+                    Path.GetDirectoryName(pathToEntry));
+                definitions.Add(definition);
+            }
+
+            // Nested ZIP file.
+            else if (lowercase.EndsWith(".zip"))
+            {
+                using (MemoryStream nestedZipStream = new())
                 {
-                    // XML file.
-                    if (lowercase.EndsWith(".xml"))
-                    {
-                        using (StreamReader reader = new(entryStream))
-                        {
-                            string xmlContent = reader.ReadToEnd();
-                            InstructionDefinition definition = (InstructionDefinition)XmlDeserializer.Deserialize(xmlContent,
-                                Path.GetDirectoryName(pathToEntry));
-                            definitions.Add(definition);
-                        }
-                    }
+                    entryStream.CopyTo(nestedZipStream);
+                    byte[] nestedBytes = nestedZipStream.ToArray();
 
-                    // Nested ZIP files.
-                    else if (lowercase.EndsWith(".zip"))
-                    {
-                        using (MemoryStream nestedZipStream = new())
-                        {
-                            entryStream.CopyTo(nestedZipStream);
-                            byte[] nestedBytes = nestedZipStream.ToArray();
-
-                            InstructionSet module = Deserialize(nestedBytes,
-                                Path.GetDirectoryName(pathToEntry),
-                                Path.GetFileName(pathToEntry));
-                            modules.Add(module);
-                        }
-                    }
+                    InstructionSet module = Deserialize(nestedBytes,
+                        Path.GetDirectoryName(pathToEntry),
+                        Path.GetFileName(pathToEntry));
+                    modules.Add(module);
                 }
             }
         }
 
         // Combine into instruction set.
-        string name = fileName.Replace(".zip", "");
-        return new(name, definitions.ToArray(), modules.ToArray());
+        return new(name, description, author, version, definitions.ToArray(), modules.ToArray());
+    }
+
+    /* Private methods. */
+    private static string? ExtractMetadata(string input, string key)
+    {
+        string pattern = $@"{Regex.Escape(key)}=""(.*?)""";
+        Match match = Regex.Match(input, pattern, RegexOptions.Singleline);
+        return match.Success ? match.Groups[1].Value : "";
     }
 }

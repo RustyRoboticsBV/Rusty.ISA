@@ -20,13 +20,17 @@ public static class SetSerializer
         MemoryStream stream = new();
         ZipArchive archive = new(stream, ZipArchiveMode.Update, true);
 
+        // Add metadata file.
+        string metadata = $"Name=\"{set.Name}\"\nDesc=\"{set.Description}\"\nAuthor=\"{set.Author}\"\nVersion=\"{set.Version}\"";
+        ZipArchiveEntry metadataEntry = archive.CreateEntry("Metadata.txt");
+        Stream metadataStream = metadataEntry.Open();
+        metadataStream.Write(Encoding.UTF8.GetBytes(metadata));
+
         // Add definitions.
         foreach (InstructionDefinition definition in set.Local)
         {
             // Get category.
             string category = definition.Category;
-            if (category == "")
-                category = "uncategorized";
 
             // Get opcode.
             string opcode = definition.Opcode;
@@ -41,13 +45,14 @@ public static class SetSerializer
             try
             {
                 // Create folder.
-                ZipArchiveEntry folder = archive.CreateEntry($"{category}/{opcode}/");
+                string folderPath = (category != "" && set.Name != category) ? $"{category}/{opcode}" : $"{opcode}";
+                ZipArchiveEntry folder = archive.CreateEntry(folderPath + "/");
 
                 // Serialize definition.
                 string xml = XmlSerializer.Serialize(definition);
 
                 // Create definition file.
-                ZipArchiveEntry definitionEntry = archive.CreateEntry($"{category}/{opcode}/Def.xml");
+                ZipArchiveEntry definitionEntry = archive.CreateEntry($"{folderPath}/Def.xml");
                 Stream definitionStream = definitionEntry.Open();
                 definitionStream.Write(Encoding.UTF8.GetBytes(xml));
                 definitionStream.Close();
@@ -55,7 +60,7 @@ public static class SetSerializer
                 // Create icon file.
                 if (definition.Icon != null)
                 {
-                    ZipArchiveEntry iconEntry = archive.CreateEntry($"{category}/{opcode}/Icon.png");
+                    ZipArchiveEntry iconEntry = archive.CreateEntry($"{folderPath}/Icon.png");
                     Stream iconStream = iconEntry.Open();
                     iconStream.Write(definition.Icon.GetImage().SavePngToBuffer());
                     iconStream.Close();
