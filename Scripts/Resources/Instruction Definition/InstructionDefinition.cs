@@ -153,6 +153,17 @@ public sealed partial class InstructionDefinition : InstructionResource
     }
 
     /// <summary>
+    /// Get a parameter with some ID.
+    /// </summary>
+    public Parameter GetParameter(string id)
+    {
+        int index = GetParameterIndex(id);
+        if (index >= 0)
+            return Parameters[index];
+        return null;
+    }
+
+    /// <summary>
     /// Check if this instruction removes the default output from editor nodes that contain it.
     /// </summary>
     public bool RemovesDefaultOutput()
