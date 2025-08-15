@@ -33,6 +33,13 @@ public sealed partial class InstructionInstance : InstructionResource
         Opcode = opcode;
         Arguments = new string[arguments.Length];
         Array.Copy(arguments, Arguments, Arguments.Length);
+
+        // Replace null arguments with the empty string.
+        for (int i = 0; i < Arguments.Length; i++)
+        {
+            if (Arguments[i] == null)
+                Arguments[i] = "";
+        }
     }
 
     public InstructionInstance(InstructionInstance other)
