@@ -143,7 +143,7 @@ public static class XmlDeserializer
             else if (property.PropertyType == typeof(Color))
                 value = Color.FromHtml(childElement.InnerText);
             else if (property.PropertyType == typeof(Texture2D))
-                value = IconLoader.Load(folderPath + "/" + childElement.InnerText);
+                value = IconLoader.Load(folderPath + "/" + childElement.InnerText, true);
             else
             {
                 string innerText = childElement.InnerText;

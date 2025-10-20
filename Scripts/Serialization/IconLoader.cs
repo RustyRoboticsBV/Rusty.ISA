@@ -1,6 +1,4 @@
 ﻿using Godot;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
@@ -15,7 +13,7 @@ public static class IconLoader
     /// Load an image. If "isAlphaTexture" is enabled, then the image will be converted from black-and-white without alpha
     /// into solid white with alpha. Supported file formats: .bmp, .png, .jpg, .tga, .svg, .webp, .ktx.
     /// </summary>
-    public static Texture2D Load(string globalPath, bool isAlphaTexture = false)
+    public static Texture2D Load(string globalPath, bool generateMipmaps = true, bool isAlphaTexture = false)
     {
         byte[] bytes = null;
 
@@ -87,6 +85,10 @@ public static class IconLoader
             else
                 throw new IOException($"The file at '{globalPath}' had an unknown file extension and could not be loaded.");
 
+            // Generate mipmaps.
+            if (generateMipmaps)
+                image.GenerateMipmaps();
+
             // If the source image is an alpha texture, convert to color.
             if (isAlphaTexture)
                 AlphaToColor(image);
@@ -111,7 +113,7 @@ public static class IconLoader
     /// </summary>
     public static Texture2D AlphaToColor(Texture2D texture)
     {
-        return AlphaToColor(texture, new Color(1f, 1f, 1f));
+        return AlphaToColor(texture, Colors.White);
     }
 
     /// <summary>
@@ -133,7 +135,7 @@ public static class IconLoader
     /// </summary>
     public static void AlphaToColor(Image image)
     {
-        AlphaToColor(image, new Color(1f, 1f, 1f));
+        AlphaToColor(image, Colors.White);
     }
 
     /// <summary>
