@@ -85,6 +85,9 @@ public static class IconLoader
             else
                 throw new IOException($"The file at '{globalPath}' had an unknown file extension and could not be loaded.");
 
+            // Fix alpha borders.
+            image.FixAlphaEdges();
+
             // Generate mipmaps.
             if (generateMipmaps)
                 image.GenerateMipmaps();
