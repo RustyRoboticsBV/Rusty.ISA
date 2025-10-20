@@ -1,26 +1,20 @@
-[gd_resource type="Resource" script_class="InstructionSet" load_steps=30 format=3 uid="uid://brpnbl7l2o4ha"]
+[gd_resource type="Resource" script_class="InstructionSet" load_steps=42 format=3 uid="uid://brpnbl7l2o4ha"]
 
-[ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Submodules/ISA/Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
-[ext_resource type="Script" uid="uid://cecyq1lx2acho" path="res://Submodules/ISA/Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
-[ext_resource type="Script" uid="uid://yv1p0xvly16v" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
-[ext_resource type="Script" uid="uid://d02yl7f7rgu3u" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/TextlineParameter.cs" id="3_suvwn"]
-[ext_resource type="Texture2D" uid="uid://c6nj8ormy6u2x" path="res://Submodules/ISA/Built-In Instructions/IconLAB.bmp" id="4_4wg55"]
-[ext_resource type="Script" uid="uid://nj3anaafielp" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
-[ext_resource type="Texture2D" uid="uid://d2p6fihx03ulm" path="res://Submodules/ISA/Built-In Instructions/IconEND.bmp" id="5_ypkac"]
-[ext_resource type="Texture2D" uid="uid://dbw2hjlfspdf" path="res://Submodules/ISA/Built-In Instructions/IconGTO.bmp" id="6_rjc6t"]
-[ext_resource type="Texture2D" uid="uid://bmrw4vxts8i3o" path="res://Submodules/ISA/Built-In Instructions/IconWRN.bmp" id="7_ar60a"]
-[ext_resource type="Script" uid="uid://dkpdexe5sfgdv" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/OutputParameter.cs" id="8_5til1"]
-[ext_resource type="Script" uid="uid://beorwwi6t13op" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
-[ext_resource type="Texture2D" uid="uid://bhfjn5nohucmy" path="res://Submodules/ISA/Built-In Instructions/IconERR.bmp" id="9_iqsxj"]
-
-[sub_resource type="Resource" id="Resource_71txg"]
-resource_name = "Imlementation"
-script = ExtResource("2_dp32q")
-Dependencies = []
-Members = ""
-Initialize = ""
-Execute = ""
-metadata/_custom_type_script = "uid://yv1p0xvly16v"
+[ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
+[ext_resource type="Script" uid="uid://cecyq1lx2acho" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
+[ext_resource type="Script" uid="uid://yv1p0xvly16v" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
+[ext_resource type="Script" uid="uid://d02yl7f7rgu3u" path="res://Scripts/Resources/Instruction Definition/Parameters/TextlineParameter.cs" id="3_suvwn"]
+[ext_resource type="Texture2D" uid="uid://c6nj8ormy6u2x" path="res://Built-In Instructions/IconLAB.bmp" id="4_4wg55"]
+[ext_resource type="Script" uid="uid://nj3anaafielp" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
+[ext_resource type="Texture2D" uid="uid://d2p6fihx03ulm" path="res://Built-In Instructions/IconEND.bmp" id="5_ypkac"]
+[ext_resource type="Texture2D" uid="uid://dbw2hjlfspdf" path="res://Built-In Instructions/IconGTO.bmp" id="6_rjc6t"]
+[ext_resource type="Texture2D" uid="uid://bmrw4vxts8i3o" path="res://Built-In Instructions/IconWRN.bmp" id="7_ar60a"]
+[ext_resource type="Script" uid="uid://dkpdexe5sfgdv" path="res://Scripts/Resources/Instruction Definition/Parameters/OutputParameter.cs" id="8_5til1"]
+[ext_resource type="Script" uid="uid://beorwwi6t13op" path="res://Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
+[ext_resource type="Texture2D" uid="uid://b1pk44b8shrww" path="res://Built-In Instructions/IconLOG.bmp" id="9_71txg"]
+[ext_resource type="Texture2D" uid="uid://bhfjn5nohucmy" path="res://Built-In Instructions/IconERR.bmp" id="9_iqsxj"]
+[ext_resource type="Texture2D" uid="uid://bymtr2vcl55hq" path="res://Built-In Instructions/IconLAN.svg" id="13_bmik3"]
+[ext_resource type="Texture2D" uid="uid://crq6e6giivjho" path="res://Built-In Instructions/IconLOC.svg" id="14_4ya1r"]
 
 [sub_resource type="Resource" id="Resource_equsc"]
 resource_name = "name (textline)"
@@ -28,8 +22,6 @@ script = ExtResource("3_suvwn")
 ID = "name"
 DisplayName = "Name"
 Description = "The name of this start point."
-DefaultValue = ""
-Preview = ""
 metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
 
 [sub_resource type="Resource" id="Resource_1ceop"]
@@ -37,12 +29,11 @@ resource_name = "BEG(name)"
 script = ExtResource("4_r77ix")
 Opcode = "BEG"
 Parameters = [SubResource("Resource_equsc")]
-Implementation = SubResource("Resource_71txg")
 Icon = ExtResource("1_4ubkm")
 DisplayName = "Start Point"
 Description = "Defines a start point in an instruction program. Processes can start playing the program from these points."
 Category = "Core"
-Preview = "\"Start point: \" + [[name]]"
+Preview = "return \"Start point: \" + [[name]];"
 PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
@@ -50,9 +41,6 @@ metadata/_custom_type_script = "uid://nj3anaafielp"
 [sub_resource type="Resource" id="Resource_pudsc"]
 resource_name = "Implementation"
 script = ExtResource("2_dp32q")
-Dependencies = []
-Members = ""
-Initialize = ""
 Execute = "end();"
 metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
@@ -66,19 +54,10 @@ Icon = ExtResource("5_ypkac")
 DisplayName = "End Point"
 Description = "Terminates the current program's execution."
 Category = "Core"
-Preview = "END"
+Preview = "return END;"
 PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
-
-[sub_resource type="Resource" id="Resource_s0kus"]
-resource_name = "Imlementation"
-script = ExtResource("2_dp32q")
-Dependencies = []
-Members = ""
-Initialize = ""
-Execute = ""
-metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
 [sub_resource type="Resource" id="Resource_5til1"]
 resource_name = "name (textline)"
@@ -86,8 +65,6 @@ script = ExtResource("3_suvwn")
 ID = "name"
 DisplayName = "Name"
 Description = "The name of this label."
-DefaultValue = ""
-Preview = ""
 metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
 
 [sub_resource type="Resource" id="Resource_4ef8f"]
@@ -95,12 +72,11 @@ resource_name = "LAB(name)"
 script = ExtResource("4_r77ix")
 Opcode = "LAB"
 Parameters = [SubResource("Resource_5til1")]
-Implementation = SubResource("Resource_s0kus")
 Icon = ExtResource("4_4wg55")
 DisplayName = "Label"
 Description = "Defines a point in the program that can be jumped to by the goto function."
 Category = "Core"
-Preview = "\"Label: \" + [[name]]"
+Preview = "return \"Label: \" + [[name]];"
 PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
@@ -108,9 +84,6 @@ metadata/_custom_type_script = "uid://nj3anaafielp"
 [sub_resource type="Resource" id="Resource_bmik3"]
 resource_name = "Imlementation"
 script = ExtResource("2_dp32q")
-Dependencies = []
-Members = ""
-Initialize = ""
 Execute = "goto([[target_label]]);"
 metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
@@ -121,7 +94,6 @@ ID = "target_label"
 DisplayName = "Target Label"
 Description = "The name of the label that must be jumped to."
 RemoveDefaultOutput = true
-Preview = ""
 metadata/_custom_type_script = "uid://dkpdexe5sfgdv"
 
 [sub_resource type="Resource" id="Resource_35oan"]
@@ -134,7 +106,36 @@ Icon = ExtResource("6_rjc6t")
 DisplayName = "Goto"
 Description = "Jumps the program counter to a label instruction with some name."
 Category = "Core"
-Preview = "\"Goto: \" + [[target_label]]"
+Preview = "return \"Goto: \" + [[target_label]];"
+PreInstructions = []
+PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
+
+[sub_resource type="Resource" id="Resource_2rurg"]
+script = ExtResource("2_dp32q")
+Execute = "message([[target_label]]);"
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
+
+[sub_resource type="Resource" id="Resource_yny5w"]
+resource_name = "message (multiline)"
+script = ExtResource("8_lid40")
+ID = "message"
+DisplayName = "Message"
+Description = "The text that is printed to the console."
+DefaultValue = "Hello, world!"
+metadata/_custom_type_script = "uid://beorwwi6t13op"
+
+[sub_resource type="Resource" id="Resource_6tjht"]
+resource_name = "LOG(message)"
+script = ExtResource("4_r77ix")
+Opcode = "LOG"
+Parameters = [SubResource("Resource_yny5w")]
+Implementation = SubResource("Resource_2rurg")
+Icon = ExtResource("9_71txg")
+DisplayName = "Log Message"
+Description = "Prints a debug message to the console."
+Category = "Core"
+Preview = "return \"Message: \\\"\" + [[message]] + \"\\\"\";"
 PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
@@ -142,10 +143,7 @@ metadata/_custom_type_script = "uid://nj3anaafielp"
 [sub_resource type="Resource" id="Resource_su0df"]
 resource_name = "Imlementation"
 script = ExtResource("2_dp32q")
-Dependencies = []
-Members = ""
-Initialize = ""
-Execute = "warning([[target_label]]);"
+Execute = "warning([[message]]);"
 metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
 [sub_resource type="Resource" id="Resource_qbgrv"]
@@ -155,20 +153,19 @@ ID = "message"
 DisplayName = "Message"
 Description = "The warning message that must be printed."
 DefaultValue = "Undefined warning."
-Preview = ""
 metadata/_custom_type_script = "uid://beorwwi6t13op"
 
 [sub_resource type="Resource" id="Resource_f0ci4"]
 resource_name = "WRN(message)"
 script = ExtResource("4_r77ix")
-Opcode = "WRN"
+Opcode = "LOG"
 Parameters = [SubResource("Resource_qbgrv")]
 Implementation = SubResource("Resource_su0df")
 Icon = ExtResource("7_ar60a")
 DisplayName = "Warning"
 Description = "Prints a warning message."
 Category = "Core"
-Preview = "\"Warning: \\\"\" + [[message]] + \"\\\"\""
+Preview = "return \"Warning: \\\"\" + [[message]] + \"\\\"\";"
 PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
@@ -176,9 +173,6 @@ metadata/_custom_type_script = "uid://nj3anaafielp"
 [sub_resource type="Resource" id="Resource_w1ddm"]
 resource_name = "Imlementation"
 script = ExtResource("2_dp32q")
-Dependencies = []
-Members = ""
-Initialize = ""
 Execute = "error([[message]]);"
 metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
@@ -189,7 +183,6 @@ ID = "message"
 DisplayName = "Message"
 Description = "The error message that must be printed."
 DefaultValue = "Undefined error."
-Preview = ""
 metadata/_custom_type_script = "uid://beorwwi6t13op"
 
 [sub_resource type="Resource" id="Resource_m8hn8"]
@@ -202,7 +195,87 @@ Icon = ExtResource("9_iqsxj")
 DisplayName = "Error"
 Description = "Prints an error message and terminates program execution."
 Category = "Core"
-Preview = "\"Error: \\\"\" + [[message]] + \"\\\"\""
+Preview = "return \"Error: \\\"\" + [[message]] + \"\\\"\";"
+PreInstructions = []
+PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
+
+[sub_resource type="Resource" id="Resource_huu2t"]
+resource_name = "id (textline)"
+script = ExtResource("3_suvwn")
+ID = "id"
+DisplayName = "ID"
+Description = "The ID of the language."
+DefaultValue = "new_language"
+metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
+
+[sub_resource type="Resource" id="Resource_chdft"]
+resource_name = "is_dialect_of (textline)"
+script = ExtResource("3_suvwn")
+ID = "is_dialect_of"
+DisplayName = "Is Dialect Of"
+Description = "The language that this is a dialect of. Leave blank if the language is not a dialect."
+metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
+
+[sub_resource type="Resource" id="Resource_mwa1d"]
+resource_name = "LAN(id, is_dialect_of)"
+script = ExtResource("4_r77ix")
+Opcode = "LAN"
+Parameters = [SubResource("Resource_huu2t"), SubResource("Resource_chdft")]
+Icon = ExtResource("13_bmik3")
+DisplayName = "Language"
+Description = "Defines a language that can be used by localization instructions."
+Category = "Core"
+Preview = "if [[is_dialect_of]] == \"\":
+    return [[id]];
+else:
+    return [[id]] + \"([[is_dialect_of]])\";"
+PreInstructions = []
+PostInstructions = []
+metadata/_custom_type_script = "uid://nj3anaafielp"
+
+[sub_resource type="Resource" id="Resource_5tyqm"]
+script = ExtResource("2_dp32q")
+Execute = "localize([[parameter_id]], [[language_id]], [[text]]);"
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
+
+[sub_resource type="Resource" id="Resource_35sli"]
+resource_name = "parameter (textline)"
+script = ExtResource("3_suvwn")
+ID = "parameter"
+DisplayName = "Parameter ID"
+Description = "The ID of the parameter that must be localized."
+DefaultValue = "some_parameter"
+metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
+
+[sub_resource type="Resource" id="Resource_ypvx0"]
+resource_name = "language (textline)"
+script = ExtResource("3_suvwn")
+ID = "language"
+DisplayName = "Language"
+Description = "The ID of the language."
+metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
+
+[sub_resource type="Resource" id="Resource_4w7uh"]
+resource_name = "text (multiline)"
+script = ExtResource("8_lid40")
+ID = "text"
+DisplayName = "Text"
+Description = "The text that the target parameter's original value gets replaced with when the program is ran using this language."
+DefaultValue = "No hablo español."
+metadata/_custom_type_script = "uid://beorwwi6t13op"
+
+[sub_resource type="Resource" id="Resource_vn5bm"]
+resource_name = "LOC(parameter, language, text)"
+script = ExtResource("4_r77ix")
+Opcode = "LOC"
+Parameters = [SubResource("Resource_35sli"), SubResource("Resource_ypvx0"), SubResource("Resource_4w7uh")]
+Implementation = SubResource("Resource_5tyqm")
+Icon = ExtResource("14_4ya1r")
+DisplayName = "Localize"
+Description = "Localizes a parameter of the next instruction to some language."
+Category = "Core"
+Preview = "return [[parameter]] + \" / \" + [[language]]: \"[[value]]\""
 PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
@@ -210,8 +283,5 @@ metadata/_custom_type_script = "uid://nj3anaafielp"
 [resource]
 script = ExtResource("1_mfbc6")
 Name = "Core"
-Description = "The instructions that are needed for the core ISA module to function. Includes things like flow control and error handling."
-Author = "Rusty Robotics B.V."
-Version = "1.0.0"
-Local = [SubResource("Resource_1ceop"), SubResource("Resource_hkqpj"), SubResource("Resource_4ef8f"), SubResource("Resource_35oan"), SubResource("Resource_f0ci4"), SubResource("Resource_m8hn8")]
-Modules = []
+Description = "The minimum instruction set that is needed for programs to be executed."
+Local = [SubResource("Resource_1ceop"), SubResource("Resource_hkqpj"), SubResource("Resource_4ef8f"), SubResource("Resource_35oan"), SubResource("Resource_6tjht"), SubResource("Resource_f0ci4"), SubResource("Resource_m8hn8"), SubResource("Resource_mwa1d"), SubResource("Resource_vn5bm")]
