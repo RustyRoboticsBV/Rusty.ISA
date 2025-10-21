@@ -1,18 +1,18 @@
-[gd_resource type="Resource" script_class="InstructionSet" load_steps=42 format=3 uid="uid://brpnbl7l2o4ha"]
+[gd_resource type="Resource" script_class="InstructionSet" load_steps=41 format=3 uid="uid://brpnbl7l2o4ha"]
 
-[ext_resource type="Texture2D" uid="uid://cqr70pp8lhjxg" path="res://Built-In Instructions/IconBEG.bmp" id="1_4ubkm"]
+[ext_resource type="Texture2D" uid="uid://orlysia538ux" path="res://Built-In Instructions/IconBEG.svg" id="1_bmik3"]
 [ext_resource type="Script" uid="uid://cecyq1lx2acho" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
 [ext_resource type="Script" uid="uid://yv1p0xvly16v" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
 [ext_resource type="Script" uid="uid://d02yl7f7rgu3u" path="res://Scripts/Resources/Instruction Definition/Parameters/TextlineParameter.cs" id="3_suvwn"]
-[ext_resource type="Texture2D" uid="uid://c6nj8ormy6u2x" path="res://Built-In Instructions/IconLAB.bmp" id="4_4wg55"]
+[ext_resource type="Texture2D" uid="uid://bkyygbjop0l5r" path="res://Built-In Instructions/IconEND.svg" id="4_bmik3"]
 [ext_resource type="Script" uid="uid://nj3anaafielp" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
-[ext_resource type="Texture2D" uid="uid://d2p6fihx03ulm" path="res://Built-In Instructions/IconEND.bmp" id="5_ypkac"]
-[ext_resource type="Texture2D" uid="uid://dbw2hjlfspdf" path="res://Built-In Instructions/IconGTO.bmp" id="6_rjc6t"]
-[ext_resource type="Texture2D" uid="uid://bmrw4vxts8i3o" path="res://Built-In Instructions/IconWRN.bmp" id="7_ar60a"]
+[ext_resource type="Texture2D" uid="uid://vhk0eh4ogghg" path="res://Built-In Instructions/IconLAB.svg" id="6_4ya1r"]
+[ext_resource type="Texture2D" uid="uid://dtgc5btg0ia72" path="res://Built-In Instructions/IconGTO.svg" id="7_bmik3"]
 [ext_resource type="Script" uid="uid://dkpdexe5sfgdv" path="res://Scripts/Resources/Instruction Definition/Parameters/OutputParameter.cs" id="8_5til1"]
 [ext_resource type="Script" uid="uid://beorwwi6t13op" path="res://Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
-[ext_resource type="Texture2D" uid="uid://b1pk44b8shrww" path="res://Built-In Instructions/IconLOG.bmp" id="9_71txg"]
-[ext_resource type="Texture2D" uid="uid://bhfjn5nohucmy" path="res://Built-In Instructions/IconERR.bmp" id="9_iqsxj"]
+[ext_resource type="Texture2D" uid="uid://c0g7euh8sswyr" path="res://Built-In Instructions/IconLOG.svg" id="9_bmik3"]
+[ext_resource type="Texture2D" uid="uid://eu2p603fxo1k" path="res://Built-In Instructions/IconWRN.svg" id="11_bmik3"]
+[ext_resource type="Texture2D" uid="uid://eea2nt4x0t63" path="res://Built-In Instructions/IconERR.svg" id="12_4ya1r"]
 [ext_resource type="Texture2D" uid="uid://bymtr2vcl55hq" path="res://Built-In Instructions/IconLAN.svg" id="13_bmik3"]
 [ext_resource type="Texture2D" uid="uid://crq6e6giivjho" path="res://Built-In Instructions/IconLOC.svg" id="14_4ya1r"]
 
@@ -25,11 +25,11 @@ Description = "The name of this start point."
 metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
 
 [sub_resource type="Resource" id="Resource_1ceop"]
-resource_name = "BEG(name)"
+resource_name = "BEG"
 script = ExtResource("4_r77ix")
 Opcode = "BEG"
 Parameters = [SubResource("Resource_equsc")]
-Icon = ExtResource("1_4ubkm")
+Icon = ExtResource("1_bmik3")
 DisplayName = "Start Point"
 Description = "Defines a start point in an instruction program. Processes can start playing the program from these points."
 Category = "Core"
@@ -45,12 +45,12 @@ Execute = "end();"
 metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
 [sub_resource type="Resource" id="Resource_hkqpj"]
-resource_name = "END()"
+resource_name = "END"
 script = ExtResource("4_r77ix")
 Opcode = "END"
 Parameters = []
 Implementation = SubResource("Resource_pudsc")
-Icon = ExtResource("5_ypkac")
+Icon = ExtResource("4_bmik3")
 DisplayName = "End Point"
 Description = "Terminates the current program's execution."
 Category = "Core"
@@ -68,11 +68,11 @@ Description = "The name of this label."
 metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
 
 [sub_resource type="Resource" id="Resource_4ef8f"]
-resource_name = "LAB(name)"
+resource_name = "LAB"
 script = ExtResource("4_r77ix")
 Opcode = "LAB"
 Parameters = [SubResource("Resource_5til1")]
-Icon = ExtResource("4_4wg55")
+Icon = ExtResource("6_4ya1r")
 DisplayName = "Label"
 Description = "Defines a point in the program that can be jumped to by the goto function."
 Category = "Core"
@@ -97,12 +97,12 @@ RemoveDefaultOutput = true
 metadata/_custom_type_script = "uid://dkpdexe5sfgdv"
 
 [sub_resource type="Resource" id="Resource_35oan"]
-resource_name = "GTO(target_label)"
+resource_name = "GTO"
 script = ExtResource("4_r77ix")
 Opcode = "GTO"
 Parameters = [SubResource("Resource_4ya1r")]
 Implementation = SubResource("Resource_bmik3")
-Icon = ExtResource("6_rjc6t")
+Icon = ExtResource("7_bmik3")
 DisplayName = "Goto"
 Description = "Jumps the program counter to a label instruction with some name."
 Category = "Core"
@@ -126,12 +126,12 @@ DefaultValue = "Hello, world!"
 metadata/_custom_type_script = "uid://beorwwi6t13op"
 
 [sub_resource type="Resource" id="Resource_6tjht"]
-resource_name = "LOG(message)"
+resource_name = "LOG"
 script = ExtResource("4_r77ix")
 Opcode = "LOG"
 Parameters = [SubResource("Resource_yny5w")]
 Implementation = SubResource("Resource_2rurg")
-Icon = ExtResource("9_71txg")
+Icon = ExtResource("9_bmik3")
 DisplayName = "Log Message"
 Description = "Prints a debug message to the console."
 Category = "Core"
@@ -156,12 +156,12 @@ DefaultValue = "Undefined warning."
 metadata/_custom_type_script = "uid://beorwwi6t13op"
 
 [sub_resource type="Resource" id="Resource_f0ci4"]
-resource_name = "WRN(message)"
+resource_name = "WRN"
 script = ExtResource("4_r77ix")
-Opcode = "LOG"
+Opcode = "WRN"
 Parameters = [SubResource("Resource_qbgrv")]
 Implementation = SubResource("Resource_su0df")
-Icon = ExtResource("7_ar60a")
+Icon = ExtResource("11_bmik3")
 DisplayName = "Warning"
 Description = "Prints a warning message."
 Category = "Core"
@@ -186,12 +186,12 @@ DefaultValue = "Undefined error."
 metadata/_custom_type_script = "uid://beorwwi6t13op"
 
 [sub_resource type="Resource" id="Resource_m8hn8"]
-resource_name = "ERR(message)"
+resource_name = "ERR"
 script = ExtResource("4_r77ix")
 Opcode = "ERR"
 Parameters = [SubResource("Resource_eyyt5")]
 Implementation = SubResource("Resource_w1ddm")
-Icon = ExtResource("9_iqsxj")
+Icon = ExtResource("12_4ya1r")
 DisplayName = "Error"
 Description = "Prints an error message and terminates program execution."
 Category = "Core"
@@ -209,27 +209,16 @@ Description = "The ID of the language."
 DefaultValue = "new_language"
 metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
 
-[sub_resource type="Resource" id="Resource_chdft"]
-resource_name = "is_dialect_of (textline)"
-script = ExtResource("3_suvwn")
-ID = "is_dialect_of"
-DisplayName = "Is Dialect Of"
-Description = "The language that this is a dialect of. Leave blank if the language is not a dialect."
-metadata/_custom_type_script = "uid://d02yl7f7rgu3u"
-
 [sub_resource type="Resource" id="Resource_mwa1d"]
-resource_name = "LAN(id, is_dialect_of)"
+resource_name = "LAN"
 script = ExtResource("4_r77ix")
 Opcode = "LAN"
-Parameters = [SubResource("Resource_huu2t"), SubResource("Resource_chdft")]
+Parameters = [SubResource("Resource_huu2t")]
 Icon = ExtResource("13_bmik3")
 DisplayName = "Language"
 Description = "Defines a language that can be used by localization instructions."
 Category = "Core"
-Preview = "if [[is_dialect_of]] == \"\":
-    return [[id]];
-else:
-    return [[id]] + \"([[is_dialect_of]])\";"
+Preview = "return [[id]];"
 PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
@@ -266,7 +255,7 @@ DefaultValue = "No hablo español."
 metadata/_custom_type_script = "uid://beorwwi6t13op"
 
 [sub_resource type="Resource" id="Resource_vn5bm"]
-resource_name = "LOC(parameter, language, text)"
+resource_name = "LOC"
 script = ExtResource("4_r77ix")
 Opcode = "LOC"
 Parameters = [SubResource("Resource_35sli"), SubResource("Resource_ypvx0"), SubResource("Resource_4w7uh")]

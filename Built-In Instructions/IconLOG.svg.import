@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmrw4vxts8i3o"
-path="res://.godot/imported/IconWRN.bmp-c7130a7aa7149f91ac800c9b5abb68ad.ctex"
+uid="uid://c0g7euh8sswyr"
+path="res://.godot/imported/IconLOG.svg-e3203261ccfba6cb9294554d650fbdf7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Built-In Instructions/IconWRN.bmp"
-dest_files=["res://.godot/imported/IconWRN.bmp-c7130a7aa7149f91ac800c9b5abb68ad.ctex"]
+source_file="res://Built-In Instructions/IconLOG.svg"
+dest_files=["res://.godot/imported/IconLOG.svg-e3203261ccfba6cb9294554d650fbdf7.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
