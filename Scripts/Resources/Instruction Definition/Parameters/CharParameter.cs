@@ -16,15 +16,20 @@ public sealed partial class CharParameter : Parameter
     /// The default value of this parameter in the editor.
     /// </summary>
     [Export, XmlProperty("default")] public char DefaultValue { get; private set; } = 'A';
+    /// <summary>
+    /// Whether or not this parameter can be localized to different languages.
+    /// </summary>
+    [Export, XmlProperty("localizable")] public bool Localizable { get; private set; }
     [Export(PropertyHint.MultilineText), XmlProperty("preview")] public override string Preview { get; protected set; } = "";
 
     /* Constructors. */
     public CharParameter() : base() { }
 
-    public CharParameter(string id, string displayName, string description, char defaultValue, string preview)
+    public CharParameter(string id, string displayName, string description, char defaultValue, bool localizable, string preview)
         : base(id, displayName, description, preview)
     {
         DefaultValue = defaultValue;
+        Localizable = localizable;
     }
 
     /* Public methods. */

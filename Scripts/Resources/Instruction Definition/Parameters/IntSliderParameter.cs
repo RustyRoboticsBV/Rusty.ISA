@@ -24,17 +24,22 @@ public sealed partial class IntSliderParameter : Parameter
     /// The maximum value of this parameter in the editor.
     /// </summary>
     [Export, XmlProperty("max")] public int MaxValue { get; private set; } = 100;
+    /// <summary>
+    /// Whether or not this parameter can be localized to different languages.
+    /// </summary>
+    [Export, XmlProperty("localizable")] public bool Localizable { get; private set; }
     [Export(PropertyHint.MultilineText), XmlProperty("preview")] public override string Preview { get; protected set; } = "";
 
     /* Constructors. */
     public IntSliderParameter() : base() { }
 
     public IntSliderParameter(string id, string displayName, string description, int defaultValue, int minValue,
-        int maxValue, string preview) : base(id, displayName, description, preview)
+        int maxValue, bool localizable, string preview) : base(id, displayName, description, preview)
     {
         DefaultValue = defaultValue;
         MinValue = minValue;
         MaxValue = maxValue;
+        Localizable = localizable;
     }
 
     /* Public methods. */

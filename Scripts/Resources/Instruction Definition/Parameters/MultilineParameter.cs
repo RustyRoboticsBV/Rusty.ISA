@@ -16,15 +16,20 @@ public sealed partial class MultilineParameter : Parameter
     /// The default value of this parameter in the editor.
     /// </summary>
     [Export(PropertyHint.MultilineText), XmlProperty("default")] public string DefaultValue { get; private set; } = "";
+    /// <summary>
+    /// Whether or not this parameter can be localized to different languages.
+    /// </summary>
+    [Export, XmlProperty("localizable")] public bool Localizable { get; private set; }
     [Export(PropertyHint.MultilineText), XmlProperty("preview")] public override string Preview { get; protected set; } = "";
 
     /* Constructors. */
     public MultilineParameter() : base() { }
 
-    public MultilineParameter(string id, string displayName, string description, string defaultValue, string preview)
-        : base(id, displayName, description, preview)
+    public MultilineParameter(string id, string displayName, string description, string defaultValue, bool localizable,
+        string preview) : base(id, displayName, description, preview)
     {
         DefaultValue = defaultValue;
+        Localizable = localizable;
     }
 
     /* Public methods. */

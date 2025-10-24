@@ -16,15 +16,20 @@ public sealed partial class IntParameter : Parameter
     /// The default value of this parameter in the editor.
     /// </summary>
     [Export, XmlProperty("default")] public int DefaultValue { get; private set; }
+    /// <summary>
+    /// Whether or not this parameter can be localized to different languages.
+    /// </summary>
+    [Export, XmlProperty("localizable")] public bool Localizable { get; private set; }
     [Export(PropertyHint.MultilineText), XmlProperty("preview")] public override string Preview { get; protected set; } = "";
 
     /* Constructors. */
     public IntParameter() : base() { }
 
-    public IntParameter(string id, string displayName, string description, int defaultValue, string preview)
+    public IntParameter(string id, string displayName, string description, int defaultValue, bool localizable, string preview)
         : base(id, displayName, description, preview)
     {
         DefaultValue = defaultValue;
+        Localizable = localizable;
     }
 
     /* Public methods. */

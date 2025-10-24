@@ -16,15 +16,20 @@ public sealed partial class ColorParameter : Parameter
     /// The default value of this parameter in the editor.
     /// </summary>
     [Export, XmlProperty("default")] public Color DefaultValue { get; private set; } = Colors.White;
+    /// <summary>
+    /// Whether or not this parameter can be localized to different languages.
+    /// </summary>
+    [Export, XmlProperty("localizable")] public bool Localizable { get; private set; }
     [Export(PropertyHint.MultilineText), XmlProperty("preview")] public override string Preview { get; protected set; } = "";
 
     /* Constructors. */
     public ColorParameter() : base() { }
 
-    public ColorParameter(string id, string displayName, string description, Color defaultValue, string preview)
+    public ColorParameter(string id, string displayName, string description, Color defaultValue, bool localizable, string preview)
         : base(id, displayName, description, preview)
     {
         DefaultValue = defaultValue;
+        Localizable = localizable;
     }
 
     /* Public methods. */
