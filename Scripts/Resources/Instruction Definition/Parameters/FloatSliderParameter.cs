@@ -27,7 +27,7 @@ public sealed partial class FloatSliderParameter : Parameter
     /// <summary>
     /// Whether or not this parameter can be localized to different languages.
     /// </summary>
-    [Export, XmlProperty("localizable")] public bool Localizable { get; private set; }
+    [Export, XmlProperty("localize")] public bool Localizable { get; private set; }
     [Export(PropertyHint.MultilineText), XmlProperty("preview")] public override string Preview { get; protected set; } = "";
 
     /* Constructors. */
