@@ -7,11 +7,9 @@ A generic *instruction set architecture* module (ISA for short), written for the
 See [here](https://github.com/RustyRoboticsBV/Rusty.ISA.Editor) for a graph-based editor.
 
 ## Terminology
-In this module, we define a *process* as a node that can run a *program*, which consist of *instruction instances*. In order to execute instructions, the process uses an *instruction set*, which contains *instruction definitions*. Each definition contains an opcode, parameters and an implementation. The instances contain an opcode and arguments (one per parameter). The opcode is used to match an instance with its definition.
+In this module, we define a *process* as a node that can run a *program*, which consist of *instruction instances*. In order to execute instructions, the process uses an *instruction set*, which contains *instruction definitions*. Each definition contains an opcode, parameters and an implementation (in GDScript). The instances contain an opcode and arguments (one per parameter). The opcode is used to match an instance with its definition.
 
 A process can start executing a program at explicitly-defined start points, and stops when it reaches an end point. Programs may have multiple start points. Flow control is done via goto and label instructions.
-
-All implementation code is expected to be in GDScript.
 
 ## Built-in Instructions
 The module only comes with a few built-in instructions, which are necessary for its core functioning. They are:
