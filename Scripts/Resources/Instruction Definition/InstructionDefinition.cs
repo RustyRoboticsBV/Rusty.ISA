@@ -140,7 +140,7 @@ public sealed partial class InstructionDefinition : InstructionResource
     }
 
     /// <summary>
-    /// Find the index of a parameter, using its name.
+    /// Find the index of a parameter, using its ID.
     /// </summary>
     public int GetParameterIndex(string id)
     {
@@ -174,5 +174,53 @@ public sealed partial class InstructionDefinition : InstructionResource
                 return true;
         }
         return false;
+    }
+
+    /// <summary>
+    /// Find the index of a pre-instruction, using its ID.
+    /// </summary>
+    public int GetPreInstructionIndex(string id)
+    {
+        for (int i = 0; i < PreInstructions.Length; i++)
+        {
+            if (PreInstructions[i].ID == id)
+                return i;
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// Get a pre-instruction with some ID.
+    /// </summary>
+    public CompileRule GetPreInstruction(string id)
+    {
+        int index = GetPreInstructionIndex(id);
+        if (index >= 0)
+            return PreInstructions[index];
+        return null;
+    }
+
+    /// <summary>
+    /// Find the index of a post-instruction, using its ID.
+    /// </summary>
+    public int GetPostInstructionIndex(string id)
+    {
+        for (int i = 0; i < PostInstructions.Length; i++)
+        {
+            if (PostInstructions[i].ID == id)
+                return i;
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// Get a post-instruction with some ID.
+    /// </summary>
+    public CompileRule GetePostInstruction(string id)
+    {
+        int index = GetPostInstructionIndex(id);
+        if (index >= 0)
+            return PostInstructions[index];
+        return null;
     }
 }

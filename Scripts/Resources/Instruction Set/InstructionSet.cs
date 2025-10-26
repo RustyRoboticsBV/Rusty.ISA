@@ -37,23 +37,23 @@ public sealed partial class InstructionSet : InstructionResource
     [Export] public InstructionSet[] Modules { get; private set; } = { };
 
     /// <summary>
+    /// The number of instruction definitions in this instruction set. This includes both local and module instructions.
+    /// </summary>
+    public int Count => Definitions.Length;
+    /// <summary>
     /// All instructions in this instruction set, including both local and module instructions.
     /// </summary>
     public InstructionDefinition[] Definitions
     {
         get
         {
-            EnsureBuild();
-            return Build;
+            EnsureDefinitions();
+            return _Definitions;
         }
     }
-    /// <summary>
-    /// The number of instruction definitions in this instruction set. This includes both local and module instructions.
-    /// </summary>
-    public int Count => Definitions.Length;
 
     /* Private properties. */
-    private InstructionDefinition[] Build { get; set; }
+    private InstructionDefinition[] _Definitions { get; set; }
     private Dictionary<string, InstructionDefinition> Lookup { get; set; }
 
     /* Constructors. */
@@ -86,7 +86,7 @@ public sealed partial class InstructionSet : InstructionResource
     /* Public methods. */
     public override string ToString()
     {
-        string str = Name + ":";
+        string str = $"{Name} v{Version} by {Author}:\n\"{Description}\"";
         foreach (InstructionDefinition definition in Local)
         {
             str += "\n-" + definition;
@@ -103,8 +103,13 @@ public sealed partial class InstructionSet : InstructionResource
     /// </summary>
     public InstructionDefinition GetDefinition(string opcode)
     {
+        // Remove tabs and line-breaks.
+        opcode = FixOpcode(opcode);
+        
+        // Ensure that the look-up table exits.
         EnsureLookup();
-
+        
+        // Retrieve the instruction definition.
         if (Lookup.ContainsKey(opcode))
             return Lookup[opcode];
         else
@@ -133,7 +138,13 @@ public sealed partial class InstructionSet : InstructionResource
     /// </summary>
     public bool HasDefinition(string opcode)
     {
+        // Remove tabs and line-breaks.
+        opcode = FixOpcode(opcode);
+
+        // Ensure that the look-up table exits.
         EnsureLookup();
+
+        // Check if the definition exists.
         return Lookup.ContainsKey(opcode);
     }
 
@@ -141,9 +152,9 @@ public sealed partial class InstructionSet : InstructionResource
     /// <summary>
     /// Make sure that the combined array of local and module instructions exists and is properly set up.
     /// </summary>
-    private void EnsureBuild()
+    private void EnsureDefinitions()
     {
-        if (Build != null)
+        if (_Definitions != null)
             return;
 
         List<InstructionDefinition> list = new();
@@ -163,7 +174,7 @@ public sealed partial class InstructionSet : InstructionResource
             list.Add(definition);
         }
 
-        Build = list.ToArray();
+        _Definitions = list.ToArray();
     }
 
     /// <summary>
@@ -177,13 +188,24 @@ public sealed partial class InstructionSet : InstructionResource
         Lookup = new();
         foreach (InstructionDefinition definition in Definitions)
         {
-            if (!Lookup.ContainsKey(definition.Opcode))
-                Lookup.Add(definition.Opcode, definition);
+            string opcode = FixOpcode(definition.Opcode);
+            if (!Lookup.ContainsKey(opcode))
+                Lookup.Add(opcode, definition);
             else
             {
-                GD.PrintErr($"Duplicate opcode '{definition.Opcode}' encountered in instruction set! This instruction "
-                    + "will not be discoverable!");
+                GD.PrintErr($"Duplicate opcode '{opcode}' encountered in instruction set! This instruction will not be "
+                    + "discoverable!");
             }
         }
+    }
+    
+    /// <summary>
+    /// Remove tabs and line-breaks from an opcode.
+    /// </summary>
+    private static string FixOpcode(string opcode)
+    {
+        return opcode.Replace("\n", "")
+            .Replace("\r", "")
+            .Replace("\t", "");
     }
 }
