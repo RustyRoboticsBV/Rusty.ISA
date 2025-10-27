@@ -105,10 +105,10 @@ public sealed partial class InstructionSet : InstructionResource
     {
         // Remove tabs and line-breaks.
         opcode = FixOpcode(opcode);
-        
+
         // Ensure that the look-up table exits.
         EnsureLookup();
-        
+
         // Retrieve the instruction definition.
         if (Lookup.ContainsKey(opcode))
             return Lookup[opcode];
@@ -198,7 +198,7 @@ public sealed partial class InstructionSet : InstructionResource
             }
         }
     }
-    
+
     /// <summary>
     /// Remove tabs and line-breaks from an opcode.
     /// </summary>
@@ -206,6 +206,7 @@ public sealed partial class InstructionSet : InstructionResource
     {
         return opcode.Replace("\n", "")
             .Replace("\r", "")
-            .Replace("\t", "");
+            .Replace("\t", "")
+            .Replace(" ", "");
     }
 }

@@ -1,4 +1,8 @@
 using Godot;
+using Godot.Collections;
+using System;
+using System.Linq;
+using System.Reflection.Emit;
 
 namespace Rusty.ISA;
 
@@ -65,6 +69,11 @@ public sealed partial class InstructionDefinition : InstructionResource
     /// Defines rules for how the editor may create additional instructions after instructions of this type.
     /// </summary>
     [Export, XmlProperty("post")] public CompileRule[] PostInstructions { get; private set; } = [];
+
+    /* Private properties. */
+    private Dictionary<string, Parameter> ParameterLookup { get; set; }
+    private Dictionary<string, CompileRule> PreInstructionLookup { get; set; }
+    private Dictionary<string, CompileRule> PostInstructionLookup { get; set; }
 
     /* Constructors. */
     public InstructionDefinition() { }
@@ -157,10 +166,20 @@ public sealed partial class InstructionDefinition : InstructionResource
     /// </summary>
     public Parameter GetParameter(string id)
     {
-        int index = GetParameterIndex(id);
-        if (index >= 0)
-            return Parameters[index];
-        return null;
+        // Remove tabs and line-breaks.
+        id = FixID(id);
+
+        // Ensure that the look-up table exits.
+        EnsureParameterLookup();
+
+        // Retrieve the parameter.
+        if (ParameterLookup.ContainsKey(id))
+            return ParameterLookup[id];
+        else
+        {
+            throw new ArgumentException($"Tried to get parameter with ID '{id}', but it did not exist on instruction "
+                + $"'{Opcode}'!");
+        }
     }
 
     /// <summary>
@@ -194,10 +213,20 @@ public sealed partial class InstructionDefinition : InstructionResource
     /// </summary>
     public CompileRule GetPreInstruction(string id)
     {
-        int index = GetPreInstructionIndex(id);
-        if (index >= 0)
-            return PreInstructions[index];
-        return null;
+        // Remove tabs and line-breaks.
+        id = FixID(id);
+
+        // Ensure that the look-up table exits.
+        EnsurePreInstructionLookup();
+
+        // Retrieve the pre-instruction.
+        if (PreInstructionLookup.ContainsKey(id))
+            return PreInstructionLookup[id];
+        else
+        {
+            throw new ArgumentException($"Tried to get pre-instruction with ID '{id}', but it did not exist on instruction "
+                + $"'{Opcode}'!");
+        }
     }
 
     /// <summary>
@@ -216,11 +245,99 @@ public sealed partial class InstructionDefinition : InstructionResource
     /// <summary>
     /// Get a post-instruction with some ID.
     /// </summary>
-    public CompileRule GetePostInstruction(string id)
+    public CompileRule GetPostInstruction(string id)
     {
-        int index = GetPostInstructionIndex(id);
-        if (index >= 0)
-            return PostInstructions[index];
-        return null;
+        // Remove tabs and line-breaks.
+        id = FixID(id);
+
+        // Ensure that the look-up table exits.
+        EnsurePostInstructionLookup();
+
+        // Retrieve the post-instruction.
+        if (PostInstructionLookup.ContainsKey(id))
+            return PostInstructionLookup[id];
+        else
+        {
+            throw new ArgumentException($"Tried to get post-instruction with ID '{id}', but it did not exist on instruction "
+                + $"'{Opcode}'!");
+        }
+    }
+
+    /* Private methods. */
+    /// <summary>
+    /// Make sure that the parameter lookup table exists and is properly set up.
+    /// </summary>
+    private void EnsureParameterLookup()
+    {
+        if (ParameterLookup != null)
+            return;
+
+        ParameterLookup = new();
+        foreach (Parameter parameter in Parameters)
+        {
+            string id = FixID(parameter.ID);
+            if (!ParameterLookup.ContainsKey(id))
+                ParameterLookup.Add(id, parameter);
+            else
+            {
+                GD.PrintErr($"Duplicate rule ID '{id}' detected in instruction '{Opcode}'! This rule will not be "
+                    + "discoverable!");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Make sure that the pre-instruction lookup table exists and is properly set up.
+    /// </summary>
+    private void EnsurePreInstructionLookup()
+    {
+        if (PreInstructionLookup != null)
+            return;
+
+        PreInstructionLookup = new();
+        foreach (CompileRule rule in PreInstructions)
+        {
+            string id = FixID(rule.ID);
+            if (!PreInstructionLookup.ContainsKey(id))
+                PreInstructionLookup.Add(id, rule);
+            else
+            {
+                GD.PrintErr($"Duplicate pre-instruction ID '{id}' detected in instruction '{Opcode}'! This pre-instruction will "
+                    + "not be discoverable!");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Make sure that the post-instruction lookup table exists and is properly set up.
+    /// </summary>
+    private void EnsurePostInstructionLookup()
+    {
+        if (PostInstructionLookup != null)
+            return;
+
+        PostInstructionLookup = new();
+        foreach (CompileRule rule in PostInstructions)
+        {
+            string id = FixID(rule.ID);
+            if (!PostInstructionLookup.ContainsKey(id))
+                PostInstructionLookup.Add(id, rule);
+            else
+            {
+                GD.PrintErr($"Duplicate post-instruction ID '{id}' detected in instruction '{Opcode}'! This post-instruction "
+                    + "will not be discoverable!");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Remove tabs and line-breaks from an ID.
+    /// </summary>
+    private static string FixID(string opcode)
+    {
+        return opcode.Replace("\n", "")
+            .Replace("\r", "")
+            .Replace("\t", "")
+            .Replace(" ", "");
     }
 }
