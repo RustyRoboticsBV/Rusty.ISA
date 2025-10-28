@@ -4,7 +4,7 @@ A generic *instruction set architecture* module (ISA for short), written for the
 - Write programs using this instruction set.
 - Execute these programs from within a Godot game.
 
-See [here](https://github.com/RustyRoboticsBV/Rusty.ISA.Editor) for a graph-based editor.
+See [here](https://github.com/RustyRoboticsBV/Rusty.ISA.Editor) for a graph-based editor, and [here](https://github.com/RustyRoboticsBV/Rusty.ISA.Importer) for a set of import plugins.
 
 ## Terminology
 In this module, we define a *process* as a node that can run a *program*, which consist of *instruction instances*. In order to execute instructions, the process uses an *instruction set*, which contains *instruction definitions*. Each definition contains an opcode, parameters and an implementation (in GDScript). The instances contain an opcode and arguments (one per parameter). The opcode is used to match an instance with its definition.
