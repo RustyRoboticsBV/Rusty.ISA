@@ -12,11 +12,11 @@ public sealed partial class Program : InstructionResource
     /// <summary>
     /// The name of this program.
     /// </summary>
-    [Export] public string Name { get; set; }
+    [Export] public string Name { get; private set; }
     /// <summary>
     /// The instructions in this program.
     /// </summary>
-    [Export] public InstructionInstance[] Instructions { get; private set; } = new InstructionInstance[0];
+    [Export] public InstructionInstance[] Instructions { get; private set; } = [];
 
     /// <summary>
     /// The number of instructions in this program.
@@ -30,10 +30,13 @@ public sealed partial class Program : InstructionResource
     public InstructionInstance this[int index] => Instructions[index];
 
     /* Constructors. */
-    public Program() : this(new InstructionInstance[0]) { }
+    public Program() : this("", []) { }
 
-    public Program(InstructionInstance[] instructions)
+    public Program(InstructionInstance[] instructions) : this("", instructions) { }
+
+    public Program(string name, InstructionInstance[] instructions)
     {
+        Name = name;
         Instructions = instructions;
 
         foreach (InstructionInstance instruction in Instructions)
@@ -56,6 +59,19 @@ public sealed partial class Program : InstructionResource
         {
             NameInstruction(instruction);
         }
+    }
+
+    /* Public methods. */
+    public override string ToString()
+    {
+        if (Instructions.Length == 0)
+            return "";
+        string str = Instructions[0].ToString();
+        for (int i = 1; i < Instructions.Length; i++)
+        {
+            str += $"\n{Instructions[i]}";
+        }
+        return str;
     }
 
     /* Private methods. */

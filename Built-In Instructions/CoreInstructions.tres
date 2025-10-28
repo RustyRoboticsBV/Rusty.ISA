@@ -1,20 +1,24 @@
-[gd_resource type="Resource" script_class="InstructionSet" load_steps=41 format=3 uid="uid://brpnbl7l2o4ha"]
+[gd_resource type="Resource" script_class="InstructionSet" load_steps=44 format=3 uid="uid://brpnbl7l2o4ha"]
 
-[ext_resource type="Texture2D" uid="uid://orlysia538ux" path="res://Built-In Instructions/IconBEG.svg" id="1_bmik3"]
-[ext_resource type="Script" uid="uid://cecyq1lx2acho" path="res://Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
-[ext_resource type="Script" uid="uid://yv1p0xvly16v" path="res://Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
-[ext_resource type="Script" uid="uid://d02yl7f7rgu3u" path="res://Scripts/Resources/Instruction Definition/Parameters/TextlineParameter.cs" id="3_suvwn"]
-[ext_resource type="Texture2D" uid="uid://bkyygbjop0l5r" path="res://Built-In Instructions/IconEND.svg" id="4_bmik3"]
-[ext_resource type="Script" uid="uid://nj3anaafielp" path="res://Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
-[ext_resource type="Texture2D" uid="uid://vhk0eh4ogghg" path="res://Built-In Instructions/IconLAB.svg" id="6_4ya1r"]
-[ext_resource type="Texture2D" uid="uid://dtgc5btg0ia72" path="res://Built-In Instructions/IconGTO.svg" id="7_bmik3"]
-[ext_resource type="Script" uid="uid://dkpdexe5sfgdv" path="res://Scripts/Resources/Instruction Definition/Parameters/OutputParameter.cs" id="8_5til1"]
-[ext_resource type="Script" uid="uid://beorwwi6t13op" path="res://Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
-[ext_resource type="Texture2D" uid="uid://c0g7euh8sswyr" path="res://Built-In Instructions/IconLOG.svg" id="9_bmik3"]
-[ext_resource type="Texture2D" uid="uid://eu2p603fxo1k" path="res://Built-In Instructions/IconWRN.svg" id="11_bmik3"]
-[ext_resource type="Texture2D" uid="uid://eea2nt4x0t63" path="res://Built-In Instructions/IconERR.svg" id="12_4ya1r"]
-[ext_resource type="Texture2D" uid="uid://bymtr2vcl55hq" path="res://Built-In Instructions/IconLAN.svg" id="13_bmik3"]
-[ext_resource type="Texture2D" uid="uid://crq6e6giivjho" path="res://Built-In Instructions/IconLOC.svg" id="14_4ya1r"]
+[ext_resource type="Texture2D" uid="uid://orlysia538ux" path="res://Submodules/ISA/Built-In Instructions/IconBEG.svg" id="1_bmik3"]
+[ext_resource type="Script" uid="uid://cecyq1lx2acho" path="res://Submodules/ISA/Scripts/Resources/Instruction Set/InstructionSet.cs" id="1_mfbc6"]
+[ext_resource type="Script" uid="uid://yv1p0xvly16v" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Implementation/Implementation.cs" id="2_dp32q"]
+[ext_resource type="Script" uid="uid://d02yl7f7rgu3u" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/TextlineParameter.cs" id="3_suvwn"]
+[ext_resource type="Texture2D" uid="uid://bkyygbjop0l5r" path="res://Submodules/ISA/Built-In Instructions/IconEND.svg" id="4_bmik3"]
+[ext_resource type="Script" uid="uid://nj3anaafielp" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/InstructionDefinition.cs" id="4_r77ix"]
+[ext_resource type="Texture2D" uid="uid://vhk0eh4ogghg" path="res://Submodules/ISA/Built-In Instructions/IconLAB.svg" id="6_4ya1r"]
+[ext_resource type="Texture2D" uid="uid://dtgc5btg0ia72" path="res://Submodules/ISA/Built-In Instructions/IconGTO.svg" id="7_bmik3"]
+[ext_resource type="Script" uid="uid://dkpdexe5sfgdv" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/OutputParameter.cs" id="8_5til1"]
+[ext_resource type="Script" uid="uid://beorwwi6t13op" path="res://Submodules/ISA/Scripts/Resources/Instruction Definition/Parameters/MultilineParameter.cs" id="8_lid40"]
+[ext_resource type="Texture2D" uid="uid://c0g7euh8sswyr" path="res://Submodules/ISA/Built-In Instructions/IconLOG.svg" id="9_bmik3"]
+[ext_resource type="Texture2D" uid="uid://eu2p603fxo1k" path="res://Submodules/ISA/Built-In Instructions/IconWRN.svg" id="11_bmik3"]
+[ext_resource type="Texture2D" uid="uid://eea2nt4x0t63" path="res://Submodules/ISA/Built-In Instructions/IconERR.svg" id="12_4ya1r"]
+[ext_resource type="Texture2D" uid="uid://bymtr2vcl55hq" path="res://Submodules/ISA/Built-In Instructions/IconLAN.svg" id="13_bmik3"]
+[ext_resource type="Texture2D" uid="uid://crq6e6giivjho" path="res://Submodules/ISA/Built-In Instructions/IconLOC.svg" id="14_4ya1r"]
+
+[sub_resource type="Resource" id="Resource_c6ii0"]
+script = ExtResource("2_dp32q")
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
 
 [sub_resource type="Resource" id="Resource_equsc"]
 resource_name = "name (textline)"
@@ -29,6 +33,7 @@ resource_name = "BEG"
 script = ExtResource("4_r77ix")
 Opcode = "BEG"
 Parameters = [SubResource("Resource_equsc")]
+Implementation = SubResource("Resource_c6ii0")
 Icon = ExtResource("1_bmik3")
 DisplayName = "Start Point"
 Description = "Defines a start point in an instruction program. Processes can start playing the program from these points."
@@ -59,6 +64,10 @@ PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
 
+[sub_resource type="Resource" id="Resource_xakw0"]
+script = ExtResource("2_dp32q")
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
+
 [sub_resource type="Resource" id="Resource_5til1"]
 resource_name = "name (textline)"
 script = ExtResource("3_suvwn")
@@ -72,6 +81,7 @@ resource_name = "LAB"
 script = ExtResource("4_r77ix")
 Opcode = "LAB"
 Parameters = [SubResource("Resource_5til1")]
+Implementation = SubResource("Resource_xakw0")
 Icon = ExtResource("6_4ya1r")
 DisplayName = "Label"
 Description = "Defines a point in the program that can be jumped to by the goto function."
@@ -200,6 +210,10 @@ PreInstructions = []
 PostInstructions = []
 metadata/_custom_type_script = "uid://nj3anaafielp"
 
+[sub_resource type="Resource" id="Resource_xvemm"]
+script = ExtResource("2_dp32q")
+metadata/_custom_type_script = "uid://yv1p0xvly16v"
+
 [sub_resource type="Resource" id="Resource_huu2t"]
 resource_name = "id (textline)"
 script = ExtResource("3_suvwn")
@@ -214,6 +228,7 @@ resource_name = "LAN"
 script = ExtResource("4_r77ix")
 Opcode = "LAN"
 Parameters = [SubResource("Resource_huu2t")]
+Implementation = SubResource("Resource_xvemm")
 Icon = ExtResource("13_bmik3")
 DisplayName = "Language"
 Description = "Defines a language that can be used by localization instructions."
